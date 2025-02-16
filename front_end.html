@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Message Auction</title>
+  <!-- Import Google Fonts: Orbitron for headlines and Roboto for body text -->
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Roboto:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    /* Modern Crypto-Inspired Styles */
+    body {
+      font-family: 'Roboto', sans-serif;
+      background: linear-gradient(135deg, #121212, #1e1e1e);
+      margin: 0;
+      padding: 0;
+      color: #e0e0e0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    /* Main banner displaying the current message */
+    .banner {
+      width: 100%;
+      background: linear-gradient(135deg, #00C853, #B2FF59);
+      padding: 60px 20px;
+      text-align: center;
+      font-family: 'Orbitron', sans-serif;
+      font-size: 3.5rem;
+      color: #ffffff;
+      text-shadow: 0 0 10px #00ff00;
+      box-shadow: 0 4px 10px rgba(0, 200, 83, 0.5);
+      margin-bottom: 20px;
+      animation: fadeIn 1s ease-in;
+    }
+    /* Widget for bidding and actions */
+    .widget {
+      background: #1e1e1e;
+      padding: 30px 40px;
+      border-radius: 12px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+      width: 90%;
+      max-width: 600px;
+      margin-bottom: 20px;
+      animation: fadeIn 1s ease-in;
+      position: relative;
+    }
+    h1 {
+      text-align: center;
+      margin-bottom: 20px;
+      font-family: 'Orbitron', sans-serif;
+      color: #00E676;
+    }
+    h2 {
+      color: #B2FF59;
+      margin-top: 20px;
+      font-family: 'Orbitron', sans-serif;
+    }
+    p {
+      line-height: 1.5;
+    }
+    .status {
+      margin-top: 15px;
+      padding: 10px;
+      border-radius: 5px;
+      text-align: center;
+      opacity: 0;
+      transition: opacity 0.5s ease-in-out;
+    }
+    /* Input group with a small preview box to the right */
+    .input-group {
+      display: flex;
+      align-items: center;
+    }
+    .input-group input {
+      flex: 1;
+    }
+    .small-preview {
+      margin-left: 8px;
+      padding: 10px;
+      border: 1px solid #00C853;
+      border-radius: 6px;
+      background: #2c2c2c;
+      color: #00E676;
+      font-family: 'Orbitron', sans-serif;
+      font-size: 0.9rem;
+      cursor: pointer;
+      white-space: nowrap;
+      max-width: 130px; 
+      overflow: hidden;
+      text-overflow: ellipsis;
+      text-align: center;
+    }
+    .small-preview:hover {
+      background: #00E676;
+      color: #121212;
+    }
+    input, button {
+      width: 100%;
+      padding: 12px;
+      margin: 8px 0;
+      font-size: 16px;
+      border: 1px solid #00C853;
+      border-radius: 6px;
+      box-sizing: border-box;
+      background: #2c2c2c;
+      color: #e0e0e0;
+    }
+    input:focus {
+      outline: none;
+      border-color: #00E676;
+      box-shadow: 0 0 8px #00E676;
+    }
+    button {
+      background: #00C853;
+      border: none;
+      color: #fff;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+    button:hover {
+      background: #00E676;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #333;
+      margin: 20px 0;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    /* Modal Styles */
+    .modal {
+      display: none; /* Hidden by default */
+      position: fixed;
+      z-index: 10;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      overflow: auto;
+      background-color: rgba(0,0,0,0.7);
+    }
+    .modal-content {
+      position: relative;
+      background: #1e1e1e;
+      margin: 10% auto;
+      padding: 20px;
+      border-radius: 12px;
+      width: 80%;
+      max-width: 500px;
+      text-align: center;
+      color: #e0e0e0;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+      animation: fadeIn 0.5s ease-in;
+    }
+    .close {
+      position: absolute;
+      top: 15px;
+      right: 25px;
+      color: #333;
+      font-size: 28px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+    .close:hover {
+      color: #00E676;
+    }
+    .preview-banner {
+      background: linear-gradient(135deg, #00C853, #B2FF59);
+      padding: 40px 20px;
+      font-family: 'Orbitron', sans-serif;
+      font-size: 2.5rem;
+      color: #ffffff;
+      text-shadow: 0 0 8px #00ff00;
+      border-radius: 8px;
+      margin-bottom: 20px;
+    }
+    /* Floating "How This Works" button as a floating island menu */
+    .floating-menu {
+      position: fixed;
+      top: 50%;
+      right: 20px;
+      transform: translateY(-50%);
+      background: #00C853;
+      color: #fff;
+      font-family: 'Orbitron', sans-serif;
+      font-size: 14px;
+      padding: 10px 16px;
+      border-radius: 20px;
+      cursor: pointer;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+      transition: background 0.3s ease, transform 0.3s ease;
+      z-index: 12;
+    }
+    .floating-menu:hover {
+      background: #00E676;
+      color: #121212;
+      transform: translateY(-50%) scale(1.05);
+    }
+    /* Modal for "How This Works" explanation */
+    .howitworks-modal-content {
+      position: relative;
+      background: #1e1e1e;
+      margin: 10% auto;
+      padding: 20px;
+      border-radius: 12px;
+      width: 80%;
+      max-width: 600px;
+      color: #e0e0e0;
+      animation: fadeIn 0.5s ease-in;
+    }
+    .close-howitworks {
+      position: absolute;
+      top: 15px;
+      right: 25px;
+      color: #333;
+      font-size: 28px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+    .close-howitworks:hover {
+      color: #00E676;
+    }
+  </style>
+  <script src="https://cdn.jsdelivr.net/npm/ethers@5.7.2/dist/ethers.umd.min.js"></script>
+</head>
+<body>
+  <!-- Main banner displaying the current message -->
+  <div class="banner" id="bannerMessage">Loading message...</div>
+  
+  <!-- Widget for bidding and management -->
+  <div class="widget">
+    <h1>Message Auction</h1>
+    <p><strong>Current Bid:</strong> <span id="currentBid">Loading...</span> ETH</p>
+    <hr>
+    <h2>Place a New Bid</h2>
+    <div class="input-group">
+      <!-- Input for new message, limited to 50 characters -->
+      <input type="text" id="newMessage" placeholder="Enter your message (max 50 characters)" maxlength="50">
+      <!-- The small preview box always says "Preview" -->
+      <div id="smallPreview" class="small-preview" title="Click for a larger preview">Preview</div>
+    </div>
+    <input type="number" id="bidAmount" placeholder="ETH amount" step="0.01" min="0">
+    <button id="placeBidBtn">Place Bid</button>
+    <hr>
+    <h2>Withdraw Funds</h2>
+    <button id="withdrawBtn">Withdraw</button>
+    <div id="status" class="status"></div>
+  </div>
+  
+  <!-- Floating island menu acting as "How This Works" -->
+  <div id="floatingMenu" class="floating-menu">How this works?</div>
+  
+  <!-- Modal for previewing the banner with the user's message -->
+  <div id="modal" class="modal">
+    <div class="modal-content">
+      <span id="closeModal" class="close">&times;</span>
+      <div class="preview-banner" id="previewBanner">Your Message Preview</div>
+      <p>This is how your message will appear in the banner.</p>
+    </div>
+  </div>
+
+  <!-- Modal for "How This Works" explanation -->
+  <div id="howItWorksModal" class="modal">
+    <div class="howitworks-modal-content">
+      <span id="closeHowItWorks" class="close-howitworks">&times;</span>
+      <h2>How This Works</h2>
+      <p>
+        In this DApp, you submit a bid that must exceed the current bid by at least 
+        <strong>0.01 ETH</strong>. Each address can only participate once. When your bid is successful, 
+        your message appears in the banner for everyone to see.
+      </p>
+      <p>
+        The new payment is <strong>equally distributed</strong> among all previous participants.
+        This means that if you join early, you can earn passive income whenever someone places a higher bid.
+      </p>
+      <p>
+        The smart contract is fully transparent and deployed on Ethereum, ensuring that every transaction 
+        is public and verifiable. You can withdraw your accumulated funds at any time.
+      </p>
+      <p>
+        This incentive structure makes the platform highly attractive for investors and users alike. 
+        Place your bid, claim the banner, and enjoy a truly decentralized and rewarding experience!
+      </p>
+    </div>
+  </div>
+  
+  <script>
+    // Replace with your deployed contract address and ABI
+    const contractAddress = "YOUR_CONTRACT_ADDRESS_HERE";
+    const contractABI = [
+      "function currentBid() view returns (uint256)",
+      "function currentMessage() view returns (string)",
+      "function currentBidder() view returns (address)",
+      "function placeBid(string memory message) payable",
+      "function withdraw()",
+      "event NewBid(address indexed bidder, uint256 bid, string message)"
+    ];
+    
+    let provider, signer, contract;
+    
+    async function init() {
+      if (window.ethereum) {
+        provider = new ethers.providers.Web3Provider(window.ethereum);
+        await provider.send("eth_requestAccounts", []);
+        signer = provider.getSigner();
+        contract = new ethers.Contract(contractAddress, contractABI, signer);
+        getCurrentState();
+      } else {
+        showStatus("MetaMask is not available", true);
+      }
+    }
+    
+    async function getCurrentState() {
+      try {
+        let message = await contract.currentMessage();
+        const bid = await contract.currentBid();
+        // If the message is empty, show default text.
+        if (message.trim() === "") {
+          message = "this is your message";
+        }
+        document.getElementById("bannerMessage").innerText = message;
+        document.getElementById("currentBid").innerText = ethers.utils.formatEther(bid);
+      } catch (err) {
+        console.error(err);
+        showStatus("Error loading contract state.", true);
+      }
+    }
+    
+    // The small preview always says "Preview"
+    // When clicked, open the modal with a larger preview
+    document.getElementById("smallPreview").addEventListener("click", function() {
+      let text = document.getElementById("newMessage").value;
+      if (text.trim() === "") {
+        text = "this is your message";
+      }
+      document.getElementById("previewBanner").innerText = text;
+      document.getElementById("modal").style.display = "block";
+    });
+    
+    document.getElementById("placeBidBtn").addEventListener("click", async () => {
+      const newMessage = document.getElementById("newMessage").value;
+      const bidAmount = document.getElementById("bidAmount").value;
+      if (!newMessage || !bidAmount) {
+        alert("Please enter a message and an amount.");
+        return;
+      }
+      try {
+        showStatus("Sending transaction...");
+        const tx = await contract.placeBid(newMessage, { value: ethers.utils.parseEther(bidAmount) });
+        await tx.wait();
+        showStatus("Bid placed successfully!");
+        // Clear inputs
+        document.getElementById("newMessage").value = "";
+        document.getElementById("bidAmount").value = "";
+        getCurrentState();
+      } catch (err) {
+        console.error(err);
+        showStatus("Error placing bid.", true);
+      }
+    });
+    
+    document.getElementById("withdrawBtn").addEventListener("click", async () => {
+      try {
+        showStatus("Processing withdrawal...");
+        const tx = await contract.withdraw();
+        await tx.wait();
+        showStatus("Funds withdrawn successfully!");
+      } catch (err) {
+        console.error(err);
+        showStatus("Error withdrawing funds.", true);
+      }
+    });
+    
+    // Modal for preview
+    const modal = document.getElementById("modal");
+    const closeModal = document.getElementById("closeModal");
+    
+    closeModal.addEventListener("click", () => {
+      modal.style.display = "none";
+    });
+    window.addEventListener("click", (event) => {
+      if (event.target === modal) {
+        modal.style.display = "none";
+      }
+    });
+    
+    // "How This Works" Modal
+    const howItWorksModal = document.getElementById("howItWorksModal");
+    const closeHowItWorks = document.getElementById("closeHowItWorks");
+    
+    // Floating menu acting as "How This Works"
+    const floatingMenu = document.getElementById("floatingMenu");
+    floatingMenu.addEventListener("click", () => {
+      howItWorksModal.style.display = "block";
+    });
+    
+    closeHowItWorks.addEventListener("click", () => {
+      howItWorksModal.style.display = "none";
+    });
+    window.addEventListener("click", (event) => {
+      if (event.target === howItWorksModal) {
+        howItWorksModal.style.display = "none";
+      }
+    });
+    
+    // Function to display status messages with fade effect.
+    function showStatus(message, isError = false) {
+      const statusEl = document.getElementById("status");
+      statusEl.innerText = message;
+      statusEl.style.backgroundColor = isError ? "#ffcccb" : "#00E676";
+      statusEl.style.color = isError ? "#b71c1c" : "#121212";
+      statusEl.style.opacity = "1";
+      // Fade out after 3 seconds
+      setTimeout(() => {
+        statusEl.style.opacity = "0";
+      }, 3000);
+    }
+    
+    window.onload = init;
+  </script>
+</body>
+</html>
