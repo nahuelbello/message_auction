@@ -65,6 +65,12 @@
       opacity: 0;
       transition: opacity 0.5s ease-in-out;
     }
+    /* Extra info styles */
+    .info {
+      margin: 10px 0;
+      font-size: 14px;
+      text-align: center;
+    }
     /* Input group with a small preview box to the right */
     .input-group {
       display: flex;
@@ -185,8 +191,8 @@
       background: #00C853;
       color: #fff;
       font-family: 'Orbitron', sans-serif;
-      font-size: 14px;
-      padding: 10px 16px;
+      font-size: 20px;
+      padding: 12px 20px;
       border-radius: 20px;
       cursor: pointer;
       box-shadow: 0 4px 10px rgba(0,0,0,0.5);
@@ -233,12 +239,13 @@
   <div class="widget">
     <h1>Message Auction</h1>
     <p><strong>Current Bid:</strong> <span id="currentBid">Loading...</span> ETH</p>
+    <!-- Información extra -->
+    <p class="info"><strong>Total Participants:</strong> <span id="totalParticipants">0</span></p>
+    <p class="info"><strong>Your Pending Reward:</strong> <span id="pendingReward">0</span> ETH</p>
     <hr>
     <h2>Place a New Bid</h2>
     <div class="input-group">
-      <!-- Input for new message, limited to 50 characters -->
       <input type="text" id="newMessage" placeholder="Enter your message (max 50 characters)" maxlength="50">
-      <!-- The small preview box always says "Preview" -->
       <div id="smallPreview" class="small-preview" title="Click for a larger preview">Preview</div>
     </div>
     <input type="number" id="bidAmount" placeholder="ETH amount" step="0.01" min="0">
@@ -268,8 +275,10 @@
       <h2>How This Works</h2>
       <p>
         In this DApp, you submit a bid that must exceed the current bid by at least 
-        <strong>0.01 ETH</strong>. Each address can only participate once. When your bid is successful, 
-        your message appears in the banner for everyone to see.
+        <strong>0.01 ETH</strong>. Each address can only participate once.
+      </p>
+      <p>
+        When your bid is successful, your message appears in the banner for everyone to see.
       </p>
       <p>
         The new payment is <strong>equally distributed</strong> among all previous participants.
@@ -287,15 +296,18 @@
   </div>
   
   <script>
-    // Replace with your deployed contract address and ABI
+    // Actualiza el ABI para incluir las funciones nuevas:
     const contractAddress = "YOUR_CONTRACT_ADDRESS_HERE";
     const contractABI = [
       "function currentBid() view returns (uint256)",
       "function currentMessage() view returns (string)",
       "function currentBidder() view returns (address)",
+      "function totalParticipants() view returns (uint256)",
+      "function pendingReward(address user) view returns (uint256)",
       "function placeBid(string memory message) payable",
       "function withdraw()",
-      "event NewBid(address indexed bidder, uint256 bid, string message)"
+      "event NewBid(address indexed bidder, uint256 bid, string message)",
+      "event Withdrawal(address indexed user, uint256 amount)"
     ];
     
     let provider, signer, contract;
@@ -316,24 +328,27 @@
       try {
         let message = await contract.currentMessage();
         const bid = await contract.currentBid();
-        // If the message is empty, show default text.
+        const total = await contract.totalParticipants();
+        const userAddress = await signer.getAddress();
+        const pending = await contract.pendingReward(userAddress);
+        
         if (message.trim() === "") {
-          message = "this is your message";
+          message = "This is your message";
         }
         document.getElementById("bannerMessage").innerText = message;
         document.getElementById("currentBid").innerText = ethers.utils.formatEther(bid);
+        document.getElementById("totalParticipants").innerText = total.toString();
+        document.getElementById("pendingReward").innerText = ethers.utils.formatEther(pending);
       } catch (err) {
         console.error(err);
         showStatus("Error loading contract state.", true);
       }
     }
     
-    // The small preview always says "Preview"
-    // When clicked, open the modal with a larger preview
     document.getElementById("smallPreview").addEventListener("click", function() {
       let text = document.getElementById("newMessage").value;
       if (text.trim() === "") {
-        text = "this is your message";
+        text = "This is your message";
       }
       document.getElementById("previewBanner").innerText = text;
       document.getElementById("modal").style.display = "block";
@@ -351,7 +366,6 @@
         const tx = await contract.placeBid(newMessage, { value: ethers.utils.parseEther(bidAmount) });
         await tx.wait();
         showStatus("Bid placed successfully!");
-        // Clear inputs
         document.getElementById("newMessage").value = "";
         document.getElementById("bidAmount").value = "";
         getCurrentState();
@@ -367,13 +381,13 @@
         const tx = await contract.withdraw();
         await tx.wait();
         showStatus("Funds withdrawn successfully!");
+        getCurrentState();
       } catch (err) {
         console.error(err);
         showStatus("Error withdrawing funds.", true);
       }
     });
     
-    // Modal for preview
     const modal = document.getElementById("modal");
     const closeModal = document.getElementById("closeModal");
     
@@ -386,11 +400,9 @@
       }
     });
     
-    // "How This Works" Modal
     const howItWorksModal = document.getElementById("howItWorksModal");
     const closeHowItWorks = document.getElementById("closeHowItWorks");
     
-    // Floating menu acting as "How This Works"
     const floatingMenu = document.getElementById("floatingMenu");
     floatingMenu.addEventListener("click", () => {
       howItWorksModal.style.display = "block";
@@ -405,14 +417,12 @@
       }
     });
     
-    // Function to display status messages with fade effect.
     function showStatus(message, isError = false) {
       const statusEl = document.getElementById("status");
       statusEl.innerText = message;
       statusEl.style.backgroundColor = isError ? "#ffcccb" : "#00E676";
       statusEl.style.color = isError ? "#b71c1c" : "#121212";
       statusEl.style.opacity = "1";
-      // Fade out after 3 seconds
       setTimeout(() => {
         statusEl.style.opacity = "0";
       }, 3000);
