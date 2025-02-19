@@ -2,7 +2,7 @@
 pragma solidity ^0.8.0;
 
 // Importamos ReentrancyGuard para prevenir reentradas.
-import "@openzeppelin/contracts/security/ReentrancyGuard.sol";
+import "@openzeppelin/contracts/utils/ReentrancyGuard.sol";
 
 contract MessageAuction is ReentrancyGuard {
     // Variables públicas del estado de la subasta.
