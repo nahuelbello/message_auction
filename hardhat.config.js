@@ -8,10 +8,6 @@ module.exports = {
     localhost: {
       url: "http://127.0.0.1:8545",
     },
-    // Agregamos la config para Sepolia:
-    sepolia: {
-      url: "https://eth-sepolia.g.alchemy.com/v2/TU_API_KEY", // La URL de Alchemy
-      accounts: [process.env.PRIVATE_KEY], // Private key con ETH de prueba
+   
     },
-  },
-};
+  }

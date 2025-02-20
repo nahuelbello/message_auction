@@ -240,12 +240,12 @@
   <!-- Main banner displaying the current message -->
   <div class="banner" id="bannerMessage">Loading message...</div>
   
-  <!-- Widget for bidding and management -->
+  <!-- Widget for bidding and actions -->
   <div class="widget">
     <h1>Message Auction</h1>
     <p><strong>Current Bid:</strong> <span id="currentBid">Loading...</span> ETH</p>
     <!-- Extra info -->
-    <p class="info"><strong>Total Participants:</strong> <span id="totalParticipants">0</span></p>
+    <p class="info"><strong>Total Shares:</strong> <span id="totalShares">0</span></p>
     <p class="info"><strong>Your Pending Reward:</strong> <span id="pendingReward">0</span> ETH</p>
     <hr>
     <h2>Place a New Bid</h2>
@@ -281,35 +281,31 @@
       <span id="closeHowItWorks" class="close-howitworks">&times;</span>
       <h2>How This Works</h2>
       <p>
-        In this DApp, you submit a bid that must exceed the current bid by at least 
-        <strong>0.01 ETH</strong>. Each address can only participate once.
+        In this DApp, you submit a bid that must exceed the current bid by at least <strong>0.01 ETH</strong>.
       </p>
       <p>
-        When your bid is successful, your message appears in the banner for everyone to see.
+        Each bid is paid in full and a 4% fee is sent directly to the founder. The remaining 96% is immediately distributed among all previous participants based on their accumulated shares.
       </p>
       <p>
-        The new payment is <strong>equally distributed</strong> among all previous participants.
-        This means that if you join early, you can earn passive income whenever someone places a higher bid.
+        Your shares are calculated from your bid amount. Early participants (the first 10 unique addresses) receive a bonus on their shares – starting at 1.5x for the first, linearly decreasing to 1.0x by the 10th – incentivizing early investment.
       </p>
       <p>
-        The smart contract is fully transparent and deployed on Ethereum, ensuring that every transaction 
-        is public and verifiable. You can withdraw your accumulated funds at any time.
+        You can bid multiple times from the same wallet. Each new bid is added to your total investment, increasing your shares and your share of future distributions.
       </p>
       <p>
-        This incentive structure makes the platform highly attractive for investors and users alike. 
-        Place your bid, claim the banner, and enjoy a truly decentralized and rewarding experience!
+        The current bid, total shares, and your pending rewards are updated in real time. Place your bid, watch your rewards grow, and enjoy a truly decentralized and rewarding experience!
       </p>
     </div>
   </div>
   
   <script>
-    // Contract address and ABI (unchanged)
+    // Updated contract address and ABI reflecting the new proportional system
     const contractAddress = "0xe7f1725e7734ce288f8367e1bb143e90bb3f0512";
     const contractABI = [
       "function currentBid() view returns (uint256)",
       "function currentMessage() view returns (string)",
       "function currentBidder() view returns (address)",
-      "function totalParticipants() view returns (uint256)",
+      "function totalShares() view returns (uint256)",
       "function pendingReward(address user) view returns (uint256)",
       "function placeBid(string memory message) payable",
       "function withdraw()",
@@ -318,78 +314,64 @@
     ];
     
     // Global variables
-    let provider;    // Used for read calls and later updated when connecting the wallet
+    let provider;    // For reading initially, then updated after wallet connection
     let signer;
     let contract;
-    let web3Modal;   // Instance of Web3Modal
+    let web3Modal;
     
-    // Default provider (for reading) pointing to the local network (Hardhat)
+    // Default provider (for reading) – adjust if needed
     const defaultProvider = new ethers.providers.JsonRpcProvider("http://127.0.0.1:8545");
     
-    // Initialize the contract with the default provider for reading
+    // Initialize contract with default provider
     async function init() {
       provider = defaultProvider;
       contract = new ethers.Contract(contractAddress, contractABI, provider);
       getCurrentState();
     }
     
-    // Function to connect the wallet using Web3Modal
+    // Connect wallet using Web3Modal
     async function connectWallet() {
-      // Configure optional providers (for example, WalletConnect)
       const providerOptions = {
         walletconnect: {
-          package: window.WalletConnectProvider, // required
-          options: {
-            rpc: {
-              1337: "http://127.0.0.1:8545" // Ensure this matches your local network
-            }
-          }
+          package: window.WalletConnectProvider,
+          options: { rpc: { 1337: "http://127.0.0.1:8545" } }
         }
       };
       
-      // If Web3Modal hasn't been instantiated, do it now
       if (!web3Modal) {
-        web3Modal = new window.Web3Modal.default({
-          cacheProvider: false, // Always ask for connection
-          providerOptions
-        });
+        web3Modal = new window.Web3Modal.default({ cacheProvider: false, providerOptions });
       }
       
       try {
-        // Open the modal for the user to choose their wallet
         const externalProvider = await web3Modal.connect();
         provider = new ethers.providers.Web3Provider(externalProvider);
         signer = provider.getSigner();
-        // Update the contract to use the signer (so transactions can be sent)
+        // Update contract with signer to send transactions
         contract = new ethers.Contract(contractAddress, contractABI, signer);
-        // Hide the connect wallet button
         document.getElementById("connectWalletBtn").style.display = "none";
         showStatus("Wallet connected successfully!");
         getCurrentState();
       } catch (e) {
-        console.error("Error connecting the wallet", e);
-        showStatus("Error connecting the wallet", true);
+        console.error("Error connecting wallet", e);
+        showStatus("Error connecting wallet", true);
       }
     }
     
-    // Get the current state of the contract
+    // Retrieve and update current state from contract
     async function getCurrentState() {
       try {
         let message = await contract.currentMessage();
         const bid = await contract.currentBid();
-        const total = await contract.totalParticipants();
+        const totalShares = await contract.totalShares();
         let pending = "0";
-        // If the user is connected (signer exists), get their address and pending reward
         if (signer) {
           const userAddress = await signer.getAddress();
           pending = ethers.utils.formatEther(await contract.pendingReward(userAddress));
         }
-        if (message.trim() === "") {
-          message = "This is your message";
-        }
+        if (message.trim() === "") { message = "This is your message"; }
         document.getElementById("bannerMessage").innerText = message;
         document.getElementById("currentBid").innerText = ethers.utils.formatEther(bid);
-        document.getElementById("totalParticipants").innerText = total.toString();
+        document.getElementById("totalShares").innerText = totalShares.toString();
         document.getElementById("pendingReward").innerText = pending;
       } catch (err) {
         console.error(err);
@@ -397,28 +379,20 @@
       }
     }
     
-    // Event listener for the preview button
+    // Preview modal for message
     document.getElementById("smallPreview").addEventListener("click", function() {
       let text = document.getElementById("newMessage").value;
-      if (text.trim() === "") {
-        text = "This is your message";
-      }
+      if (text.trim() === "") { text = "This is your message"; }
       document.getElementById("previewBanner").innerText = text;
       document.getElementById("modal").style.display = "block";
     });
     
-    // Validate that the wallet is connected before sending transactions
+    // Place bid event
     document.getElementById("placeBidBtn").addEventListener("click", async () => {
-      if (!signer) {
-        alert("Please connect your wallet.");
-        return;
-      }
+      if (!signer) { alert("Please connect your wallet."); return; }
       const newMessage = document.getElementById("newMessage").value;
       const bidAmount = document.getElementById("bidAmount").value;
-      if (!newMessage || !bidAmount) {
-        alert("Please enter a message and an amount.");
-        return;
-      }
+      if (!newMessage || !bidAmount) { alert("Please enter a message and an amount."); return; }
       try {
         showStatus("Sending transaction...");
         const tx = await contract.placeBid(newMessage, { value: ethers.utils.parseEther(bidAmount) });
@@ -433,11 +407,9 @@
       }
     });
     
+    // Withdraw funds event
     document.getElementById("withdrawBtn").addEventListener("click", async () => {
-      if (!signer) {
-        alert("Please connect your wallet.");
-        return;
-      }
+      if (!signer) { alert("Please connect your wallet."); return; }
       try {
         showStatus("Processing withdrawal...");
         const tx = await contract.withdraw();
@@ -450,39 +422,21 @@
       }
     });
     
-    // Add listener for the connect wallet button
+    // Connect wallet button
     document.getElementById("connectWalletBtn").addEventListener("click", connectWallet);
     
-    // Modal for preview
+    // Modal functionality for preview and How This Works
     const modal = document.getElementById("modal");
     const closeModal = document.getElementById("closeModal");
+    closeModal.addEventListener("click", () => { modal.style.display = "none"; });
+    window.addEventListener("click", (event) => { if (event.target === modal) { modal.style.display = "none"; } });
     
-    closeModal.addEventListener("click", () => {
-      modal.style.display = "none";
-    });
-    window.addEventListener("click", (event) => {
-      if (event.target === modal) {
-        modal.style.display = "none";
-      }
-    });
-    
-    // Modal for "How This Works"
     const howItWorksModal = document.getElementById("howItWorksModal");
     const closeHowItWorks = document.getElementById("closeHowItWorks");
-    
     const floatingMenu = document.getElementById("floatingMenu");
-    floatingMenu.addEventListener("click", () => {
-      howItWorksModal.style.display = "block";
-    });
-    
-    closeHowItWorks.addEventListener("click", () => {
-      howItWorksModal.style.display = "none";
-    });
-    window.addEventListener("click", (event) => {
-      if (event.target === howItWorksModal) {
-        howItWorksModal.style.display = "none";
-      }
-    });
+    floatingMenu.addEventListener("click", () => { howItWorksModal.style.display = "block"; });
+    closeHowItWorks.addEventListener("click", () => { howItWorksModal.style.display = "none"; });
+    window.addEventListener("click", (event) => { if (event.target === howItWorksModal) { howItWorksModal.style.display = "none"; } });
     
     function showStatus(message, isError = false) {
       const statusEl = document.getElementById("status");
@@ -490,12 +444,9 @@
       statusEl.style.backgroundColor = isError ? "#ffcccb" : "#00E676";
       statusEl.style.color = isError ? "#b71c1c" : "#121212";
       statusEl.style.opacity = "1";
-      setTimeout(() => {
-        statusEl.style.opacity = "0";
-      }, 3000);
+      setTimeout(() => { statusEl.style.opacity = "0"; }, 3000);
     }
     
-    // Initialize with the default provider for reading
     window.onload = init;
   </script>
 </body>
