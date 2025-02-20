@@ -229,7 +229,12 @@
       color: #00E676;
     }
   </style>
+  <!-- Ethers.js -->
   <script src="https://cdn.jsdelivr.net/npm/ethers@5.7.2/dist/ethers.umd.min.js"></script>
+  <!-- WalletConnect Provider -->
+  <script src="https://unpkg.com/@walletconnect/web3-provider@1.7.8/dist/umd/index.min.js"></script>
+  <!-- Web3Modal -->
+  <script src="https://unpkg.com/web3modal@1.9.12/dist/index.js"></script>
 </head>
 <body>
   <!-- Main banner displaying the current message -->
@@ -253,6 +258,8 @@
     <hr>
     <h2>Withdraw Funds</h2>
     <button id="withdrawBtn">Withdraw</button>
+    <!-- Botón para conectar la wallet -->
+    <button id="connectWalletBtn">Connect Wallet</button>
     <div id="status" class="status"></div>
   </div>
   
@@ -296,8 +303,8 @@
   </div>
   
   <script>
-    // Actualiza el ABI para incluir las funciones nuevas:
-    const contractAddress = "0xcf7ed3acca5a467e9e704c703e8d87f634fb0fc9";
+    // Dirección y ABI del contrato (sin cambios)
+    const contractAddress = "0xe7f1725e7734ce288f8367e1bb143e90bb3f0512";
     const contractABI = [
       "function currentBid() view returns (uint256)",
       "function currentMessage() view returns (string)",
@@ -310,41 +317,87 @@
       "event Withdrawal(address indexed user, uint256 amount)"
     ];
     
-    let provider, signer, contract;
+    // Variables globales
+    let provider;    // Se usará para llamadas de lectura y luego se actualizará al conectar la wallet
+    let signer;
+    let contract;
+    let web3Modal;   // Instancia de Web3Modal
     
+    // Proveedor por defecto (para lectura) apuntando a la red local (Hardhat)
+    const defaultProvider = new ethers.providers.JsonRpcProvider("http://127.0.0.1:8545");
+    
+    // Inicializamos el contrato con el proveedor por defecto para lectura
     async function init() {
-      if (window.ethereum) {
-        provider = new ethers.providers.Web3Provider(window.ethereum);
-        await provider.send("eth_requestAccounts", []);
+      provider = defaultProvider;
+      contract = new ethers.Contract(contractAddress, contractABI, provider);
+      getCurrentState();
+    }
+    
+    // Función para conectar la wallet mediante Web3Modal
+    async function connectWallet() {
+      // Configuramos los proveedores opcionales (por ejemplo, WalletConnect)
+      const providerOptions = {
+        walletconnect: {
+          package: window.WalletConnectProvider, // obligatorio
+          options: {
+            rpc: {
+              1337: "http://127.0.0.1:8545" // Asegúrate de que coincida con tu red local
+            }
+          }
+        }
+      };
+      
+      // Si no se ha instanciado Web3Modal, lo hacemos
+      if (!web3Modal) {
+        web3Modal = new window.Web3Modal.default({
+          cacheProvider: false, // Siempre pedimos conexión
+          providerOptions
+        });
+      }
+      
+      try {
+        // Abre el modal para que el usuario elija su wallet
+        const externalProvider = await web3Modal.connect();
+        provider = new ethers.providers.Web3Provider(externalProvider);
         signer = provider.getSigner();
+        // Actualizamos el contrato para que use el signer (así se pueden enviar transacciones)
         contract = new ethers.Contract(contractAddress, contractABI, signer);
+        // Ocultamos el botón de conectar wallet
+        document.getElementById("connectWalletBtn").style.display = "none";
+        showStatus("Wallet conectada exitosamente!");
         getCurrentState();
-      } else {
-        showStatus("MetaMask is not available", true);
+      } catch (e) {
+        console.error("Error al conectar la wallet", e);
+        showStatus("Error al conectar la wallet", true);
       }
     }
     
+    // Obtenemos el estado actual del contrato
     async function getCurrentState() {
       try {
         let message = await contract.currentMessage();
         const bid = await contract.currentBid();
         const total = await contract.totalParticipants();
-        const userAddress = await signer.getAddress();
-        const pending = await contract.pendingReward(userAddress);
-        
+        let pending = "0";
+        // Si el usuario está conectado (existe signer), obtenemos su dirección y pending reward
+        if (signer) {
+          const userAddress = await signer.getAddress();
+          pending = ethers.utils.formatEther(await contract.pendingReward(userAddress));
+        }
         if (message.trim() === "") {
           message = "This is your message";
         }
         document.getElementById("bannerMessage").innerText = message;
         document.getElementById("currentBid").innerText = ethers.utils.formatEther(bid);
         document.getElementById("totalParticipants").innerText = total.toString();
-        document.getElementById("pendingReward").innerText = ethers.utils.formatEther(pending);
+        document.getElementById("pendingReward").innerText = pending;
       } catch (err) {
         console.error(err);
         showStatus("Error loading contract state.", true);
       }
     }
     
+    // Event listener para el botón de preview
     document.getElementById("smallPreview").addEventListener("click", function() {
       let text = document.getElementById("newMessage").value;
       if (text.trim() === "") {
@@ -354,7 +407,12 @@
       document.getElementById("modal").style.display = "block";
     });
     
+    // Validamos que la wallet esté conectada antes de enviar transacciones
     document.getElementById("placeBidBtn").addEventListener("click", async () => {
+      if (!signer) {
+        alert("Por favor, conecta tu wallet.");
+        return;
+      }
       const newMessage = document.getElementById("newMessage").value;
       const bidAmount = document.getElementById("bidAmount").value;
       if (!newMessage || !bidAmount) {
@@ -376,6 +434,10 @@
     });
     
     document.getElementById("withdrawBtn").addEventListener("click", async () => {
+      if (!signer) {
+        alert("Por favor, conecta tu wallet.");
+        return;
+      }
       try {
         showStatus("Processing withdrawal...");
         const tx = await contract.withdraw();
@@ -388,6 +450,10 @@
       }
     });
     
+    // Agregamos listener para el botón de conectar wallet
+    document.getElementById("connectWalletBtn").addEventListener("click", connectWallet);
+    
+    // Modal para preview
     const modal = document.getElementById("modal");
     const closeModal = document.getElementById("closeModal");
     
@@ -400,6 +466,7 @@
       }
     });
     
+    // Modal para "How This Works"
     const howItWorksModal = document.getElementById("howItWorksModal");
     const closeHowItWorks = document.getElementById("closeHowItWorks");
     
@@ -428,6 +495,7 @@
       }, 3000);
     }
     
+    // Inicializamos con el proveedor por defecto para lectura
     window.onload = init;
   </script>
 </body>
