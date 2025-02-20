@@ -244,7 +244,7 @@
   <div class="widget">
     <h1>Message Auction</h1>
     <p><strong>Current Bid:</strong> <span id="currentBid">Loading...</span> ETH</p>
-    <!-- Información extra -->
+    <!-- Extra info -->
     <p class="info"><strong>Total Participants:</strong> <span id="totalParticipants">0</span></p>
     <p class="info"><strong>Your Pending Reward:</strong> <span id="pendingReward">0</span> ETH</p>
     <hr>
@@ -258,7 +258,7 @@
     <hr>
     <h2>Withdraw Funds</h2>
     <button id="withdrawBtn">Withdraw</button>
-    <!-- Botón para conectar la wallet -->
+    <!-- Button to connect the wallet -->
     <button id="connectWalletBtn">Connect Wallet</button>
     <div id="status" class="status"></div>
   </div>
@@ -303,7 +303,7 @@
   </div>
   
   <script>
-    // Dirección y ABI del contrato (sin cambios)
+    // Contract address and ABI (unchanged)
     const contractAddress = "0xe7f1725e7734ce288f8367e1bb143e90bb3f0512";
     const contractABI = [
       "function currentBid() view returns (uint256)",
@@ -317,69 +317,69 @@
       "event Withdrawal(address indexed user, uint256 amount)"
     ];
     
-    // Variables globales
-    let provider;    // Se usará para llamadas de lectura y luego se actualizará al conectar la wallet
+    // Global variables
+    let provider;    // Used for read calls and later updated when connecting the wallet
     let signer;
     let contract;
-    let web3Modal;   // Instancia de Web3Modal
+    let web3Modal;   // Instance of Web3Modal
     
-    // Proveedor por defecto (para lectura) apuntando a la red local (Hardhat)
+    // Default provider (for reading) pointing to the local network (Hardhat)
     const defaultProvider = new ethers.providers.JsonRpcProvider("http://127.0.0.1:8545");
     
-    // Inicializamos el contrato con el proveedor por defecto para lectura
+    // Initialize the contract with the default provider for reading
     async function init() {
       provider = defaultProvider;
       contract = new ethers.Contract(contractAddress, contractABI, provider);
       getCurrentState();
     }
     
-    // Función para conectar la wallet mediante Web3Modal
+    // Function to connect the wallet using Web3Modal
     async function connectWallet() {
-      // Configuramos los proveedores opcionales (por ejemplo, WalletConnect)
+      // Configure optional providers (for example, WalletConnect)
       const providerOptions = {
         walletconnect: {
-          package: window.WalletConnectProvider, // obligatorio
+          package: window.WalletConnectProvider, // required
           options: {
             rpc: {
-              1337: "http://127.0.0.1:8545" // Asegúrate de que coincida con tu red local
+              1337: "http://127.0.0.1:8545" // Ensure this matches your local network
             }
           }
         }
       };
       
-      // Si no se ha instanciado Web3Modal, lo hacemos
+      // If Web3Modal hasn't been instantiated, do it now
       if (!web3Modal) {
         web3Modal = new window.Web3Modal.default({
-          cacheProvider: false, // Siempre pedimos conexión
+          cacheProvider: false, // Always ask for connection
           providerOptions
         });
       }
       
       try {
-        // Abre el modal para que el usuario elija su wallet
+        // Open the modal for the user to choose their wallet
         const externalProvider = await web3Modal.connect();
         provider = new ethers.providers.Web3Provider(externalProvider);
         signer = provider.getSigner();
-        // Actualizamos el contrato para que use el signer (así se pueden enviar transacciones)
+        // Update the contract to use the signer (so transactions can be sent)
         contract = new ethers.Contract(contractAddress, contractABI, signer);
-        // Ocultamos el botón de conectar wallet
+        // Hide the connect wallet button
         document.getElementById("connectWalletBtn").style.display = "none";
-        showStatus("Wallet conectada exitosamente!");
+        showStatus("Wallet connected successfully!");
         getCurrentState();
       } catch (e) {
-        console.error("Error al conectar la wallet", e);
-        showStatus("Error al conectar la wallet", true);
+        console.error("Error connecting the wallet", e);
+        showStatus("Error connecting the wallet", true);
       }
     }
     
-    // Obtenemos el estado actual del contrato
+    // Get the current state of the contract
     async function getCurrentState() {
       try {
         let message = await contract.currentMessage();
         const bid = await contract.currentBid();
         const total = await contract.totalParticipants();
         let pending = "0";
-        // Si el usuario está conectado (existe signer), obtenemos su dirección y pending reward
+        // If the user is connected (signer exists), get their address and pending reward
         if (signer) {
           const userAddress = await signer.getAddress();
           pending = ethers.utils.formatEther(await contract.pendingReward(userAddress));
@@ -397,7 +397,7 @@
       }
     }
     
-    // Event listener para el botón de preview
+    // Event listener for the preview button
     document.getElementById("smallPreview").addEventListener("click", function() {
       let text = document.getElementById("newMessage").value;
       if (text.trim() === "") {
@@ -407,10 +407,10 @@
       document.getElementById("modal").style.display = "block";
     });
     
-    // Validamos que la wallet esté conectada antes de enviar transacciones
+    // Validate that the wallet is connected before sending transactions
     document.getElementById("placeBidBtn").addEventListener("click", async () => {
       if (!signer) {
-        alert("Por favor, conecta tu wallet.");
+        alert("Please connect your wallet.");
         return;
       }
       const newMessage = document.getElementById("newMessage").value;
@@ -435,7 +435,7 @@
     
     document.getElementById("withdrawBtn").addEventListener("click", async () => {
       if (!signer) {
-        alert("Por favor, conecta tu wallet.");
+        alert("Please connect your wallet.");
         return;
       }
       try {
@@ -450,10 +450,10 @@
       }
     });
     
-    // Agregamos listener para el botón de conectar wallet
+    // Add listener for the connect wallet button
     document.getElementById("connectWalletBtn").addEventListener("click", connectWallet);
     
-    // Modal para preview
+    // Modal for preview
     const modal = document.getElementById("modal");
     const closeModal = document.getElementById("closeModal");
     
@@ -466,7 +466,7 @@
       }
     });
     
-    // Modal para "How This Works"
+    // Modal for "How This Works"
     const howItWorksModal = document.getElementById("howItWorksModal");
     const closeHowItWorks = document.getElementById("closeHowItWorks");
     
@@ -495,7 +495,7 @@
       }, 3000);
     }
     
-    // Inicializamos con el proveedor por defecto para lectura
+    // Initialize with the default provider for reading
     window.onload = init;
   </script>
 </body>
