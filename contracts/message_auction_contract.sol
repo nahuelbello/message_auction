@@ -4,7 +4,7 @@ pragma solidity ^0.8.0;
 // Import ReentrancyGuard to prevent reentrancy.
 import "@openzeppelin/contracts/utils/ReentrancyGuard.sol";
 
-contract MessageAuctionProportional is ReentrancyGuard {
+contract MessageAuction is ReentrancyGuard {
     // State variables for the auction display
     uint256 public currentBid;
     string public currentMessage;

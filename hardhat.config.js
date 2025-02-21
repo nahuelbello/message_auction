@@ -2,7 +2,7 @@ require("@nomicfoundation/hardhat-toolbox");
 require("dotenv").config(); // Si usás variables de entorno para guardar tu private key
 
 module.exports = {
-  solidity: "0.8.18",
+  solidity: "0.8.28",
   networks: {
     // Tu config de localhost para el nodo local:
     localhost: {

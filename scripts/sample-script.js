@@ -5,10 +5,9 @@ async function main() {
   const MessageAuction = await ethers.getContractFactory("MessageAuction");
   const contract = await MessageAuction.deploy();
   
-  // Espera a que el contrato se despliegue por completo:
-  await contract.deployed();
-  
-  console.log("MessageAuction deployed to:", contract.address);
+  // Espera a que la transacción de despliegue se confirme:
+  await contract.waitForDeployment();
+  console.log("Contrato desplegado en:", contract.target);
 }
 
 main()
