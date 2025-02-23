@@ -5,6 +5,10 @@
   <title>Message Auction</title>
   <!-- Import Google Fonts: Orbitron for headlines and Roboto for body text -->
   <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Roboto:wght@400;500&display=swap" rel="stylesheet">
+  <!-- Font Awesome: reemplaza "your-id" por un kit válido o elimina esta línea si no se usa -->
+  <script src="https://kit.fontawesome.com/your-id.js" crossorigin="anonymous"></script>
+  <!-- Chart.js for graphical display -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <style>
     /* Modern Crypto-Inspired Styles */
     body {
@@ -17,7 +21,6 @@
       flex-direction: column;
       align-items: center;
     }
-    /* Main banner displaying the current message */
     .banner {
       width: 100%;
       background: linear-gradient(135deg, #00C853, #B2FF59);
@@ -27,11 +30,10 @@
       font-size: 3.5rem;
       color: #ffffff;
       text-shadow: 0 0 10px #00ff00;
-      box-shadow: 0 4px 10px rgba(0, 200, 83, 0.5);
+      box-shadow: 0 4px 10px rgba(0,200,83,0.5);
       margin-bottom: 20px;
       animation: fadeIn 1s ease-in;
     }
-    /* Widget for bidding and actions */
     .widget {
       background: #1e1e1e;
       padding: 30px 40px;
@@ -65,13 +67,11 @@
       opacity: 0;
       transition: opacity 0.5s ease-in-out;
     }
-    /* Extra info styles */
     .info {
       margin: 10px 0;
       font-size: 14px;
       text-align: center;
     }
-    /* Input group with a small preview box to the right */
     .input-group {
       display: flex;
       align-items: center;
@@ -90,10 +90,11 @@
       font-size: 0.9rem;
       cursor: pointer;
       white-space: nowrap;
-      max-width: 130px; 
+      max-width: 130px;
       overflow: hidden;
       text-overflow: ellipsis;
       text-align: center;
+      transition: background 0.3s ease, color 0.3s ease;
     }
     .small-preview:hover {
       background: #00E676;
@@ -135,9 +136,9 @@
       from { opacity: 0; transform: translateY(20px); }
       to { opacity: 1; transform: translateY(0); }
     }
-    /* Modal Styles */
+    /* Preview modal: se cierra al hacer clic en el fondo */
     .modal {
-      display: none; /* Hidden by default */
+      display: none;
       position: fixed;
       z-index: 10;
       left: 0;
@@ -160,18 +161,6 @@
       box-shadow: 0 4px 10px rgba(0,0,0,0.5);
       animation: fadeIn 0.5s ease-in;
     }
-    .close {
-      position: absolute;
-      top: 15px;
-      right: 25px;
-      color: #333;
-      font-size: 28px;
-      font-weight: bold;
-      cursor: pointer;
-    }
-    .close:hover {
-      color: #00E676;
-    }
     .preview-banner {
       background: linear-gradient(135deg, #00C853, #B2FF59);
       padding: 40px 20px;
@@ -182,51 +171,59 @@
       border-radius: 8px;
       margin-bottom: 20px;
     }
-    /* Floating "How This Works" button as a floating island menu */
-    .floating-menu {
+    /* Simulation input group */
+    .simulate-input-group {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .simulate-input-group input {
+      width: 70%;
+    }
+    .simulate-input-group button {
+      width: 30%;
+      margin: 0;
+    }
+    /* Chart containers */
+    #chartContainer, #simulationChartContainer {
+      width: 100%;
+      max-width: 300px;
+      margin: 0 auto 20px;
+    }
+    /* Popup for shares explanation */
+    .popup {
+      display: none; /* Se muestra cuando se active */
       position: fixed;
       top: 50%;
-      right: 20px;
-      transform: translateY(-50%);
-      background: #00C853;
-      color: #fff;
-      font-family: 'Orbitron', sans-serif;
-      font-size: 20px;
-      padding: 12px 20px;
-      border-radius: 20px;
-      cursor: pointer;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.5);
-      transition: background 0.3s ease, transform 0.3s ease;
-      z-index: 12;
-    }
-    .floating-menu:hover {
-      background: #00E676;
-      color: #121212;
-      transform: translateY(-50%) scale(1.05);
-    }
-    /* Modal for "How This Works" explanation */
-    .howitworks-modal-content {
-      position: relative;
+      left: 50%;
+      transform: translate(-50%, -50%);
       background: #1e1e1e;
-      margin: 10% auto;
       padding: 20px;
       border-radius: 12px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+      z-index: 20;
       width: 80%;
-      max-width: 600px;
+      max-width: 400px;
+    }
+    .popup-content {
       color: #e0e0e0;
-      animation: fadeIn 0.5s ease-in;
+      font-size: 14px;
+      text-align: center;
     }
-    .close-howitworks {
-      position: absolute;
-      top: 15px;
-      right: 25px;
-      color: #333;
-      font-size: 28px;
+    /* Smaller question mark icon */
+    .info-icon {
+      display: inline-block;
+      background: #00E676;
+      color: #121212;
+      border-radius: 50%;
+      width: 14px;
+      height: 14px;
+      text-align: center;
+      line-height: 14px;
+      font-size: 10px;
       font-weight: bold;
+      margin-left: 5px;
       cursor: pointer;
-    }
-    .close-howitworks:hover {
-      color: #00E676;
     }
   </style>
   <!-- Ethers.js -->
@@ -237,16 +234,30 @@
   <script src="https://unpkg.com/web3modal@1.9.12/dist/index.js"></script>
 </head>
 <body>
-  <!-- Main banner displaying the current message -->
   <div class="banner" id="bannerMessage">Loading message...</div>
   
-  <!-- Widget for bidding and actions -->
   <div class="widget">
     <h1>Message Auction</h1>
-    <p><strong>Current Bid:</strong> <span id="currentBid">Loading...</span> ETH</p>
-    <!-- Extra info -->
-    <p class="info"><strong>Total Shares:</strong> <span id="totalShares">0</span></p>
-    <p class="info"><strong>Your Pending Reward:</strong> <span id="pendingReward">0</span> ETH</p>
+    <p class="info">
+      <strong><i class="fas fa-gavel"></i> Current Bid:</strong> <span id="currentBid">Loading...</span> ETH
+    </p>
+    <p class="info">
+      <strong><i class="fas fa-share-alt"></i> Total Shares:</strong> 
+      <span id="totalShares">0</span> units
+      <span id="sharesInfo" class="info-icon">?</span>
+    </p>
+    <p class="info">
+      <strong><i class="fas fa-user-circle"></i> Your Shares:</strong> <span id="userSharesPercentage">0</span>%
+    </p>
+    <p class="info">
+      <strong><i class="fas fa-coins"></i> Your Pending Reward:</strong> <span id="pendingReward">0</span> ETH
+    </p>
+    
+    <!-- Main chart for shares distribution -->
+    <div id="chartContainer">
+      <canvas id="sharesChart"></canvas>
+    </div>
+    
     <hr>
     <h2>Place a New Bid</h2>
     <div class="input-group">
@@ -255,188 +266,387 @@
     </div>
     <input type="number" id="bidAmount" placeholder="ETH amount" step="0.01" min="0">
     <button id="placeBidBtn">Place Bid</button>
+    <!-- Container for bid error message -->
+    <div id="bidError" class="error-message" style="display:none;"></div>
+    
+    <hr>
+    <h2>Latest Bids</h2>
+    <div id="bidHistory"></div>
+    
     <hr>
     <h2>Withdraw Funds</h2>
     <button id="withdrawBtn">Withdraw</button>
-    <!-- Button to connect the wallet -->
+    
     <button id="connectWalletBtn">Connect Wallet</button>
+    <button id="disconnectWalletBtn" style="display: none;">Disconnect Wallet</button>
+    
     <div id="status" class="status"></div>
   </div>
   
-  <!-- Floating island menu acting as "How This Works" -->
-  <div id="floatingMenu" class="floating-menu">How this works?</div>
-  
-  <!-- Modal for previewing the banner with the user's message -->
+  <!-- Modal for message preview -->
   <div id="modal" class="modal">
     <div class="modal-content">
-      <span id="closeModal" class="close">&times;</span>
       <div class="preview-banner" id="previewBanner">Your Message Preview</div>
       <p>This is how your message will appear in the banner.</p>
     </div>
   </div>
-
-  <!-- Modal for "How This Works" explanation -->
-  <div id="howItWorksModal" class="modal">
-    <div class="howitworks-modal-content">
-      <span id="closeHowItWorks" class="close-howitworks">&times;</span>
-      <h2>How This Works</h2>
-      <p>
-        In this DApp, you submit a bid that must exceed the current bid by at least <strong>0.01 ETH</strong>.
-      </p>
-      <p>
-        Each bid is paid in full and a 4% fee is sent directly to the founder. The remaining 96% is immediately distributed among all previous participants based on their accumulated shares.
-      </p>
-      <p>
-        Your shares are calculated from your bid amount. Early participants (the first 10 unique addresses) receive a bonus on their shares – starting at 1.5x for the first, linearly decreasing to 1.0x by the 10th – incentivizing early investment.
-      </p>
-      <p>
-        You can bid multiple times from the same wallet. Each new bid is added to your total investment, increasing your shares and your share of future distributions.
-      </p>
-      <p>
-        The current bid, total shares, and your pending rewards are updated in real time. Place your bid, watch your rewards grow, and enjoy a truly decentralized and rewarding experience!
-      </p>
+  
+  <!-- Popup for shares explanation -->
+  <div id="sharesPopup" class="popup">
+    <div class="popup-content">
+      <p>Shares represent your contribution to the auction. They are calculated based on your bid amount and a bonus factor, which varies depending on the order of your bid.</p>
+    </div>
+  </div>
+  
+  <!-- Simulation section -->
+  <div class="widget">
+    <h2>Ownership Simulator</h2>
+    <div class="input-group simulate-input-group">
+      <input type="number" id="simulateBidAmount" placeholder="Amount in ETH" step="0.01" min="0">
+      <button id="simulateOwnershipBtn">Simulate</button>
+    </div>
+    <!-- Simulation chart (same style as the main chart) -->
+    <div id="simulationChartContainer">
+      <canvas id="simulationChart"></canvas>
+    </div>
+    <div class="simulation-results">
+      <p class="info"><strong>Estimated Ownership:</strong> <span id="estimatedOwnership">0</span>%</p>
+      <p class="info"><strong>New Shares:</strong> <span id="newShares">0</span></p>
+      <p class="info"><strong>Bonus Factor:</strong> <span id="bonusFactor">1.0</span>x</p>
     </div>
   </div>
   
   <script>
-    // Updated contract address and ABI reflecting the new proportional system
-    const contractAddress = "0x5FbDB2315678afecb367f032d93F642f64180aa3";
+    // Helper function to return custom error messages based on context
+    function getCustomErrorMessage(err, context) {
+      const message = err.message || "";
+      if (context === "placeBid") {
+        if (message.includes("New bid must exceed current bid")) {
+          return "Your bid must exceed the current bid by at least 0.01 ETH.";
+        } else if (message.includes("Initial bid must be")) {
+          return "Your initial bid must be at least 0.01 ETH.";
+        } else if (message.includes("Founder fee transfer failed")) {
+          return "Failed to transfer founder fee. Please try again.";
+        }
+      } else if (context === "withdraw") {
+        if (message.includes("No shares")) {
+          return "You have no shares.";
+        } else if (message.includes("No funds to withdraw")) {
+          return "There are no funds available for withdrawal.";
+        } else if (message.includes("Withdrawal failed")) {
+          return "Withdrawal failed. Please try again.";
+        }
+      } else if (context === "simulate") {
+        if (message.includes("invalid value")) {
+          return "Please enter a valid ETH amount.";
+        }
+      } else if (context === "connectWallet") {
+        return "Failed to connect wallet. Please try again.";
+      }
+      return "";
+    }
+    
+    // Function to format shares for display in a friendly way: divide by 1e12 and add commas
+    function formatSharesFriendly(bigNum) {
+      const divisor = ethers.BigNumber.from("1000000000000"); // 1e12
+      const friendly = bigNum.div(divisor);
+      return friendly.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    }
+    
+    // For total shares we can use simplifyBigNumber if needed
+    function simplifyBigNumber(bigNum) {
+      const s = bigNum.toString();
+      const num = Number(s);
+      if (!isNaN(num) && num < Number.MAX_SAFE_INTEGER) {
+        return new Intl.NumberFormat("en", { notation: "compact", compactDisplay: "short" }).format(num);
+      }
+      const len = s.length;
+      const units = ["", "K", "M", "B", "T", "Qa", "Qi"];
+      const unitIndex = Math.floor((len - 1) / 3);
+      const first = s.slice(0, 3);
+      return first[0] + "." + first.slice(1) + units[unitIndex];
+    }
+    
+    const contractAddress = "0x5FbDB2315678afecb367f032d93F642f64180aa3"; // Verify this address
+
     const contractABI = [
       "function currentBid() view returns (uint256)",
       "function currentMessage() view returns (string)",
       "function currentBidder() view returns (address)",
       "function totalShares() view returns (uint256)",
+      "function sharesOf(address) view returns (uint256)",
       "function pendingReward(address user) view returns (uint256)",
       "function placeBid(string memory message) payable",
       "function withdraw()",
+      "function totalBids() view returns (uint256)",
+      "function earlyBirdClaimed(address) view returns (bool)",
+      "function earlyBirdCount() view returns (uint256)",
       "event NewBid(address indexed bidder, uint256 bid, string message)",
       "event Withdrawal(address indexed user, uint256 amount)"
     ];
     
-    // Global variables
-    let provider;    // For reading initially, then updated after wallet connection
+    let provider;
     let signer;
     let contract;
     let web3Modal;
+    let sharesChart;
+    let simulationChart;
     
-    // Default provider (for reading) – adjust if needed
     const defaultProvider = new ethers.providers.JsonRpcProvider("http://127.0.0.1:8545");
     
-    // Initialize contract with default provider
     async function init() {
-      provider = defaultProvider;
-      contract = new ethers.Contract(contractAddress, contractABI, provider);
-      getCurrentState();
+      try {
+        console.log("Initializing application...");
+        if (window.ethereum) {
+          provider = new ethers.providers.Web3Provider(window.ethereum);
+          console.log("Using Web3Provider with window.ethereum");
+        } else {
+          provider = new ethers.providers.JsonRpcProvider("http://127.0.0.1:8545");
+          console.log("Using JsonRpcProvider fallback");
+        }
+        try {
+          const network = await provider.getNetwork();
+          console.log("Connected network:", network);
+        } catch (e) {
+          console.error("Error connecting to the network:", e);
+          showStatus("Network connection error", true);
+          return;
+        }
+        contract = new ethers.Contract(contractAddress, contractABI, provider);
+        console.log("Contract initialized");
+        await getCurrentState();
+        contract.on("NewBid", (bidder, bid, message) => {
+          console.log("New bid detected");
+          getCurrentState();
+        });
+      } catch (err) {
+        console.error("Error in init:", err);
+        showStatus("Error initializing application", true);
+      }
     }
     
-    // Connect wallet using Web3Modal
     async function connectWallet() {
-      const providerOptions = {
-        walletconnect: {
-          package: window.WalletConnectProvider,
-          options: { rpc: { 1337: "http://127.0.0.1:8545" } }
-        }
-      };
-      
-      if (!web3Modal) {
-        web3Modal = new window.Web3Modal.default({ cacheProvider: false, providerOptions });
-      }
-      
       try {
+        console.log("Connecting wallet...");
+        const providerOptions = {
+          walletconnect: {
+            package: window.WalletConnectProvider,
+            options: {
+              rpc: {
+                1337: "http://127.0.0.1:8545",
+                31337: "http://127.0.0.1:8545"
+              }
+            }
+          }
+        };
+        if (!web3Modal) {
+          web3Modal = new window.Web3Modal.default({
+            cacheProvider: false,
+            providerOptions,
+            disableInjectedProvider: false,
+          });
+        }
         const externalProvider = await web3Modal.connect();
         provider = new ethers.providers.Web3Provider(externalProvider);
+        if (!await checkNetwork()) {
+          return;
+        }
         signer = provider.getSigner();
-        // Update contract with signer to send transactions
+        const address = await signer.getAddress();
+        console.log("Wallet connected:", address);
         contract = new ethers.Contract(contractAddress, contractABI, signer);
         document.getElementById("connectWalletBtn").style.display = "none";
+        document.getElementById("disconnectWalletBtn").style.display = "block";
         showStatus("Wallet connected successfully!");
-        getCurrentState();
+        await getCurrentState();
       } catch (e) {
-        console.error("Error connecting wallet", e);
-        showStatus("Error connecting wallet", true);
+        console.error("Error connecting wallet:", e);
+        let customMessage = getCustomErrorMessage(e, "connectWallet");
+        if (!customMessage) customMessage = "Error connecting wallet.";
+        showStatus(customMessage, true);
       }
     }
     
-    // Retrieve and update current state from contract
+    function disconnectWallet() {
+      if (web3Modal) {
+        web3Modal.clearCachedProvider();
+      }
+      provider = defaultProvider;
+      signer = null;
+      contract = new ethers.Contract(contractAddress, contractABI, provider);
+      document.getElementById("connectWalletBtn").style.display = "block";
+      document.getElementById("disconnectWalletBtn").style.display = "none";
+      showStatus("Wallet disconnected.");
+    }
+    
     async function getCurrentState() {
       try {
-        let message = await contract.currentMessage();
-        const bid = await contract.currentBid();
-        const totalShares = await contract.totalShares();
-        let pending = "0";
-        if (signer) {
-          const userAddress = await signer.getAddress();
-          pending = ethers.utils.formatEther(await contract.pendingReward(userAddress));
+        console.log("Getting current state...");
+        if (!contract) {
+          console.error("Contract not initialized");
+          showStatus("Error: Contract not initialized", true);
+          return;
+        }
+        let message, bid, totalShares;
+        try {
+          message = await contract.currentMessage();
+          console.log("Current message:", message);
+        } catch (e) {
+          console.error("Error loading message:", e);
+          message = "Error loading message";
+        }
+        try {
+          bid = await contract.currentBid();
+          console.log("Current bid:", ethers.utils.formatEther(bid));
+        } catch (e) {
+          console.error("Error loading bid:", e);
+          bid = ethers.BigNumber.from("0");
+        }
+        try {
+          totalShares = await contract.totalShares();
+          console.log("Total shares:", totalShares.toString());
+        } catch (e) {
+          console.error("Error loading total shares:", e);
+          totalShares = ethers.BigNumber.from("0");
         }
         if (message.trim() === "") { message = "This is your message"; }
         document.getElementById("bannerMessage").innerText = message;
         document.getElementById("currentBid").innerText = ethers.utils.formatEther(bid);
-        document.getElementById("totalShares").innerText = totalShares.toString();
-        document.getElementById("pendingReward").innerText = pending;
+        document.getElementById("totalShares").innerText = formatSharesFriendly(totalShares);
+        if (signer) {
+          try {
+            const userAddress = await signer.getAddress();
+            console.log("User address:", userAddress);
+            const userShares = await contract.sharesOf(userAddress);
+            console.log("User shares:", userShares.toString());
+            const pending = await contract.pendingReward(userAddress);
+            console.log("Pending reward:", ethers.utils.formatEther(pending));
+            let userSharesPercentage = "0";
+            if (!totalShares.eq(0)) {
+              const percentage = userShares.mul(10000).div(totalShares).toNumber() / 100;
+              userSharesPercentage = percentage.toFixed(2);
+            }
+            document.getElementById("pendingReward").innerText = ethers.utils.formatEther(pending);
+            document.getElementById("userSharesPercentage").innerText = userSharesPercentage;
+            updateChart(parseFloat(userSharesPercentage));
+          } catch (e) {
+            console.error("Error getting user data:", e);
+            showStatus("Error loading user data", true);
+          }
+        }
+        await loadBidHistory();
       } catch (err) {
-        console.error(err);
-        showStatus("Error loading contract state.", true);
+        console.error("General error in getCurrentState:", err);
+        showStatus("Error loading contract state", true);
       }
     }
     
-    // Preview modal for message
-    document.getElementById("smallPreview").addEventListener("click", function() {
+    function updateChart(userPercentage) {
+      const ctx = document.getElementById('sharesChart').getContext('2d');
+      if (!sharesChart) {
+        sharesChart = new Chart(ctx, {
+          type: 'doughnut',
+          data: {
+            labels: ['Your Shares', 'Other Shares'],
+            datasets: [{
+              data: [userPercentage, 100 - userPercentage],
+              backgroundColor: ['#00E676', '#424242']
+            }]
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            animation: { animateRotate: true }
+          }
+        });
+      } else {
+        sharesChart.data.datasets[0].data = [userPercentage, 100 - userPercentage];
+        sharesChart.update();
+      }
+    }
+    
+    function updateSimulationChart(simPercentage) {
+      const ctxSim = document.getElementById('simulationChart').getContext('2d');
+      if (!simulationChart) {
+        simulationChart = new Chart(ctxSim, {
+          type: 'doughnut',
+          data: {
+            labels: ['Your Simulated Shares', 'Other Shares'],
+            datasets: [{
+              data: [simPercentage, 100 - simPercentage],
+              backgroundColor: ['#00E676', '#424242']
+            }]
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            animation: { animateRotate: true }
+          }
+        });
+      } else {
+        simulationChart.data.datasets[0].data = [simPercentage, 100 - simPercentage];
+        simulationChart.update();
+      }
+    }
+    
+    // Preview modal: abre el modal y detiene la propagación para evitar que el listener global lo cierre
+    document.getElementById("smallPreview").addEventListener("click", (event) => {
+      event.stopPropagation();
       let text = document.getElementById("newMessage").value;
       if (text.trim() === "") { text = "This is your message"; }
       document.getElementById("previewBanner").innerText = text;
       document.getElementById("modal").style.display = "block";
     });
     
-    // Place bid event
-    document.getElementById("placeBidBtn").addEventListener("click", async () => {
-      if (!signer) { alert("Please connect your wallet."); return; }
-      const newMessage = document.getElementById("newMessage").value;
-      const bidAmount = document.getElementById("bidAmount").value;
-      if (!newMessage || !bidAmount) { alert("Please enter a message and an amount."); return; }
-      try {
-        showStatus("Sending transaction...");
-        const tx = await contract.placeBid(newMessage, { value: ethers.utils.parseEther(bidAmount) });
-        await tx.wait();
-        showStatus("Bid placed successfully!");
-        document.getElementById("newMessage").value = "";
-        document.getElementById("bidAmount").value = "";
-        getCurrentState();
-      } catch (err) {
-        console.error(err);
-        showStatus("Error placing bid.", true);
+    // Los cambios en el input no deben cerrar el modal
+    document.getElementById("newMessage").addEventListener("input", (event) => {
+      event.stopPropagation();
+      const text = document.getElementById("newMessage").value || "This is your message";
+      document.getElementById("smallPreview").innerText = text;
+    });
+    
+    // Cierra el preview modal si se hace clic en el fondo del modal
+    document.getElementById("modal").addEventListener("click", function(event) {
+      if (event.target === this) {
+        this.style.display = "none";
       }
     });
     
-    // Withdraw funds event
-    document.getElementById("withdrawBtn").addEventListener("click", async () => {
-      if (!signer) { alert("Please connect your wallet."); return; }
-      try {
-        showStatus("Processing withdrawal...");
-        const tx = await contract.withdraw();
-        await tx.wait();
-        showStatus("Funds withdrawn successfully!");
-        getCurrentState();
-      } catch (err) {
-        console.error(err);
-        showStatus("Error withdrawing funds.", true);
+    // Listener global para cerrar el popup de shares si se hace clic fuera de su contenido
+    window.addEventListener("click", function(event) {
+      const sharesPopup = document.getElementById("sharesPopup");
+      const sharesInfo = document.getElementById("sharesInfo");
+      // Usamos getComputedStyle para comprobar el display real
+      if (window.getComputedStyle(sharesPopup).display === "block" && !sharesPopup.contains(event.target) && event.target !== sharesInfo) {
+        sharesPopup.style.display = "none";
       }
     });
     
-    // Connect wallet button
-    document.getElementById("connectWalletBtn").addEventListener("click", connectWallet);
+    // Al hacer clic en el ícono de shares se alterna la visibilidad del popup
+    document.getElementById("sharesInfo").addEventListener("click", function(event) {
+      // No detenemos la propagación para que el listener global cierre el popup si se hace clic fuera
+      const popup = document.getElementById("sharesPopup");
+      popup.style.display = (popup.style.display === "block") ? "none" : "block";
+    });
     
-    // Modal functionality for preview and How This Works
-    const modal = document.getElementById("modal");
-    const closeModal = document.getElementById("closeModal");
-    closeModal.addEventListener("click", () => { modal.style.display = "none"; });
-    window.addEventListener("click", (event) => { if (event.target === modal) { modal.style.display = "none"; } });
-    
-    const howItWorksModal = document.getElementById("howItWorksModal");
-    const closeHowItWorks = document.getElementById("closeHowItWorks");
-    const floatingMenu = document.getElementById("floatingMenu");
-    floatingMenu.addEventListener("click", () => { howItWorksModal.style.display = "block"; });
-    closeHowItWorks.addEventListener("click", () => { howItWorksModal.style.display = "none"; });
-    window.addEventListener("click", (event) => { if (event.target === howItWorksModal) { howItWorksModal.style.display = "none"; } });
+    async function loadBidHistory() {
+      try {
+        const filter = contract.filters.NewBid();
+        const events = await contract.queryFilter(filter, 0, "latest");
+        const bidHistoryDiv = document.getElementById("bidHistory");
+        bidHistoryDiv.innerHTML = "";
+        events.reverse().slice(0, 10).forEach(event => {
+          const bidder = event.args.bidder;
+          const bid = ethers.utils.formatEther(event.args.bid);
+          const message = event.args.message;
+          const bidElement = document.createElement("p");
+          bidElement.innerHTML = `<strong>${bidder}</strong> bid <strong>${bid}</strong> ETH: ${message}`;
+          bidHistoryDiv.appendChild(bidElement);
+        });
+      } catch(err) {
+        console.error("Error loading bid history", err);
+      }
+    }
     
     function showStatus(message, isError = false) {
       const statusEl = document.getElementById("status");
@@ -444,7 +654,70 @@
       statusEl.style.backgroundColor = isError ? "#ffcccb" : "#00E676";
       statusEl.style.color = isError ? "#b71c1c" : "#121212";
       statusEl.style.opacity = "1";
-      setTimeout(() => { statusEl.style.opacity = "0"; }, 3000);
+      setTimeout(() => {
+        statusEl.style.opacity = "0";
+      }, 3000);
+    }
+    
+    // Event listener for the simulate button
+    document.getElementById("simulateOwnershipBtn").addEventListener("click", async () => {
+      const bidAmount = document.getElementById("simulateBidAmount").value;
+      if (!bidAmount || parseFloat(bidAmount) <= 0) {
+        showStatus("Please enter a valid amount in ETH.", true);
+        return;
+      }
+      try {
+        const bidValue = ethers.utils.parseEther(bidAmount);
+        const SCALE = ethers.BigNumber.from("1000000000000"); // 1e12
+        let bonusFactor = SCALE; // Default 1.0x
+        let currentUserShares = ethers.BigNumber.from("0");
+        let currentTotalShares = await contract.totalShares();
+        if (signer) {
+          const userAddress = await signer.getAddress();
+          currentUserShares = await contract.sharesOf(userAddress);
+          const hasClaimedBonus = await contract.earlyBirdClaimed(userAddress);
+          const earlyBirdCount = await contract.earlyBirdCount();
+          if (!hasClaimedBonus && earlyBirdCount.lt(10)) {
+            if (earlyBirdCount.lt(5)) {
+              bonusFactor = ethers.BigNumber.from("1500000000000"); // 1.5x
+            } else {
+              bonusFactor = ethers.BigNumber.from("1250000000000"); // 1.25x
+            }
+          }
+        }
+        const newShares = bidValue.mul(bonusFactor).div(SCALE);
+        const finalUserShares = currentUserShares.add(newShares);
+        const newTotalShares = currentTotalShares.add(newShares);
+        let ownershipPercentage = 0;
+        if (!newTotalShares.isZero()) {
+          ownershipPercentage = finalUserShares.mul(10000).div(newTotalShares).toNumber() / 100;
+        }
+        document.getElementById("estimatedOwnership").innerText = ownershipPercentage.toFixed(2);
+        document.getElementById("newShares").innerText = formatSharesFriendly(newShares);
+        document.getElementById("bonusFactor").innerText = (bonusFactor.toNumber() / SCALE.toNumber()).toFixed(2);
+        updateSimulationChart(ownershipPercentage);
+        showStatus("Simulation completed successfully!");
+      } catch (err) {
+        console.error("Error in simulation:", err);
+        let customMessage = getCustomErrorMessage(err, "simulate");
+        if (!customMessage) customMessage = "Error performing simulation.";
+        showStatus(customMessage, true);
+      }
+    });
+    
+    async function checkNetwork() {
+      try {
+        const network = await provider.getNetwork();
+        console.log("Current network:", network);
+        if (network.chainId !== 1337 && network.chainId !== 31337) {
+          showStatus("Please connect to the correct network", true);
+          return false;
+        }
+        return true;
+      } catch (e) {
+        console.error("Error checking network:", e);
+        return false;
+      }
     }
     
     window.onload = init;
