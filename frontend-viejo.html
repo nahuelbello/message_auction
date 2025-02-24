@@ -23,403 +23,403 @@
       align-items: center;
     }
     
-    .banner {
-      width: 100%;
-      background: linear-gradient(135deg, #00C853, #B2FF59);
-      padding: 60px 20px;
-      max-width: 1200px;
-      margin: 0 auto;
-      text-align: center;
-      border-radius: 15px;
-      font-family: 'Orbitron', sans-serif;
-      font-size: 5rem;
-      color: #ffffff;
-      text-shadow: 0 0 10px #00ff00;
-      box-shadow: 0 4px 10px rgba(0,200,83,0.5);
-      margin-bottom: 20px;
-      animation: fadeIn 1s ease-in;
-    }
-    .widget {
-      background: #1e1e1e;
-      padding: 30px 40px;
-      border-radius: 12px;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.5);
-      width: 90%;
-      max-width: 600px;
-      margin-bottom: 20px;
-      animation: fadeIn 1s ease-in;
-      position: relative;
-    }
-    h1 {
-      text-align: center;
-      margin-bottom: 20px;
-      font-family: 'Orbitron', sans-serif;
-      color: #00E676;
-    }
-    h2 {
-      color: #B2FF59;
-      margin-top: 20px;
-      font-family: 'Orbitron', sans-serif;
-    }
-    p {
-      line-height: 1.5;
-      text-align: center;
-    }
-    .status {
-      margin-top: 15px;
-      padding: 10px;
-      border-radius: 5px;
-      text-align: center;
-      opacity: 0;
-      transition: opacity 0.5s ease-in-out;
-    }
-    .info {
-      margin: 10px 0;
-      font-size: 14px;
-      text-align: center;
-    }
-    .input-group {
-      display: flex;
-      align-items: center;
-    }
-    .input-group input {
-      flex: 1;
-    }
-    .small-preview {
-      margin-left: 8px;
-      padding: 12px;
-      border: 1px solid #00C853;
-      border-radius: 6px;
-      background: #2c2c2c;
-      color: #00E676;
-      font-family: 'Orbitron', sans-serif;
-      font-size: 0.9rem;
-      cursor: pointer;
-      white-space: nowrap;
-      max-width: 130px;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      transition: background 0.3s ease, color 0.3s ease;
-    }
-    .small-preview:hover {
-      background: #00E676;
-      color: #121212;
-    }
-    input, button {
-      width: 100%;
-      padding: 12px;
-      margin: 8px 0;
-      font-size: 16px;
-      border: 1px solid #00C853;
-      border-radius: 6px;
-      box-sizing: border-box;
-      background: #2c2c2c;
-      color: #e0e0e0;
-    }
-    input:focus {
-      outline: none;
-      border-color: #00E676;
-      box-shadow: 0 0 8px #00E676;
-    }
-    button {
-      background: #00C853;
-      border: none;
-      color: #fff;
-      font-weight: 600;
-      cursor: pointer;
-      transition: background 0.3s ease;
-    }
-    button:hover {
-      background: #00E676;
-    }
-    hr {
-      border: none;
-      border-top: 1px solid #333;
-      margin: 20px 0;
-    }
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(20px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-    /* Modal for message preview */
-    .modal {
-      display: none;
-      position: fixed;
-      z-index: 10;
-      left: 0;
-      top: 0;
-      width: 100%;
-      height: 100%;
-      background-color: rgba(0,0,0,0.7);
-    }
-    .modal-content {
-      position: relative;
-      background: #1e1e1e;
-      margin: 10% auto;
-      padding: 20px;
-      border-radius: 12px;
-      width: 80%;
-      max-width: 500px;
-      text-align: center;
-      color: #e0e0e0;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.5);
-      animation: fadeIn 0.5s ease-in;
-    }
-    .close-modal {
-      position: absolute;
-      top: 5px;
-      right: 10px;
-      cursor: pointer;
-      font-size: 16px;
-      color: #fff;
-    }
-    .preview-banner {
-      background: linear-gradient(135deg, #00C853, #B2FF59);
-      padding: 40px 20px;
-      font-family: 'Orbitron', sans-serif;
-      font-size: 2.5rem;
-      color: #fff;
-      text-shadow: 0 0 8px #00ff00;
-      border-radius: 8px;
-      margin-bottom: 20px;
-    }
-    /* Simulation section */
-    .simulate-input-group {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-    .simulate-input-group input {
-      width: 70%;
-    }
-    .simulate-input-group button {
-      width: 30%;
-      margin: 0;
-    }
-    #chartContainer, #simulationChartContainer {
-      width: 100%;
-      max-width: 300px;
-      margin: 0 auto 20px;
-    }
-    /* Popup for shares explanation */
-    .popup {
-      position: fixed;
-      z-index: 20;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      background: #1e1e1e;
-      padding: 20px;
-      border-radius: 12px;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.5);
-      width: 80%;
-      max-width: 400px;
-    }
-    .popup-content {
-      position: relative;
-      color: #e0e0e0;
-      font-size: 14px;
-      text-align: center;
-    }
-    .close-popup {
-      position: absolute;
-      top: -30px;
-      right: -10px;
-      cursor: pointer;
-      font-size: 16px;
-      color: #00E676;
-    }
-    .info-icon {
-      display: inline-block;
-      background: #00E676;
-      color: #121212;
-      border-radius: 50%;
-      width: 14px;
-      height: 14px;
-      text-align: center;
-      line-height: 14px;
-      font-size: 10px;
-      font-weight: bold;
-      margin-left: 5px;
-      cursor: pointer;
-    }
-    .close {
-      position: absolute;
-      top: 5px;   /* Ajusta según te guste */
-      right: 10px; /* Ajusta según te guste */
-      cursor: pointer;
-      font-size: 16px;
-      color: #fff;
-    }
-    .info-sections {
-      position: fixed;
-      left: 20px; /* Cerca del borde izquierdo, con un pequeño margen */
-      top: 100px; /* Debajo del banner, ajusta este valor según la altura del banner */
-      width: 250px; /* Ancho fijo para que no se expanda demasiado */
-      z-index: 1000; /* Encima del contenido principal, pero ajustable si el banner tiene un z-index mayor */
-    }
+.banner {
+  width: 100%;
+  background: linear-gradient(135deg, #00C853, #B2FF59);
+  padding: 60px 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+  text-align: center;
+  border-radius: 15px;
+  font-family: 'Orbitron', sans-serif;
+  font-size: 5rem;
+  color: #ffffff;
+  text-shadow: 0 0 10px #00ff00;
+  box-shadow: 0 4px 10px rgba(0,200,83,0.5);
+  margin-bottom: 20px;
+  animation: fadeIn 1s ease-in;
+}
+.widget {
+  background: #1e1e1e;
+  padding: 30px 40px;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+  width: 90%;
+  max-width: 600px;
+  margin-bottom: 20px;
+  animation: fadeIn 1s ease-in;
+  position: relative;
+}
+h1 {
+  text-align: center;
+  margin-bottom: 20px;
+  font-family: 'Orbitron', sans-serif;
+  color: #00E676;
+}
+h2 {
+  color: #B2FF59;
+  margin-top: 20px;
+  font-family: 'Orbitron', sans-serif;
+}
+p {
+  line-height: 1.5;
+  text-align: center;
+}
+.status {
+  margin-top: 15px;
+  padding: 10px;
+  border-radius: 5px;
+  text-align: center;
+  opacity: 0;
+  transition: opacity 0.5s ease-in-out;
+}
+.info {
+  margin: 10px 0;
+  font-size: 14px;
+  text-align: center;
+}
+.input-group {
+  display: flex;
+  align-items: center;
+}
+.input-group input {
+  flex: 1;
+}
+.small-preview {
+  margin-left: 8px;
+  padding: 12px;
+  border: 1px solid #00C853;
+  border-radius: 6px;
+  background: #2c2c2c;
+  color: #00E676;
+  font-family: 'Orbitron', sans-serif;
+  font-size: 0.9rem;
+  cursor: pointer;
+  white-space: nowrap;
+  max-width: 130px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  transition: background 0.3s ease, color 0.3s ease;
+}
+.small-preview:hover {
+  background: #00E676;
+  color: #121212;
+}
+input, button {
+  width: 100%;
+  padding: 12px;
+  margin: 8px 0;
+  font-size: 16px;
+  border: 1px solid #00C853;
+  border-radius: 6px;
+  box-sizing: border-box;
+  background: #2c2c2c;
+  color: #e0e0e0;
+}
+input:focus {
+  outline: none;
+  border-color: #00E676;
+  box-shadow: 0 0 8px #00E676;
+}
+button {
+  background: #00C853;
+  border: none;
+  color: #fff;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+button:hover {
+  background: #00E676;
+}
+hr {
+  border: none;
+  border-top: 1px solid #333;
+  margin: 20px 0;
+}
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+/* Modal for message preview */
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 10;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0,0,0,0.7);
+}
+.modal-content {
+  position: relative;
+  background: #1e1e1e;
+  margin: 10% auto;
+  padding: 20px;
+  border-radius: 12px;
+  width: 80%;
+  max-width: 500px;
+  text-align: center;
+  color: #e0e0e0;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+  animation: fadeIn 0.5s ease-in;
+}
+.close-modal {
+  position: absolute;
+  top: 5px;
+  right: 10px;
+  cursor: pointer;
+  font-size: 16px;
+  color: #fff;
+}
+.preview-banner {
+  background: linear-gradient(135deg, #00C853, #B2FF59);
+  padding: 40px 20px;
+  font-family: 'Orbitron', sans-serif;
+  font-size: 2.5rem;
+  color: #fff;
+  text-shadow: 0 0 8px #00ff00;
+  border-radius: 8px;
+  margin-bottom: 20px;
+}
+/* Simulation section */
+.simulate-input-group {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.simulate-input-group input {
+  width: 70%;
+}
+.simulate-input-group button {
+  width: 30%;
+  margin: 0;
+}
+#chartContainer, #simulationChartContainer {
+  width: 100%;
+  max-width: 300px;
+  margin: 0 auto 20px;
+}
+/* Popup for shares explanation */
+.popup {
+  position: fixed;
+  z-index: 20;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: #1e1e1e;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+  width: 80%;
+  max-width: 400px;
+}
+.popup-content {
+  position: relative;
+  color: #e0e0e0;
+  font-size: 14px;
+  text-align: center;
+}
+.close-popup {
+  position: absolute;
+  top: -30px;
+  right: -10px;
+  cursor: pointer;
+  font-size: 16px;
+  color: #00E676;
+}
+.info-icon {
+  display: inline-block;
+  background: #00E676;
+  color: #121212;
+  border-radius: 50%;
+  width: 14px;
+  height: 14px;
+  text-align: center;
+  line-height: 14px;
+  font-size: 10px;
+  font-weight: bold;
+  margin-left: 5px;
+  cursor: pointer;
+}
+.close {
+  position: absolute;
+  top: 5px;   /* Ajusta según te guste */
+  right: 10px; /* Ajusta según te guste */
+  cursor: pointer;
+  font-size: 16px;
+  color: #fff;
+}
+.info-sections {
+  position: fixed;
+  left: 20px; /* Cerca del borde izquierdo, con un pequeño margen */
+  top: 100px; /* Debajo del banner, ajusta este valor según la altura del banner */
+  width: 250px; /* Ancho fijo para que no se expanda demasiado */
+  z-index: 1000; /* Encima del contenido principal, pero ajustable si el banner tiene un z-index mayor */
+}
 
-    .info-box {
-      background: rgba(0, 0, 0, 0.8); /* Fondo oscuro semi-transparente para coincidir con el diseño */
-      border: 2px solid #00ff00; /* Borde verde para mantener el estilo */
-      padding: 15px;
-      margin-bottom: 15px; /* Espacio entre las secciones para que estén una arriba de la otra */
-      color: #ffffff; /* Texto blanco */
-    }
+.info-box {
+  background: rgba(0, 0, 0, 0.8); /* Fondo oscuro semi-transparente para coincidir con el diseño */
+  border: 2px solid #00ff00; /* Borde verde para mantener el estilo */
+  padding: 15px;
+  margin-bottom: 15px; /* Espacio entre las secciones para que estén una arriba de la otra */
+  color: #ffffff; /* Texto blanco */
+}
 
-    .info-box h3 {
-      margin-top: 0;
-      color: #00E676;
-      font-family: 'Orbitron', sans-serif;
-      margin-bottom: 10px;
-    }
+.info-box h3 {
+  margin-top: 0;
+  color: #00E676;
+  font-family: 'Orbitron', sans-serif;
+  margin-bottom: 10px;
+}
 
-    .info-box p,
-    .info-box ol {
-      margin: 0;
-      font-size: 14px;
-      line-height: 1.5;
-      text-align: left; /* Para que se vea más tipo “texto explicativo” */
-    }
-    @media (max-width: 768px) {
-    /* Estilos para el banner */
-    .banner {
-      font-size: 2rem;
-      padding: 30px 10px;
-    }
+.info-box p,
+.info-box ol {
+  margin: 0;
+  font-size: 14px;
+  line-height: 1.5;
+  text-align: left; /* Para que se vea más tipo “texto explicativo” */
+}
+@media (max-width: 768px) {
+/* Estilos para el banner */
+.banner {
+  font-size: 2rem;
+  padding: 30px 10px;
+}
 
-    /* Estilos para el contenedor principal */
-    .widget {
-      width: 95%;
-      padding: 20px;
-    }
+/* Estilos para el contenedor principal */
+.widget {
+  width: 95%;
+  padding: 20px;
+}
 
-    /* Tamaño de fuente para encabezados h1 y h2 */
-    h1, h2 {
-      font-size: 1.5rem;
-    }
+/* Tamaño de fuente para encabezados h1 y h2 */
+h1, h2 {
+  font-size: 1.5rem;
+}
 
-    /* Tamaño de fuente para párrafos y elementos con clase .info */
-    p, .info {
-      font-size: 14px;
-    }
+/* Tamaño de fuente para párrafos y elementos con clase .info */
+p, .info {
+  font-size: 14px;
+}
 
-    /* Diseño horizontal para el grupo de entrada */
-    .input-group {
-      display: flex;
-      flex-direction: row; /* Asegura que los elementos estén uno al lado del otro */
-      align-items: center;
-      gap: 10px; /* Espacio entre el input y el botón */
-    }
+/* Diseño horizontal para el grupo de entrada */
+.input-group {
+  display: flex;
+  flex-direction: row; /* Asegura que los elementos estén uno al lado del otro */
+  align-items: center;
+  gap: 10px; /* Espacio entre el input y el botón */
+}
 
-    /* Estilos para los inputs dentro de .input-group */
-    .input-group input {
-      flex: 1; /* Ocupa el espacio disponible */
-      width: auto; /* Ancho ajustado automáticamente */
-      padding: 10px; /* Padding reducido para móviles */
-      font-size: 14px; /* Tamaño de fuente legible */
-    }
+/* Estilos para los inputs dentro de .input-group */
+.input-group input {
+  flex: 1; /* Ocupa el espacio disponible */
+  width: auto; /* Ancho ajustado automáticamente */
+  padding: 10px; /* Padding reducido para móviles */
+  font-size: 14px; /* Tamaño de fuente legible */
+}
 
-    /* Estilos para el botón "Preview" */
-    .small-preview {
-      width: auto; /* Ancho basado en el contenido */
-      padding: 9.px 12px; /* Más compacto para pantallas pequeñas */
-      margin-left: 0; /* Sin margen extra, el gap lo controla */
-      border: 1px solid #00C853; /* Borde verde como en escritorio */
-      background: #2c2c2c; /* Fondo oscuro consistente */
-      color: #00E676; /* Texto verde claro */
-      font-family: 'Orbitron', sans-serif; /* Fuente futurista */
-      font-size: 14px; /* Tamaño de fuente ajustado */
-      min-width: 80px; /* Ancho mínimo para usabilidad */
-      max-width: 120px; /* Límite máximo para no ocupar demasiado */
-      white-space: nowrap; /* Evita que el texto se divida en líneas */
-      overflow: hidden; /* Oculta el texto sobrante */
-      text-overflow: ellipsis; /* Añade puntos suspensivos si el texto es muy largo */
-      border-radius: 6px; /* Bordes redondeados */
-      cursor: pointer; /* Indica que es clicable */
-      transition: background 0.3s ease, color 0.3s ease; /* Transiciones suaves */
-    }
+/* Estilos para el botón "Preview" */
+.small-preview {
+  width: auto; /* Ancho basado en el contenido */
+  padding: 9.px 12px; /* Más compacto para pantallas pequeñas */
+  margin-left: 0; /* Sin margen extra, el gap lo controla */
+  border: 1px solid #00C853; /* Borde verde como en escritorio */
+  background: #2c2c2c; /* Fondo oscuro consistente */
+  color: #00E676; /* Texto verde claro */
+  font-family: 'Orbitron', sans-serif; /* Fuente futurista */
+  font-size: 14px; /* Tamaño de fuente ajustado */
+  min-width: 80px; /* Ancho mínimo para usabilidad */
+  max-width: 120px; /* Límite máximo para no ocupar demasiado */
+  white-space: nowrap; /* Evita que el texto se divida en líneas */
+  overflow: hidden; /* Oculta el texto sobrante */
+  text-overflow: ellipsis; /* Añade puntos suspensivos si el texto es muy largo */
+  border-radius: 6px; /* Bordes redondeados */
+  cursor: pointer; /* Indica que es clicable */
+  transition: background 0.3s ease, color 0.3s ease; /* Transiciones suaves */
+}
 
-    /* Efecto hover para .small-preview */
-    .small-preview:hover {
-      background: #00E676; /* Fondo verde claro */
-      color: #121212; /* Texto oscuro */
-    }
+/* Efecto hover para .small-preview */
+.small-preview:hover {
+  background: #00E676; /* Fondo verde claro */
+  color: #121212; /* Texto oscuro */
+}
 
-    /* Estilos generales para inputs y botones fuera de grupos específicos */
-    input, button {
-      width: 100%; /* Ancho completo */
-      padding: 12px;
-      font-size: 16px;
-    }
+/* Estilos generales para inputs y botones fuera de grupos específicos */
+input, button {
+  width: 100%; /* Ancho completo */
+  padding: 12px;
+  font-size: 16px;
+}
 
-    /* Diseño horizontal para .simulate-input-group */
-    .simulate-input-group {
-      flex-direction: row; /* Disposición horizontal */
-      align-items: center;
-      gap: 10px; /* Espacio entre elementos */
-    }
+/* Diseño horizontal para .simulate-input-group */
+.simulate-input-group {
+  flex-direction: row; /* Disposición horizontal */
+  align-items: center;
+  gap: 10px; /* Espacio entre elementos */
+}
 
-    /* Inputs dentro de .simulate-input-group */
-    .simulate-input-group input {
-      width: 60%; /* Ancho reducido */
-      padding: 10px;
-      font-size: 14px;
-    }
+/* Inputs dentro de .simulate-input-group */
+.simulate-input-group input {
+  width: 60%; /* Ancho reducido */
+  padding: 10px;
+  font-size: 14px;
+}
 
-    /* Botones dentro de .simulate-input-group */
-    .simulate-input-group button {
-      width: 40%; /* Ancho ajustado */
-      margin: 0; /* Sin márgenes adicionales */
-      padding: 10px;
-      font-size: 14px;
-    }
+/* Botones dentro de .simulate-input-group */
+.simulate-input-group button {
+  width: 40%; /* Ancho ajustado */
+  margin: 0; /* Sin márgenes adicionales */
+  padding: 10px;
+  font-size: 14px;
+}
 
-    /* Ajustes para secciones de información */
-    .info-sections {
-      position: static; /* Posición estática en móviles */
-      width: 100%;
-      top: auto;
-      right: auto;
-      margin-top: 20px;
-      display: block; /* Disposición en bloque */
-    }
+/* Ajustes para secciones de información */
+.info-sections {
+  position: static; /* Posición estática en móviles */
+  width: 100%;
+  top: auto;
+  right: auto;
+  margin-top: 20px;
+  display: block; /* Disposición en bloque */
+}
 
-    /* Estilos para cajas de información */
-    .info-box {
-      margin: 0 10px 20px; /* Márgenes ajustados */
-    }
+/* Estilos para cajas de información */
+.info-box {
+  margin: 0 10px 20px; /* Márgenes ajustados */
+}
 
-    /* Contenedores de gráficos */
-    #chartContainer, #simulationChartContainer {
-      max-width: 200px; /* Ancho máximo para gráficos */
-      margin: 0 auto 15px; /* Centrado con margen inferior */
-    }
+/* Contenedores de gráficos */
+#chartContainer, #simulationChartContainer {
+  max-width: 200px; /* Ancho máximo para gráficos */
+  margin: 0 auto 15px; /* Centrado con margen inferior */
+}
 
-    /* Ajustes para lienzos de gráficos */
-    canvas {
-      width: 100% !important; /* Ancho completo */
-      height: auto !important; /* Altura automática */
-    }
+/* Ajustes para lienzos de gráficos */
+canvas {
+  width: 100% !important; /* Ancho completo */
+  height: auto !important; /* Altura automática */
+}
 
-    /* Contenido de modales y popups */
-    .modal-content, .popup {
-      width: 90%; /* Ancho ajustado para móviles */
-      margin: 5% auto; /* Centrado */
-      max-height: 80vh; /* Altura máxima */
-      overflow-y: auto; /* Scroll vertical si es necesario */
-    }
+/* Contenido de modales y popups */
+.modal-content, .popup {
+  width: 90%; /* Ancho ajustado para móviles */
+  margin: 5% auto; /* Centrado */
+  max-height: 80vh; /* Altura máxima */
+  overflow-y: auto; /* Scroll vertical si es necesario */
+}
 
-    /* Banner de vista previa */
-    .preview-banner {
-      font-size: 1.5rem;
-      padding: 20px 10px;
-    }
+/* Banner de vista previa */
+.preview-banner {
+  font-size: 1.5rem;
+  padding: 20px 10px;
+}
 
-    /* Botones de cierre de modales y popups */
-    .close-modal, .close-popup {
-      font-size: 20px;
-    }
+/* Botones de cierre de modales y popups */
+.close-modal, .close-popup {
+  font-size: 20px;
+}
 }
   </style>
 </head>
@@ -427,32 +427,31 @@
   <!-- Banner -->
   <div class="banner" id="bannerMessage">Loading message...</div>
   
-    <!-- Secciones de información (sobre el proyecto e instrucciones) -->
-    <div class="info-sections">
-      <!-- Sección: Sobre el proyecto -->
-      <div class="info-box about-project">
-        <h3>¿De qué se trata?</h3>
-        <p>
-          <strong>Message Auction</strong> es un experimento divertido donde cada nueva puja más alta te permite 
-          poner tu propio mensaje en la parte superior de la página. Así, si superas la puja actual, 
-          tu mensaje se mostrará en el banner para que todos lo vean. 
-          Además, al pujar obtienes “shares” que te dan derecho a una parte de las recompensas generadas por futuras pujas.
-        </p>
-      </div>
-  
-      <!-- Sección: Instrucciones para participar -->
-      <div class="info-box how-to-participate">
-        <h3>¿Cómo participar?</h3>
-        <ol>
-          <li><strong>Conecta tu wallet</strong> con el botón “Connect Wallet”.</li>
-          <li>Ingresa tu mensaje y la cantidad de ETH que quieres ofertar.</li>
-          <li>Haz clic en <em>“Place Bid”</em> y confirma la transacción en tu wallet.</li>
-          <li>Si tu puja es la más alta, tu mensaje se mostrará en el banner.</li>
-          <li>Mientras tengas shares, puedes retirar las recompensas que se vayan generando.</li>
-        </ol>
-      </div>
-    </div>
+<!-- Secciones de información (sobre el proyecto e instrucciones) -->
+<div class="info-sections">
+  <!-- Sección: Sobre el proyecto -->
+  <div class="info-box about-project">
+    <h3>¿De qué se trata?</h3>
+    <p>
+      <strong>Message Auction</strong> es un experimento divertido donde cada nueva puja más alta te permite 
+      poner tu propio mensaje en la parte superior de la página. Así, si superas la puja actual, 
+      tu mensaje se mostrará en el banner para que todos lo vean. 
+      Además, al pujar obtienes “shares” que te dan derecho a una parte de las recompensas generadas por futuras pujas.
+    </p>
+  </div>
 
+  <!-- Sección: Instrucciones para participar -->
+  <div class="info-box how-to-participate">
+    <h3>¿Cómo participar?</h3>
+    <ol>
+      <li><strong>Conecta tu wallet</strong> con el botón “Connect Wallet”.</li>
+      <li>Ingresa tu mensaje y la cantidad de ETH que quieres ofertar.</li>
+      <li>Haz clic en <em>“Place Bid”</em> y confirma la transacción en tu wallet.</li>
+      <li>Si tu puja es la más alta, tu mensaje se mostrará en el banner.</li>
+      <li>Mientras tengas shares, puedes retirar las recompensas que se vayan generando.</li>
+    </ol>
+  </div>
+</div>
   <!-- Main widget -->
   <div class="widget">
     <h1>Message Auction</h1>
@@ -471,33 +470,33 @@
       <strong><i class="fas fa-coins"></i> Your Pending Reward:</strong> <span id="pendingReward">0</span> ETH
     </p>
     
-    <!-- Main chart -->
-    <div id="chartContainer">
-      <canvas id="sharesChart"></canvas>
-    </div>
-    
-    <hr>
-    <h2>Place a New Bid</h2>
-    <div class="input-group">
-      <input type="text" id="newMessage" placeholder="Enter your message (max 50 characters)" maxlength="50">
-      <div id="smallPreview" class="small-preview" title="Click for a larger preview">Preview</div>
-    </div>
-    <input type="number" id="bidAmount" placeholder="ETH amount" step="0.01" min="0">
-    <button id="placeBidBtn">Place Bid</button>
-    <div id="bidError" class="error-message" style="display:none;"></div>
-    
-    <hr>
-    <h2>Latest Bids</h2>
-    <div id="bidHistory"></div>
-    
-    <hr>
-    <h2>Withdraw Funds</h2>
-    <button id="withdrawBtn">Withdraw</button>
-    
-    <button id="connectWalletBtn">Connect Wallet</button>
-    <button id="disconnectWalletBtn" style="display:none;">Disconnect Wallet</button>
-    
-    <div id="status" class="status"></div>
+<!-- Main chart -->
+<div id="chartContainer">
+  <canvas id="sharesChart"></canvas>
+</div>
+
+<hr>
+<h2>Place a New Bid</h2>
+<div class="input-group">
+  <input type="text" id="newMessage" placeholder="Enter your message (max 50 characters)" maxlength="50">
+  <div id="smallPreview" class="small-preview" title="Click for a larger preview">Preview</div>
+</div>
+<input type="number" id="bidAmount" placeholder="ETH amount" step="0.01" min="0">
+<button id="placeBidBtn">Place Bid</button>
+<div id="bidError" class="error-message" style="display:none;"></div>
+
+<hr>
+<h2>Latest Bids</h2>
+<div id="bidHistory"></div>
+
+<hr>
+<h2>Withdraw Funds</h2>
+<button id="withdrawBtn">Withdraw</button>
+
+<button id="connectWalletBtn">Connect Wallet</button>
+<button id="disconnectWalletBtn" style="display:none;">Disconnect Wallet</button>
+
+<div id="status" class="status"></div>
   </div>
   
   <!-- Modal for message preview with close button -->
@@ -976,7 +975,12 @@
     }
     
     window.onload = init;
-    
+    window.addEventListener('load', function() {
+  const banner = document.querySelector('.banner');
+  const infoSections = document.querySelector('.info-sections');
+  const bannerHeight = banner.offsetHeight;
+  infoSections.style.top = `${bannerHeight + 20}px`; // 20px de margen adicional
+});
   </script>
 </body>
 </html>
