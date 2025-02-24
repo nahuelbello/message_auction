@@ -6,8 +6,6 @@
   <title>Message Auction</title>
   <!-- Import Google Fonts: Orbitron for headlines and Roboto for body text -->
   <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Roboto:wght@400;500&display=swap" rel="stylesheet">
-  <!-- Font Awesome: Replace "your-id" with a valid kit ID or comment out if not used -->
-  <!-- <script src="https://kit.fontawesome.com/your-id.js" crossorigin="anonymous"></script> -->
   <!-- Chart.js for graphical display -->
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <style>
@@ -30,7 +28,8 @@
       max-width: 1200px;
       margin: 0 auto;
       text-align: center;
-      border-radius: 15px;
+      border-bottom-right-radius: 15px;
+      border-bottom-left-radius: 15px;
       font-family: 'Orbitron', sans-serif;
       font-size: 5rem;
       color: #ffffff;
@@ -40,15 +39,20 @@
       animation: fadeIn 1s ease-in;
     }
     .widget {
-      background: #1e1e1e;
+      background: linear-gradient(145deg, #1e1e1e, #2c2c2c); /* Gradiente sutil */
       padding: 30px 40px;
       border-radius: 12px;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5), 0 0 15px rgba(0, 200, 83, 0.3); /* Sombra con brillo verde */
       width: 90%;
       max-width: 600px;
       margin-bottom: 20px;
-      animation: fadeIn 1s ease-in;
+      animation: fadeIn 1s ease-in, glowBorder 2s infinite alternate; /* Animación de borde */
       position: relative;
+    }
+
+    @keyframes glowBorder {
+      0% { border: 1px solid rgba(0, 200, 83, 0.2); }
+      100% { border: 1px solid rgba(0, 200, 83, 0.5); }
     }
     h1 {
       text-align: center;
@@ -141,7 +145,7 @@
       from { opacity: 0; transform: translateY(20px); }
       to { opacity: 1; transform: translateY(0); }
     }
-    /* Modal for message preview */
+    /* Modal for message preview and for floating info */
     .modal {
       display: none;
       position: fixed;
@@ -245,214 +249,130 @@
     }
     .close {
       position: absolute;
-      top: 5px;   /* Ajusta según te guste */
-      right: 10px; /* Ajusta según te guste */
+      top: 5px;
+      right: 10px;
       cursor: pointer;
       font-size: 16px;
       color: #fff;
     }
-    .info-sections {
+    /* Botones flotantes para info */
+    .floating-buttons {
       position: fixed;
-      left: 20px; /* Cerca del borde izquierdo, con un pequeño margen */
-      top: 100px; /* Debajo del banner, ajusta este valor según la altura del banner */
-      width: 250px; /* Ancho fijo para que no se expanda demasiado */
-      z-index: 1000; /* Encima del contenido principal, pero ajustable si el banner tiene un z-index mayor */
-    }
-
-    .info-box {
-      background: rgba(0, 0, 0, 0.8); /* Fondo oscuro semi-transparente para coincidir con el diseño */
-      border: 2px solid #00ff00; /* Borde verde para mantener el estilo */
-      padding: 15px;
-      margin-bottom: 15px; /* Espacio entre las secciones para que estén una arriba de la otra */
-      color: #ffffff; /* Texto blanco */
-    }
-
-    .info-box h3 {
-      margin-top: 0;
-      color: #00E676;
-      font-family: 'Orbitron', sans-serif;
-      margin-bottom: 10px;
-    }
-
-    .info-box p,
-    .info-box ol {
-      margin: 0;
-      font-size: 14px;
-      line-height: 1.5;
-      text-align: left; /* Para que se vea más tipo “texto explicativo” */
-    }
-    @media (max-width: 768px) {
-    /* Estilos para el banner */
-    .banner {
-      font-size: 2rem;
-      padding: 30px 10px;
-    }
-
-    /* Estilos para el contenedor principal */
-    .widget {
-      width: 95%;
-      padding: 20px;
-    }
-
-    /* Tamaño de fuente para encabezados h1 y h2 */
-    h1, h2 {
-      font-size: 1.5rem;
-    }
-
-    /* Tamaño de fuente para párrafos y elementos con clase .info */
-    p, .info {
-      font-size: 14px;
-    }
-
-    /* Diseño horizontal para el grupo de entrada */
-    .input-group {
+      left: 15px;
+      top: 70%;
+      transform: translateY(-50%);
       display: flex;
-      flex-direction: row; /* Asegura que los elementos estén uno al lado del otro */
-      align-items: center;
-      gap: 10px; /* Espacio entre el input y el botón */
+      flex-direction: column;
+      gap: 0px;
+      z-index: 1000;
     }
-
-    /* Estilos para los inputs dentro de .input-group */
-    .input-group input {
-      flex: 1; /* Ocupa el espacio disponible */
-      width: auto; /* Ancho ajustado automáticamente */
-      padding: 10px; /* Padding reducido para móviles */
-      font-size: 14px; /* Tamaño de fuente legible */
-    }
-
-    /* Estilos para el botón "Preview" */
-    .small-preview {
-      width: auto; /* Ancho basado en el contenido */
-      padding: 9.px 12px; /* Más compacto para pantallas pequeñas */
-      margin-left: 0; /* Sin margen extra, el gap lo controla */
-      border: 1px solid #00C853; /* Borde verde como en escritorio */
-      background: #2c2c2c; /* Fondo oscuro consistente */
-      color: #00E676; /* Texto verde claro */
-      font-family: 'Orbitron', sans-serif; /* Fuente futurista */
-      font-size: 14px; /* Tamaño de fuente ajustado */
-      min-width: 80px; /* Ancho mínimo para usabilidad */
-      max-width: 120px; /* Límite máximo para no ocupar demasiado */
-      white-space: nowrap; /* Evita que el texto se divida en líneas */
-      overflow: hidden; /* Oculta el texto sobrante */
-      text-overflow: ellipsis; /* Añade puntos suspensivos si el texto es muy largo */
-      border-radius: 6px; /* Bordes redondeados */
-      cursor: pointer; /* Indica que es clicable */
-      transition: background 0.3s ease, color 0.3s ease; /* Transiciones suaves */
-    }
-
-    /* Efecto hover para .small-preview */
-    .small-preview:hover {
-      background: #00E676; /* Fondo verde claro */
-      color: #121212; /* Texto oscuro */
-    }
-
-    /* Estilos generales para inputs y botones fuera de grupos específicos */
-    input, button {
-      width: 100%; /* Ancho completo */
-      padding: 12px;
-      font-size: 16px;
-    }
-
-    /* Diseño horizontal para .simulate-input-group */
-    .simulate-input-group {
-      flex-direction: row; /* Disposición horizontal */
-      align-items: center;
-      gap: 10px; /* Espacio entre elementos */
-    }
-
-    /* Inputs dentro de .simulate-input-group */
-    .simulate-input-group input {
-      width: 60%; /* Ancho reducido */
-      padding: 10px;
+    .floating-btn {
+      background: linear-gradient(135deg, #00C853, #00E676); /* Gradiente suave */
+      color: #fff;
+      border: none;
+      border-radius: 10px; /* Bordes más redondeados */
+      padding: 12px 18px;
+      cursor: pointer;
+      font-family: 'Orbitron', sans-serif;
       font-size: 14px;
+      box-shadow: 0 2px 6px rgba(0, 200, 83, 0.6), 0 0 10px rgba(0, 200, 83, 0.3); /* Brillo base */
+      transition: all 0.3s ease; /* Transición suave */
     }
 
-    /* Botones dentro de .simulate-input-group */
-    .simulate-input-group button {
-      width: 40%; /* Ancho ajustado */
-      margin: 0; /* Sin márgenes adicionales */
-      padding: 10px;
-      font-size: 14px;
+    .floating-btn:hover {
+      background: linear-gradient(135deg, #00E676, #B2FF59); /* Cambio de gradiente */
+      transform: scale(1.05); /* Aumenta ligeramente el tamaño */
+      box-shadow: 0 6px 18px rgba(0, 200, 83, 0.8), 0 0 30px rgba(0, 200, 83, 0.5); /* Brillo más intenso */
     }
-
-    /* Ajustes para secciones de información */
-    .info-sections {
-      position: static; /* Posición estática en móviles */
-      width: 100%;
-      top: auto;
-      right: auto;
-      margin-top: 20px;
-      display: block; /* Disposición en bloque */
+    
+    @media (max-width: 768px) {
+      /* Ajustes responsivos para el banner, widgets y demás elementos */
+      .banner {
+        font-size: 2rem;
+        padding: 30px 10px;
+      }
+      .widget {
+        width: 95%;
+        padding: 20px;
+      }
+      h1, h2 {
+        font-size: 1.5rem;
+      }
+      p, .info {
+        font-size: 14px;
+      }
+      .input-group {
+        flex-direction: row;
+        align-items: center;
+        gap: 10px;
+      }
+      .input-group input {
+        flex: 1;
+        width: auto;
+        padding: 10px;
+        font-size: 14px;
+      }
+      .small-preview {
+        width: auto;
+        padding: 9px 12px;
+        margin-left: 0;
+        font-size: 14px;
+        min-width: 80px;
+        max-width: 120px;
+      }
+      input, button {
+        padding: 12px;
+        font-size: 16px;
+      }
+      .simulate-input-group {
+        flex-direction: row;
+        align-items: center;
+        gap: 10px;
+      }
+      .simulate-input-group input {
+        width: 60%;
+        padding: 10px;
+        font-size: 14px;
+      }
+      .simulate-input-group button {
+        width: 40%;
+        padding: 10px;
+        font-size: 14px;
+      }
+      #chartContainer, #simulationChartContainer {
+        max-width: 200px;
+        margin: 0 auto 15px;
+      }
+      canvas {
+        width: 100% !important;
+        height: auto !important;
+      }
+      .modal-content, .popup {
+        width: 90%;
+        margin: 5% auto;
+        max-height: 80vh;
+        overflow-y: auto;
+      }
+      .preview-banner {
+        font-size: 1.5rem;
+        padding: 20px 10px;
+      }
+      .close-modal, .close-popup {
+        font-size: 20px;
+      }
     }
-
-    /* Estilos para cajas de información */
-    .info-box {
-      margin: 0 10px 20px; /* Márgenes ajustados */
-    }
-
-    /* Contenedores de gráficos */
-    #chartContainer, #simulationChartContainer {
-      max-width: 200px; /* Ancho máximo para gráficos */
-      margin: 0 auto 15px; /* Centrado con margen inferior */
-    }
-
-    /* Ajustes para lienzos de gráficos */
-    canvas {
-      width: 100% !important; /* Ancho completo */
-      height: auto !important; /* Altura automática */
-    }
-
-    /* Contenido de modales y popups */
-    .modal-content, .popup {
-      width: 90%; /* Ancho ajustado para móviles */
-      margin: 5% auto; /* Centrado */
-      max-height: 80vh; /* Altura máxima */
-      overflow-y: auto; /* Scroll vertical si es necesario */
-    }
-
-    /* Banner de vista previa */
-    .preview-banner {
-      font-size: 1.5rem;
-      padding: 20px 10px;
-    }
-
-    /* Botones de cierre de modales y popups */
-    .close-modal, .close-popup {
-      font-size: 20px;
-    }
-}
   </style>
 </head>
 <body>
+  <!-- Botones flotantes para info -->
+  <div class="floating-buttons">
+    <button id="aboutBtn" class="floating-btn">About this project</button>
+    <button id="instructionsBtn" class="floating-btn">Instructions</button>
+  </div>
+  
   <!-- Banner -->
   <div class="banner" id="bannerMessage">Loading message...</div>
   
-    <!-- Secciones de información (sobre el proyecto e instrucciones) -->
-    <div class="info-sections">
-      <!-- Sección: Sobre el proyecto -->
-      <div class="info-box about-project">
-        <h3>¿De qué se trata?</h3>
-        <p>
-          <strong>Message Auction</strong> es un experimento divertido donde cada nueva puja más alta te permite 
-          poner tu propio mensaje en la parte superior de la página. Así, si superas la puja actual, 
-          tu mensaje se mostrará en el banner para que todos lo vean. 
-          Además, al pujar obtienes “shares” que te dan derecho a una parte de las recompensas generadas por futuras pujas.
-        </p>
-      </div>
-  
-      <!-- Sección: Instrucciones para participar -->
-      <div class="info-box how-to-participate">
-        <h3>¿Cómo participar?</h3>
-        <ol>
-          <li><strong>Conecta tu wallet</strong> con el botón “Connect Wallet”.</li>
-          <li>Ingresa tu mensaje y la cantidad de ETH que quieres ofertar.</li>
-          <li>Haz clic en <em>“Place Bid”</em> y confirma la transacción en tu wallet.</li>
-          <li>Si tu puja es la más alta, tu mensaje se mostrará en el banner.</li>
-          <li>Mientras tengas shares, puedes retirar las recompensas que se vayan generando.</li>
-        </ol>
-      </div>
-    </div>
-
   <!-- Main widget -->
   <div class="widget">
     <h1>Message Auction</h1>
@@ -500,7 +420,7 @@
     <div id="status" class="status"></div>
   </div>
   
-  <!-- Modal for message preview with close button -->
+  <!-- Modal for message preview -->
   <div id="modal" class="modal">
     <div class="modal-content">
       <span id="closeModal" class="close">&times;</span>
@@ -509,11 +429,37 @@
     </div>
   </div>
   
-  <!-- Popup for shares explanation with close button -->
+  <!-- Popup for shares explanation -->
   <div id="sharesPopup" class="popup" style="display: none;">
     <div class="popup-content">
       <span id="closeSharesPopup" class="close-popup">&times;</span>
       <p>Shares represent your contribution to the auction. They are calculated based on your bid amount and a bonus factor, which varies depending on the order of your bid.</p>
+    </div>
+  </div>
+  
+  <!-- Modal for "About this project" -->
+  <div id="aboutModal" class="modal">
+    <div class="modal-content">
+      <span id="closeAbout" class="close-modal">&times;</span>
+      <h3>About this project</h3>
+      <p>
+        Message Auction es un experimento interactivo donde cada nueva puja permite que el mensaje de la persona ganadora se muestre en el banner principal de la página. Al participar, también acumulas “shares” que te dan derecho a una parte de las recompensas generadas en futuras pujas. ¡Es una forma divertida de mezclar subastas y comunidad!
+      </p>
+    </div>
+  </div>
+  
+  <!-- Modal for "Instructions" -->
+  <div id="instructionsModal" class="modal">
+    <div class="modal-content">
+      <span id="closeInstructions" class="close-modal">&times;</span>
+      <h3>Instructions</h3>
+      <ol style="text-align:left;">
+        <li><strong>Conecta tu wallet:</strong> Haz clic en “Connect Wallet”.</li>
+        <li><strong>Ingresa tu mensaje y puja:</strong> Escribe tu mensaje (máx. 50 caracteres) y la cantidad de ETH que deseas pujar.</li>
+        <li><strong>Realiza la puja:</strong> Presiona “Place Bid” y confirma la transacción en tu wallet.</li>
+        <li><strong>Observa el cambio:</strong> Si tu puja es la más alta, tu mensaje se mostrará en el banner.</li>
+        <li><strong>Retira tus recompensas:</strong> Mientras acumules shares, podrás retirar las recompensas generadas.</li>
+      </ol>
     </div>
   </div>
   
@@ -565,8 +511,7 @@
       return "";
     }
     
-    // Formatea los números de shares dividiéndolos por 1e12 y agregando comas,
-    // de forma similar a como se muestra "new shares" en la simulación.
+    // Formatea los números de shares dividiéndolos por 1e12 y agregando comas.
     function formatSharesFriendly(bigNum) {
       const divisor = ethers.BigNumber.from("1000000000000"); // 1e12
       const friendly = bigNum.div(divisor);
@@ -594,7 +539,7 @@
     let sharesChart, simulationChart;
     const defaultProvider = new ethers.providers.JsonRpcProvider("http://127.0.0.1:8545");
     
-    // --- Status function: must be defined before usage ---
+    // --- Status function ---
     function showStatus(message, isError = false) {
       const statusEl = document.getElementById("status");
       statusEl.innerText = message;
@@ -604,7 +549,7 @@
       setTimeout(() => { statusEl.style.opacity = "0"; }, 3000);
     }
     
-    // --- loadBidHistory: define this function before calling it ---
+    // --- loadBidHistory ---
     async function loadBidHistory() {
       try {
         const filter = contract.filters.NewBid();
@@ -646,6 +591,7 @@
         contract = new ethers.Contract(contractAddress, contractABI, provider);
         console.log("Contract initialized");
         await getCurrentState();
+        updateSimulationChart(0);
         contract.on("NewBid", (bidder, bid, message) => {
           console.log("New bid detected");
           getCurrentState();
@@ -739,9 +685,10 @@
         if (message.trim() === "") { message = "This is your message"; }
         document.getElementById("bannerMessage").innerText = message;
         document.getElementById("currentBid").innerText = ethers.utils.formatEther(bid);
-        // Se usa la función formatSharesFriendly para mostrar el total de shares en formato reducido
         document.getElementById("totalShares").innerText = formatSharesFriendly(totalShares);
         
+        updateChart(0);
+
         if (signer) {
           try {
             const userAddress = await signer.getAddress();
@@ -881,7 +828,7 @@
     document.getElementById("connectWalletBtn").addEventListener("click", connectWallet);
     document.getElementById("disconnectWalletBtn").addEventListener("click", disconnectWallet);
     
-    // Close preview modal when clicking its close button
+    // Close preview modal
     const modal = document.getElementById("modal");
     const closeModal = document.getElementById("closeModal");
     closeModal.addEventListener("click", () => {
@@ -897,7 +844,6 @@
     const sharesInfoIcon = document.getElementById("sharesInfo");
     const sharesPopup = document.getElementById("sharesPopup");
     const closeSharesPopup = document.getElementById("closeSharesPopup");
-    
     function toggleSharesPopup() {
       if (sharesPopup.style.display === "block") {
         sharesPopup.style.display = "none";
@@ -905,7 +851,6 @@
         sharesPopup.style.display = "block";
       }
     }
-    
     sharesInfoIcon.addEventListener("click", toggleSharesPopup);
     closeSharesPopup.addEventListener("click", () => {
       sharesPopup.style.display = "none";
@@ -913,6 +858,35 @@
     window.addEventListener("click", (event) => {
       if (!sharesPopup.contains(event.target) && event.target !== sharesInfoIcon) {
         sharesPopup.style.display = "none";
+      }
+    });
+    
+    // Floating buttons: About and Instructions
+    const aboutBtn = document.getElementById("aboutBtn");
+    const instructionsBtn = document.getElementById("instructionsBtn");
+    const aboutModal = document.getElementById("aboutModal");
+    const instructionsModal = document.getElementById("instructionsModal");
+    const closeAbout = document.getElementById("closeAbout");
+    const closeInstructions = document.getElementById("closeInstructions");
+    
+    aboutBtn.addEventListener("click", () => {
+      aboutModal.style.display = "block";
+    });
+    instructionsBtn.addEventListener("click", () => {
+      instructionsModal.style.display = "block";
+    });
+    closeAbout.addEventListener("click", () => {
+      aboutModal.style.display = "none";
+    });
+    closeInstructions.addEventListener("click", () => {
+      instructionsModal.style.display = "none";
+    });
+    window.addEventListener("click", (event) => {
+      if (event.target === aboutModal) {
+        aboutModal.style.display = "none";
+      }
+      if (event.target === instructionsModal) {
+        instructionsModal.style.display = "none";
       }
     });
     
@@ -976,7 +950,6 @@
     }
     
     window.onload = init;
-    
   </script>
 </body>
 </html>
