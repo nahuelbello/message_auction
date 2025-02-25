@@ -284,11 +284,15 @@
       transform: scale(1.05); /* Aumenta ligeramente el tamaño */
       box-shadow: 0 6px 18px rgba(0, 200, 83, 0.8), 0 0 30px rgba(0, 200, 83, 0.5); /* Brillo más intenso */
     }
+
+    html {
+      scroll-behavior: smooth;
+    }
     
     @media (max-width: 768px) {
       /* Ajustes responsivos para el banner, widgets y demás elementos */
       .banner {
-        font-size: 2rem;
+        font-size: 2.5rem;
         padding: 30px 10px;
       }
       .widget {
@@ -348,10 +352,20 @@
         height: auto !important;
       }
       .modal-content, .popup {
-        width: 90%;
-        margin: 5% auto;
-        max-height: 80vh;
-        overflow-y: auto;
+            width: 95%; /* Aumentar ancho para usar más espacio */
+        padding: 15px; /* Reducir padding para más espacio de contenido */
+        font-size: 16px; /* Aumentar tamaño de fuente para legibilidad */
+        max-height: 90vh; /* Aumentar altura máxima */
+        overflow-y: auto; /* Mantener scroll si es necesario */
+      }
+
+      .modal-content h3 {
+        font-size: 1.5rem; /* Ajustar tamaño del encabezado */
+      }
+
+      .modal-content p, .modal-content ol {
+        font-size: 14px; /* Ajustar tamaño del texto */
+        line-height: 1.6; /* Mejorar espaciado entre líneas */
       }
       .preview-banner {
         font-size: 1.5rem;
@@ -360,6 +374,25 @@
       .close-modal, .close-popup {
         font-size: 20px;
       }
+      .floating-buttons {
+        position: fixed;
+        bottom: 20px; /* Mover al fondo */
+        left: 50%; /* Centrar horizontalmente */
+        transform: translateX(-50%); /* Ajuste para centrar */
+        top: auto; /* Resetear top */
+        flex-direction: row; /* Apilar horizontalmente */
+        gap: 10px; /* Espacio entre botones */
+        width: auto; /* Ajustar ancho automáticamente */
+      }
+
+      .floating-btn {
+        padding: 10px 15px; /* Reducir padding para móvil */
+        font-size: 12px; /* Reducir tamaño de fuente */
+        min-width: 120px; /* Ancho mínimo para usabilidad */
+      }
+      body {
+    padding-bottom: 85px; /* Ajusta el valor que prefieras */
+  }
     }
   </style>
 </head>
@@ -367,7 +400,8 @@
   <!-- Botones flotantes para info -->
   <div class="floating-buttons">
     <button id="aboutBtn" class="floating-btn">About this project</button>
-    <button id="instructionsBtn" class="floating-btn">Instructions</button>
+    <button id="instructionsBtn" class="floating-btn">Instructions</button> 
+    <button id="transparencyBtn" class="floating-btn">Transparency</button> 
   </div>
   
   <!-- Banner -->
@@ -433,7 +467,21 @@
   <div id="sharesPopup" class="popup" style="display: none;">
     <div class="popup-content">
       <span id="closeSharesPopup" class="close-popup">&times;</span>
-      <p>Shares represent your contribution to the auction. They are calculated based on your bid amount and a bonus factor, which varies depending on the order of your bid.</p>
+      <p>Shares represent your contribution to the auction. 
+      They are calculated based on your bid amount and a bonus factor, 
+      which may apply depending on the order of your bid. Basically are your portion of the cake. You can calculate them 
+      <a href="#simulateOwnershipSection" id="goToSimulate" style="color: #00E676; text-decoration: underline;">here</a>.</p>
+    </div>
+  </div>
+
+  <!-- Popup for bonus explanation -->
+  <div id="bonusPopup" class="popup" style="display: none;">
+    <div class="popup-content">
+      <span id="closeBonusPopup" class="close-popup">&times;</span>
+      <p>The bonus mechanism rewards early participants by increasing the shares they receive when they bid. For the first 
+        10 bidders, there's an extra multiplier: the first five get a 1.5x bonus and the next five get a 1.25x bonus. 
+        After that, bids receive a standard 1.0x multiplier. This means early bidders earn more shares—and potentially 
+        more rewards—for the same ETH amount. You can know if you are eligible for a bonus by connecting your wallet.</p>
     </div>
   </div>
   
@@ -441,9 +489,49 @@
   <div id="aboutModal" class="modal">
     <div class="modal-content">
       <span id="closeAbout" class="close-modal">&times;</span>
-      <h3>About this project</h3>
+      <h3>About This Project</h3>
       <p>
-        Message Auction es un experimento interactivo donde cada nueva puja permite que el mensaje de la persona ganadora se muestre en el banner principal de la página. Al participar, también acumulas “shares” que te dan derecho a una parte de las recompensas generadas en futuras pujas. ¡Es una forma divertida de mezclar subastas y comunidad!
+        Message Auction is a playful, community-driven experience where your message takes center stage on our banner until someone outbids you.
+      </p>
+      <p>
+        Every time you place a bid, you earn shares that allow you to profit from future bids. The more shares you hold, the larger your portion of each new bid.
+      </p>
+      <p>
+        Your message is truly yours—with only a character limit to hold it back, it can be advertising, jokes, or any form of expression you choose.
+      </p>
+      <p>
+        It's a lively blend of friendly competition and real rewards. Jump in and see how far your message (and potential earnings) can go!
+      </p>
+    </div>
+  </div>
+
+
+  <!-- Modal for "Transparency" -->
+  <div id="transparencyModal" class="modal">
+    <div class="modal-content">
+      <span id="closeTransparency" class="close-modal">&times;</span>
+      <h3>Transparency</h3>
+      <p>
+        We believe in complete transparency. All our code and the smart contract details can be publicly verified. 
+        [<a href="YOUR_REPOSITORY_LINK" target="_blank" style="color: #00E676; text-decoration: underline;">Repository</a>] – 
+        [<a href="YOUR_SMART_CONTRACT_LINK" target="_blank" style="color: #00E676; text-decoration: underline;">Smart Contract</a>]
+      </p>
+      <p>
+        A 4% founder fee is applied to every bid. This fee is reinvested to improve this project and fund future developments.
+      </p>
+      <p>
+        The Early Bird Bonus rewards the first 10 bidders with a higher share multiplier. The first 5 bids receive a 1.5x bonus, while bids 6 to 10 receive a 1.25x bonus – giving you a larger stake in future rewards.
+      </p>
+      <p>
+        Additionally, you can follow our 
+        <a href="[X_ACCOUNT_LINK]" target="_blank" style="color:#00E676; text-decoration:underline;">X account</a>, 
+        where an automated tweet is published each time a new bid is placed, featuring the latest winning message.
+      </p>
+      <p>
+        For any questions or feedback, feel free to reach out via 
+        <a href="[LINKEDIN_LINK]" target="_blank" style="color:#00E676; text-decoration:underline;">LinkedIn</a>, 
+        <a href="[GITHUB_LINK]" target="_blank" style="color:#00E676; text-decoration:underline;">GitHub</a>, or 
+        <a href="[X_LINK]" target="_blank" style="color:#00E676; text-decoration:underline;">X</a>.
       </p>
     </div>
   </div>
@@ -454,17 +542,46 @@
       <span id="closeInstructions" class="close-modal">&times;</span>
       <h3>Instructions</h3>
       <ol style="text-align:left;">
-        <li><strong>Conecta tu wallet:</strong> Haz clic en “Connect Wallet”.</li>
-        <li><strong>Ingresa tu mensaje y puja:</strong> Escribe tu mensaje (máx. 50 caracteres) y la cantidad de ETH que deseas pujar.</li>
-        <li><strong>Realiza la puja:</strong> Presiona “Place Bid” y confirma la transacción en tu wallet.</li>
-        <li><strong>Observa el cambio:</strong> Si tu puja es la más alta, tu mensaje se mostrará en el banner.</li>
-        <li><strong>Retira tus recompensas:</strong> Mientras acumules shares, podrás retirar las recompensas generadas.</li>
+        <li>
+          <strong>Connect Your Wallet:</strong>  
+          Click “Connect Wallet” to link your browser wallet (e.g., MetaMask). This allows the dApp to read your balance and send transactions.
+        </li>
+        
+        <li>
+          <strong>Enter Your Message &amp; Bid Amount:</strong>  
+          Type a short message (up to 50 characters) that you want displayed on the banner. Then specify how much ETH you want to bid.
+        </li>
+        
+        <li>
+          <strong>Place Your Bid:</strong>  
+          Click “Place Bid” and confirm the transaction in your wallet. Make sure your new bid is at least <em>0.01 ETH</em> higher than the current bid.
+        </li>
+        
+        <li>
+          <strong>Earn Shares &amp; Potential Bonus:</strong>  
+          Each time you bid, you gain “shares” based on your bid amount. If you're among the first 10 bidders, you might get an extra bonus factor (1.5x for the first 5, 1.25x for the next 5). These shares entitle you to a portion of future bid rewards.
+        </li>
+        
+        <li>
+          <strong>Watch the Banner:</strong>  
+          If your bid is now the highest, your message will instantly appear at the top of the page. It will remain until someone else outbids you.
+        </li>
+        
+        <li>
+          <strong>Withdraw Your Rewards:</strong>  
+          Over time, every new bid increases the reward pool. If you have shares, click “Withdraw” to claim your accumulated ETH rewards (as long as you have a pending amount).
+        </li>
+        
+        <li>
+          <strong>Simulate &amp; Explore:</strong>  
+          Want to test how many shares you'd get with a certain bid? Use the “Ownership Simulator” at the bottom, then place your actual bid if you decide to jump in!
+        </li>
       </ol>
     </div>
   </div>
   
   <!-- Simulation widget -->
-  <div class="widget">
+  <div class="widget" id="simulateOwnershipSection">
     <h2>Ownership Simulator</h2>
     <div class="input-group simulate-input-group">
       <input type="number" id="simulateBidAmount" placeholder="Amount in ETH" step="0.01" min="0">
@@ -476,7 +593,11 @@
     <div class="simulation-results">
       <p class="info"><strong>Estimated Ownership:</strong> <span id="estimatedOwnership">0</span>%</p>
       <p class="info"><strong>New Shares:</strong> <span id="newShares">0</span></p>
-      <p class="info"><strong>Bonus Factor:</strong> <span id="bonusFactor">1.0</span>x</p>
+      <p class="info">
+        <strong>Bonus:</strong> 
+        <span id="bonusFactor">1.0</span>x
+        <span id="bonusInfo" class="info-icon">?</span> 
+      </p>
     </div>
   </div>
   
@@ -732,9 +853,20 @@
           options: {
             responsive: true,
             maintainAspectRatio: false,
-            animation: { animateRotate: true }
+            animation: { animateRotate: true },
+            plugins: {
+              tooltip: {
+                callbacks: {
+                  label: function(context) {
+                    let label = context.label 
+                    let value = context.parsed;
+                return label + ': ' + value + '%';
+              }
+            }
           }
-        });
+        }
+      }
+    });
       } else {
         sharesChart.data.datasets[0].data = [userPercentage, 100 - userPercentage];
         sharesChart.update();
@@ -756,14 +888,25 @@
           options: {
             responsive: true,
             maintainAspectRatio: false,
-            animation: { animateRotate: true }
+            animation: { animateRotate: true },
+            plugins: {
+              tooltip: {
+                callbacks: {
+                  label: function(context) {
+                    let label = context.label 
+                    let value = context.parsed;
+                return label + ': ' + value + '%';
+              }
+            }
           }
-        });
-      } else {
-        simulationChart.data.datasets[0].data = [simPercentage, 100 - simPercentage];
-        simulationChart.update();
+        }
       }
+    });
+    } else {
+      simulationChart.data.datasets[0].data = [simPercentage, 100 - simPercentage];
+      simulationChart.update();
     }
+}
     
     document.getElementById("newMessage").addEventListener("input", () => {
       const text = document.getElementById("newMessage").value || "This is your message";
@@ -844,6 +987,7 @@
     const sharesInfoIcon = document.getElementById("sharesInfo");
     const sharesPopup = document.getElementById("sharesPopup");
     const closeSharesPopup = document.getElementById("closeSharesPopup");
+
     function toggleSharesPopup() {
       if (sharesPopup.style.display === "block") {
         sharesPopup.style.display = "none";
@@ -860,14 +1004,47 @@
         sharesPopup.style.display = "none";
       }
     });
+
+    // Bonus info popup logic
+    const bonusInfoIcon = document.getElementById("bonusInfo");
+    const bonusPopup = document.getElementById("bonusPopup");
+    const closeBonusPopup = document.getElementById("closeBonusPopup");
+    const goToSimulate = document.getElementById("goToSimulate");
+
+    function toggleBonusPopup() {
+      if (bonusPopup.style.display === "block") {
+        bonusPopup.style.display = "none";
+      } else {
+        bonusPopup.style.display = "block";
+      }
+    }
+
+    bonusInfoIcon.addEventListener("click", toggleBonusPopup);
+    closeBonusPopup.addEventListener("click", () => {
+      bonusPopup.style.display = "none";
+    });
+
+    // Cerrar popup si el usuario hace clic afuera
+    window.addEventListener("click", (event) => {
+      if (!bonusPopup.contains(event.target) && event.target !== bonusInfoIcon) {
+        bonusPopup.style.display = "none";
+      }
+    });
+
+    goToSimulate.addEventListener("click", () => {
+    sharesPopup.style.display = "none";
+  });
     
-    // Floating buttons: About and Instructions
+    // Floating buttons: About, Instructions and Transparency
     const aboutBtn = document.getElementById("aboutBtn");
     const instructionsBtn = document.getElementById("instructionsBtn");
+    const transparencyBtn = document.getElementById("transparencyBtn");
     const aboutModal = document.getElementById("aboutModal");
     const instructionsModal = document.getElementById("instructionsModal");
+    const transparencyModal = document.getElementById("transparencyModal");
     const closeAbout = document.getElementById("closeAbout");
     const closeInstructions = document.getElementById("closeInstructions");
+    const closeTransparency = document.getElementById("closeTransparency");
     
     aboutBtn.addEventListener("click", () => {
       aboutModal.style.display = "block";
@@ -875,11 +1052,17 @@
     instructionsBtn.addEventListener("click", () => {
       instructionsModal.style.display = "block";
     });
+    transparencyBtn.addEventListener("click", () => {
+      transparencyModal.style.display = "block";
+    });
     closeAbout.addEventListener("click", () => {
       aboutModal.style.display = "none";
     });
     closeInstructions.addEventListener("click", () => {
       instructionsModal.style.display = "none";
+    });
+    closeTransparency.addEventListener("click", () => {
+      transparencyModal.style.display = "none";
     });
     window.addEventListener("click", (event) => {
       if (event.target === aboutModal) {
@@ -887,6 +1070,9 @@
       }
       if (event.target === instructionsModal) {
         instructionsModal.style.display = "none";
+      }
+      if (event.target === transparencyModal) {
+        transparencyModal.style.display = "none";
       }
     });
     
@@ -948,8 +1134,21 @@
         return false;
       }
     }
+
+    window.addEventListener("click", (event) => {
+      if (event.target === aboutModal) {
+        aboutModal.style.display = "none";
+      }
+      if (event.target === instructionsModal) {
+        instructionsModal.style.display = "none";
+      }
+      if (event.target === transparencyModal) {
+        transparencyModal.style.display = "none";
+      }
+    });
     
     window.onload = init;
+
   </script>
 </body>
 </html>
