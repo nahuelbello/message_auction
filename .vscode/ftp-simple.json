@@ -1,0 +1,14 @@
+[
+    {
+      "name": "Hostinger FTP",
+      "host": "46.202.158.105",
+      "port": 21,
+      "type": "ftp",
+      "username": "u552881920",
+      "password": "Yupanqui32.",
+      "path": "/public_html",
+      "autosave": true,
+      "confirm": false
+    }
+  ]
+  
