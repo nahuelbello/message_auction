@@ -296,11 +296,16 @@
       width: 80px;         /* Ajusta el tamaño según necesites */
       height: auto;        /* Mantiene la proporción */
       z-index: 1000;       /* Se asegura de que quede por encima de otros elementos */
-      opacity: 0.8; 
+      opacity: 0.9; 
     }
     
     @media (max-width: 768px) {
       /* Ajustes responsivos para el banner, widgets y demás elementos */
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+      }
       .banner {
         font-size: 2.5rem;
         padding: 30px 10px;
@@ -408,6 +413,7 @@
       body {
     padding-bottom: 85px; /* Ajusta el valor que prefieras */
   }
+
     }
   </style>
 </head>
