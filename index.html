@@ -1172,7 +1172,7 @@
       try {
         const network = await provider.getNetwork();
         console.log("Current network:", network);
-        if (network.chainId !== 1337 && network.chainId !== 31337) {
+        if (network.chainId !==1) {
           showStatus("Please connect to the correct network", true);
           return false;
         }
