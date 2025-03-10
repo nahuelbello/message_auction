@@ -298,6 +298,34 @@
       z-index: 1000;       /* Se asegura de que quede por encima de otros elementos */
       opacity: 0.9; 
     }
+
+    footer {
+      width: 100%;
+      background: #1e1e1e;
+      color: #e0e0e0;
+      text-align: center;
+      padding: 10px 20px;
+      margin-top: 20px;
+    }
+
+    .footer-container {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .footer-links {
+      margin-bottom: 5px;
+    }
+
+    .footer-links a {
+      color: #00E676;
+      text-decoration: none;
+      margin: 0 10px;
+    }
+
+    .footer-links a:hover {
+      text-decoration: underline;
+    }
     
     @media (max-width: 768px) {
       /* Ajustes responsivos para el banner, widgets y demás elementos */
@@ -411,9 +439,12 @@
         min-width: 120px; /* Ancho mínimo para usabilidad */
       }
       body {
-    padding-bottom: 85px; /* Ajusta el valor que prefieras */
+        padding-bottom: 85px; /* Ajusta el valor que prefieras */
   }
-
+  /* En dispositivos móviles, se agrega espacio extra para evitar la superposición con los botones flotantes */ 
+      footer {
+        padding-bottom: 80px;
+      }
     }
   </style>
 </head>
@@ -535,7 +566,7 @@
       <h3>Transparency</h3>
       <p>
         We believe in complete transparency. All our code and the smart contract details can be publicly verified. 
-        [<a href="YOUR_REPOSITORY_LINK" target="_blank" style="color: #00E676; text-decoration: underline;">Repository</a>] – 
+        [<a href="https://github.com/nahuelbello/message_auction.git" target="_blank" style="color: #00E676; text-decoration: underline;">Repository</a>] – 
         [<a href="YOUR_SMART_CONTRACT_LINK" target="_blank" style="color: #00E676; text-decoration: underline;">Smart Contract</a>]
       </p>
       <p>
@@ -545,15 +576,9 @@
         The Early Bird Bonus rewards the first 10 bidders with a higher share multiplier. The first 5 bids receive a 1.5x bonus, while bids 6 to 10 receive a 1.25x bonus – giving you a larger stake in future rewards.
       </p>
       <p>
-        Additionally, you can follow our 
-        <a href="[X_ACCOUNT_LINK]" target="_blank" style="color:#00E676; text-decoration:underline;">X account</a>, 
-        where an automated tweet is published each time a new bid is placed, featuring the latest winning message.
-      </p>
-      <p>
         For any questions or feedback, feel free to reach out via 
-        <a href="[LINKEDIN_LINK]" target="_blank" style="color:#00E676; text-decoration:underline;">LinkedIn</a>, 
-        <a href="[GITHUB_LINK]" target="_blank" style="color:#00E676; text-decoration:underline;">GitHub</a>, or 
-        <a href="[X_LINK]" target="_blank" style="color:#00E676; text-decoration:underline;">X</a>.
+        <a href="https://www.linkedin.com/in/nahuel-bello-rendon-9a9710301/" target="_blank" style="color:#00E676; text-decoration:underline;">LinkedIn</a> or 
+        <a href="https://github.com/nahuelbello" target="_blank" style="color:#00E676; text-decoration:underline;">GitHub</a>
       </p>
     </div>
   </div>
@@ -1173,5 +1198,15 @@
 
   </script>
   <img src="./message_auction_logo.PNG" alt="Logo" class="fixed-logo">
+  <footer>
+    <div class="footer-container">
+      <div class="footer-links">
+        <a href="https://github.com/nahuelbello/message_auction.git" target="_blank">Repository</a>
+        <a href="YOUR_SMART_CONTRACT_LINK" target="_blank">Smart Contract</a>
+        <a href="faq.html">FAQ</a>
+      </div>
+      <p>© 2025 Message Auction. All rights reserved.</p>
+    </div>
+  </footer>
 </body>
 </html>
