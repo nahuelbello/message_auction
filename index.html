@@ -697,7 +697,7 @@
     ];
     let provider, signer, contract, web3Modal;
     let sharesChart, simulationChart;
-    const defaultProvider = new ethers.providers.JsonRpcProvider("http://127.0.0.1:8545");
+    const defaultProvider = new ethers.providers.JsonRpcProvider("https://eth-mainnet.g.alchemy.com/v2/T_QL1fNKmAx8mKNHscnvfgYyJ9OkLIxg");
     
     // --- Status function ---
     function showStatus(message, isError = false) {
@@ -737,7 +737,7 @@
           provider = new ethers.providers.Web3Provider(window.ethereum);
           console.log("Using Web3Provider with window.ethereum");
         } else {
-          provider = new ethers.providers.JsonRpcProvider("http://127.0.0.1:8545");
+          provider = new ethers.providers.JsonRpcProvider("https://eth-mainnet.g.alchemy.com/v2/T_QL1fNKmAx8mKNHscnvfgYyJ9OkLIxg");
           console.log("Using JsonRpcProvider fallback");
         }
         try {
@@ -770,8 +770,8 @@
             package: window.WalletConnectProvider,
             options: {
               rpc: {
-                1337: "http://127.0.0.1:8545",
-                31337: "http://127.0.0.1:8545"
+                1337: "https://eth-mainnet.g.alchemy.com/v2/T_QL1fNKmAx8mKNHscnvfgYyJ9OkLIxg",
+                31337: "https://eth-mainnet.g.alchemy.com/v2/T_QL1fNKmAx8mKNHscnvfgYyJ9OkLIxg"
               }
             }
           }
