@@ -2,22 +2,13 @@
 
 Message Auction is a crazy, community-driven dApp where your message gets the spotlight on a live banner as long as you can outbid the current top bid! Every new bid not only displays your message, but it also earns you a share of the rewards that accumulate as more bids come in.
 
-## What It Does
+## How it works
 
-- **Bid with a Message:** Place a bid along with a short message (up to 50 characters) that you want displayed.
-- **Live Banner Updates:** The highest bid’s message appears on the banner in real time.
-- **Earn Shares & Rewards:** Every bid gives you “shares,” which determine your portion of future rewards.
-- **Early Bird Bonuses:** The first 10 bidders get a bonus—1.5× for the first 5 and 1.25× for the next 5.
-- **Transparent Fees:** A 4% fee from every bid helps fund the project.
+When you visit the website, the first thing you're going to see is the message displayed on the banner along with the current highest bid. That message was placed by the most recent (and highest) bidder. If you want to display your own message on the banner, you need to outbid the current bid by at least 0.01 ETH, and then your message will remain on the banner until someone outbids you.
 
-## How It Works
+This is one aspect of the project: you can place any message you want such as advertising, jokes, or anything else. On the other hand, every time you place a bid, that amount of ETH is distributed proportionally among the people who participated in the auction before, based on how many shares they own.
 
-1. **Place a Bid:** Enter your message and the amount of ETH you’re bidding. Your bid must be at least 0.01 ETH higher than the current top bid.
-2. **Claim Your Bonus:** If you’re among the first 10 bidders, you receive extra shares to boost your potential rewards.
-3. **Watch Your Message Shine:** When your bid is the highest, your message is displayed on the banner.
-4. **Earn Rewards:** As new bids come in, a portion of the bid amount is distributed among all participants based on their shares.
-5. **Withdraw Earnings:** Once you accumulate rewards, you can withdraw them directly from the contract.
-
+Basically, you receive shares proportional to the amount of your bid, and based on these shares, you receive a portion of future bids. You can find all the instructions on the website.
 
 **This project is licensed under the MIT License.**
 

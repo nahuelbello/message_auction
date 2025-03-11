@@ -49,6 +49,13 @@
       animation: fadeIn 1s ease-in, glowBorder 2s infinite alternate; /* Animación de borde */
       position: relative;
     }
+    .mobile-metamask-info {
+      font-size: 12px;
+      color: #B2FF59; /* Verde claro para que combine con el tema */
+      text-align: center;
+      margin: 5px 0 10px 0; /* Espaciado para separarlo del botón */
+      line-height: 1.4;
+    }
 
     @keyframes glowBorder {
       0% { border: 1px solid rgba(0, 200, 83, 0.2); }
@@ -446,6 +453,22 @@
         padding-bottom: 80px;
       }
     }
+
+    #walletConnectOptions {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+@media (max-width: 768px) {
+  #walletConnectOptions {
+    flex-direction: column; /* En móviles, apilar botones verticalmente */
+  }
+  #connectWalletBtn, #connectWalletConnectBtn {
+    display: block; /* Ambos botones visibles en móviles por defecto */
+  }
+}
   </style>
 </head>
 <body>
@@ -500,10 +523,17 @@
     <h2>Withdraw Funds</h2>
     <button id="withdrawBtn">Withdraw</button>
     
-    <button id="connectWalletBtn">Connect Wallet</button>
+    <button id="withdrawBtn">Withdraw</button>
+
+    <div id="walletConnectOptions">
+      <button id="connectWalletBtn">Connect Wallet</button>
+      <button id="connectWalletConnectBtn" style="display:none;">Connect with WalletConnect</button>
+    </div>
+    <p class="mobile-metamask-info">On mobile? Use your wallet's browser or WalletConnect.</p>
     <button id="disconnectWalletBtn" style="display:none;">Disconnect Wallet</button>
-    
+
     <div id="status" class="status"></div>
+    
   </div>
   
   <!-- Modal for message preview -->
@@ -677,6 +707,10 @@
       const friendly = bigNum.div(divisor);
       return friendly.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
     }
+
+    function isMobileDevice() {
+  return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+}
     
     // --- Global variables ---
     const contractAddress = "0x5B0474f5109D9594A2b818E7c33f8BC68C403dc7";
@@ -731,86 +765,148 @@
     
     // --- Main functions ---
     async function init() {
+  try {
+    console.log("Initializing application...");
+    if (window.ethereum) {
+      provider = new ethers.providers.Web3Provider(window.ethereum);
+      console.log("Using Web3Provider with window.ethereum");
+      // Intentar conectar automáticamente si hay injected provider
+      signer = provider.getSigner();
       try {
-        console.log("Initializing application...");
-        if (window.ethereum) {
-          provider = new ethers.providers.Web3Provider(window.ethereum);
-          console.log("Using Web3Provider with window.ethereum");
-        } else {
-          provider = new ethers.providers.JsonRpcProvider("https://eth-mainnet.g.alchemy.com/v2/T_QL1fNKmAx8mKNHscnvfgYyJ9OkLIxg");
-          console.log("Using JsonRpcProvider fallback");
-        }
-        try {
-          const network = await provider.getNetwork();
-          console.log("Connected network:", network);
-        } catch (e) {
-          console.error("Error connecting to the network:", e);
-          showStatus("Network connection error", true);
-          return;
-        }
-        contract = new ethers.Contract(contractAddress, contractABI, provider);
-        console.log("Contract initialized");
-        await getCurrentState();
-        updateSimulationChart(0);
-        contract.on("NewBid", (bidder, bid, message) => {
-          console.log("New bid detected");
-          getCurrentState();
-        });
-      } catch (err) {
-        console.error("Error in init:", err);
-        showStatus("Error initializing application", true);
-      }
-    }
-    
-    async function connectWallet() {
-      try {
-        console.log("Connecting wallet...");
-        const providerOptions = {
-          walletconnect: {
-            package: window.WalletConnectProvider,
-            options: {
-              rpc: {
-                1337: "https://eth-mainnet.g.alchemy.com/v2/T_QL1fNKmAx8mKNHscnvfgYyJ9OkLIxg",
-                31337: "https://eth-mainnet.g.alchemy.com/v2/T_QL1fNKmAx8mKNHscnvfgYyJ9OkLIxg"
-              }
-            }
-          }
-        };
-        if (!web3Modal) {
-          web3Modal = new window.Web3Modal.default({
-            cacheProvider: false,
-            providerOptions,
-            disableInjectedProvider: false,
-          });
-        }
-        const externalProvider = await web3Modal.connect();
-        provider = new ethers.providers.Web3Provider(externalProvider);
-        if (!await checkNetwork()) return;
-        signer = provider.getSigner();
         const address = await signer.getAddress();
-        console.log("Wallet connected:", address);
+        console.log("Auto-connected wallet:", address);
         contract = new ethers.Contract(contractAddress, contractABI, signer);
         document.getElementById("connectWalletBtn").style.display = "none";
         document.getElementById("disconnectWalletBtn").style.display = "block";
-        showStatus("Wallet connected successfully!");
-        await getCurrentState();
+        showStatus("Wallet connected automatically!");
       } catch (e) {
-        console.error("Error connecting wallet:", e);
-        let customMessage = getCustomErrorMessage(e, "connectWallet");
-        if (!customMessage) customMessage = "Error connecting wallet.";
-        showStatus(customMessage, true);
+        console.log("No auto-connection, user needs to connect manually.");
+      }
+    } else {
+      provider = defaultProvider;
+      console.log("Using JsonRpcProvider fallback");
+    }
+
+    const network = await provider.getNetwork();
+    console.log("Connected network:", network);
+
+    contract = new ethers.Contract(contractAddress, contractABI, provider);
+    console.log("Contract initialized");
+
+    // Ajustar botones según dispositivo
+    if (isMobileDevice()) {
+      if (!window.ethereum) {
+        // En móviles sin injected provider, mostrar solo WalletConnect
+        document.getElementById("connectWalletBtn").style.display = "none";
+        document.getElementById("connectWalletConnectBtn").style.display = "block";
+      } else {
+        // En móviles con injected provider, mostrar ambos botones
+        document.getElementById("connectWalletBtn").style.display = "block";
+        document.getElementById("connectWalletConnectBtn").style.display = "block";
       }
     }
+
+    await getCurrentState();
+    updateSimulationChart(0);
+    contract.on("NewBid", (bidder, bid, message) => {
+      console.log("New bid detected");
+      getCurrentState();
+    });
+  } catch (err) {
+    console.error("Error in init:", err);
+    showStatus("Error initializing application", true);
+  }
+}
     
-    function disconnectWallet() {
-      if (web3Modal) { web3Modal.clearCachedProvider(); }
-      provider = defaultProvider;
-      signer = null;
-      contract = new ethers.Contract(contractAddress, contractABI, provider);
-      document.getElementById("connectWalletBtn").style.display = "block";
-      document.getElementById("disconnectWalletBtn").style.display = "none";
-      showStatus("Wallet disconnected.");
+async function connectWallet() {
+  try {
+    console.log("Connecting wallet via injected provider...");
+    if (window.ethereum) {
+      provider = new ethers.providers.Web3Provider(window.ethereum);
+      await provider.send("eth_requestAccounts", []); // Solicitar acceso a las cuentas
+      if (!await checkNetwork()) return;
+      signer = provider.getSigner();
+      const address = await signer.getAddress();
+      console.log("Wallet connected:", address);
+      contract = new ethers.Contract(contractAddress, contractABI, signer);
+      document.getElementById("connectWalletBtn").style.display = "none";
+      document.getElementById("connectWalletConnectBtn").style.display = "none";
+      document.getElementById("disconnectWalletBtn").style.display = "block";
+      showStatus("Wallet connected successfully!");
+      await getCurrentState();
+    } else {
+      showStatus("No wallet extension detected. Use WalletConnect instead.", true);
     }
+  } catch (e) {
+    console.error("Error connecting wallet:", e);
+    let customMessage = getCustomErrorMessage(e, "connectWallet");
+    if (!customMessage) customMessage = "Error connecting wallet.";
+    showStatus(customMessage, true);
+  }
+}
+
+async function connectWalletConnect() {
+  try {
+    console.log("Connecting via WalletConnect...");
+    const providerOptions = {
+      walletconnect: {
+        package: window.WalletConnectProvider,
+        options: {
+          rpc: {
+            1: "https://eth-mainnet.g.alchemy.com/v2/T_QL1fNKmAx8mKNHscnvfgYyJ9OkLIxg" // Mainnet
+          }
+        }
+      }
+    };
+
+    if (!web3Modal) {
+      web3Modal = new window.Web3Modal.default({
+        cacheProvider: false,
+        providerOptions,
+        disableInjectedProvider: true // Deshabilitar injected provider aquí
+      });
+    }
+
+    const externalProvider = await web3Modal.connect();
+    provider = new ethers.providers.Web3Provider(externalProvider);
+    if (!await checkNetwork()) return;
+    signer = provider.getSigner();
+    const address = await signer.getAddress();
+    console.log("Wallet connected via WalletConnect:", address);
+    contract = new ethers.Contract(contractAddress, contractABI, signer);
+    document.getElementById("connectWalletBtn").style.display = "none";
+    document.getElementById("connectWalletConnectBtn").style.display = "none";
+    document.getElementById("disconnectWalletBtn").style.display = "block";
+    showStatus("Wallet connected successfully via WalletConnect!");
+    await getCurrentState();
+  } catch (e) {
+    console.error("Error connecting via WalletConnect:", e);
+    let customMessage = getCustomErrorMessage(e, "connectWallet");
+    if (!customMessage) customMessage = "Error connecting with WalletConnect.";
+    showStatus(customMessage, true);
+  }
+}
+
+function disconnectWallet() {
+  if (web3Modal) { web3Modal.clearCachedProvider(); }
+  provider = defaultProvider;
+  signer = null;
+  contract = new ethers.Contract(contractAddress, contractABI, provider);
+  if (isMobileDevice()) {
+    if (window.ethereum) {
+      document.getElementById("connectWalletBtn").style.display = "block";
+      document.getElementById("connectWalletConnectBtn").style.display = "block";
+    } else {
+      document.getElementById("connectWalletBtn").style.display = "none";
+      document.getElementById("connectWalletConnectBtn").style.display = "block";
+    }
+  } else {
+    document.getElementById("connectWalletBtn").style.display = "block";
+    document.getElementById("connectWalletConnectBtn").style.display = "none";
+  }
+  document.getElementById("disconnectWalletBtn").style.display = "none";
+  showStatus("Wallet disconnected.");
+}
     
     async function getCurrentState() {
       try {
@@ -1008,7 +1104,8 @@
     });
     
     document.getElementById("connectWalletBtn").addEventListener("click", connectWallet);
-    document.getElementById("disconnectWalletBtn").addEventListener("click", disconnectWallet);
+document.getElementById("connectWalletConnectBtn").addEventListener("click", connectWalletConnect);
+document.getElementById("disconnectWalletBtn").addEventListener("click", disconnectWallet);
     
     // Close preview modal
     const modal = document.getElementById("modal");
