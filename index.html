@@ -508,10 +508,10 @@
     <button id="withdrawBtn">Withdraw</button>
     
     <button id="connectWalletBtn">Connect Wallet</button>
-    <p class="mobile-metamask-info">Please note: If your browser lacks an injected provider (e.g., using Chrome/Safari on mobile or a PC without a wallet extension like MetaMask), you won’t be able to connect.
-
-    </p>
     <button id="disconnectWalletBtn" style="display:none;">Disconnect Wallet</button>
+    <p
+    class="mobile-metamask-info">IMPORTANT: If your browser lacks an injected provider (e.g., using Chrome/Safari on mobile or a PC without a wallet extension like MetaMask), you won’t be able to connect. You can both connect through an injected provider in your browser or use the browser section in your mobile wallet.
+    </p>
     
     <div id="status" class="status"></div>
   </div>
@@ -1073,7 +1073,7 @@
       bonusPopup.style.display = "none";
     });
 
-    // Cerrar popup si el usuario hace clic afuera
+    // Close pop up when clicking outside
     window.addEventListener("click", (event) => {
       if (!bonusPopup.contains(event.target) && event.target !== bonusInfoIcon) {
         bonusPopup.style.display = "none";
@@ -1095,7 +1095,7 @@
     const closeInstructions = document.getElementById("closeInstructions");
     const closeTransparency = document.getElementById("closeTransparency");
 
-    // Función para cerrar todos los modales
+    // Function for closing all modals
   function closeAllModals() {
     const modals = document.querySelectorAll('.modal');
     modals.forEach(modal => modal.style.display = "none");
@@ -1217,7 +1217,7 @@
         " target="_blank">Smart Contract</a>
         <a href="faq.html">FAQ</a>
       </div>
-      <p>© 2025 Message Auction. All rights reserved.</p>
+      <p>© 2025 Message Auction. Released under the MIT License.</p>
     </div>
   </footer>
 </body>
