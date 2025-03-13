@@ -3,6 +3,9 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="description" content="Message Auction is an innovative dApp where your messages transform into bids, blending fun, transparency, and blockchain rewards. Join the auction and leave your mark!" > 
+  <!-- For a favicon in PNG format of 32x32 pixels -->
+  <link rel="icon" type="image/png" sizes="32x32" href="message_auction_logo.PNG">
   <title>Message Auction</title>
   <!-- Import Google Fonts: Orbitron for headlines and Roboto for body text -->
   <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Roboto:wght@400;500&display=swap" rel="stylesheet">
@@ -51,9 +54,9 @@
     }
     .mobile-metamask-info {
       font-size: 12px;
-      color: #B2FF59; /* Verde claro para que combine con el tema */
+      color: #B2FF59; /* Light green to match the theme */
       text-align: center;
-      margin: 5px 0 10px 0; /* Espaciado para separarlo del botón */
+      margin: 5px 0 10px 0; /* Spacing to separate it from the button */
       line-height: 1.4;
     }
 
@@ -262,7 +265,7 @@
       font-size: 16px;
       color: #fff;
     }
-    /* Botones flotantes para info */
+    /* Floating buttons for info */
     .floating-buttons {
       position: fixed;
       left: 15px;
@@ -274,22 +277,22 @@
       z-index: 1000;
     }
     .floating-btn {
-      background: linear-gradient(135deg, #00C853, #00E676); /* Gradiente suave */
+      background: linear-gradient(135deg, #00C853, #00E676); /* Smooth gradient */
       color: #fff;
       border: none;
-      border-radius: 10px; /* Bordes más redondeados */
+      border-radius: 10px; /* More rounded corners */
       padding: 12px 18px;
       cursor: pointer;
       font-family: 'Orbitron', sans-serif;
       font-size: 14px;
-      box-shadow: 0 2px 6px rgba(0, 200, 83, 0.6), 0 0 10px rgba(0, 200, 83, 0.3); /* Brillo base */
-      transition: all 0.3s ease; /* Transición suave */
+      box-shadow: 0 2px 6px rgba(0, 200, 83, 0.6), 0 0 10px rgba(0, 200, 83, 0.3); /* Base glow */
+      transition: all 0.3s ease; /* Smooth transition */
     }
 
     .floating-btn:hover {
-      background: linear-gradient(135deg, #00E676, #B2FF59); /* Cambio de gradiente */
-      transform: scale(1.05); /* Aumenta ligeramente el tamaño */
-      box-shadow: 0 6px 18px rgba(0, 200, 83, 0.8), 0 0 30px rgba(0, 200, 83, 0.5); /* Brillo más intenso */
+      background: linear-gradient(135deg, #00E676, #B2FF59); /* Gradient change */
+      transform: scale(1.05); /* Slightly increase size */
+      box-shadow: 0 6px 18px rgba(0, 200, 83, 0.8), 0 0 30px rgba(0, 200, 83, 0.5); /* More intense glow */
     }
 
     html {
@@ -297,12 +300,12 @@
     }
 
     .fixed-logo {
-      position: fixed;     /* Se mantiene fijo en la pantalla */
-      bottom: 20px;        /* Ajusta la distancia del borde inferior */
-      right: 20px;         /* Ajusta la distancia del borde derecho */
-      width: 80px;         /* Ajusta el tamaño según necesites */
-      height: auto;        /* Mantiene la proporción */
-      z-index: 1000;       /* Se asegura de que quede por encima de otros elementos */
+      position: fixed;     /* Stays fixed on the screen */
+      bottom: 20px;        /* Adjust distance from bottom edge */
+      right: 20px;         /* Adjust distance from right edge */
+      width: 80px;         /* Adjust size as needed */
+      height: auto;        /* Maintain aspect ratio */
+      z-index: 1000;       /* Ensure it stays above other elements */
       opacity: 0.9; 
     }
 
@@ -335,7 +338,7 @@
     }
     
     @media (max-width: 768px) {
-      /* Ajustes responsivos para el banner, widgets y demás elementos */
+      /* Responsive adjustments for the banner, widgets, and other elements */
       *,
       *::before,
       *::after {
@@ -346,9 +349,9 @@
         padding: 30px 10px;
       }
       .fixed-logo {
-        bottom: 100px; /* o el valor que prefieras para no tapar el botón */
+        bottom: 100px; /* or the value you prefer to avoid covering the button */
         right: 20px;
-        width: 70px;   /* opcional: reducir un poco el tamaño en móvil */
+        width: 70px;   /* optional: slightly reduce the size on mobile */
       }
       .widget {
         width: 95%;
@@ -407,20 +410,20 @@
         height: auto !important;
       }
       .modal-content, .popup {
-            width: 95%; /* Aumentar ancho para usar más espacio */
-        padding: 15px; /* Reducir padding para más espacio de contenido */
-        font-size: 16px; /* Aumentar tamaño de fuente para legibilidad */
-        max-height: 90vh; /* Aumentar altura máxima */
-        overflow-y: auto; /* Mantener scroll si es necesario */
+        width: 95%; /* Increase width to use more space */
+        padding: 15px; /* Reduce padding for more content space */
+        font-size: 16px; /* Increase font size for readability */
+        max-height: 90vh; /* Increase maximum height */
+        overflow-y: auto; /* Keep scroll if necessary */
       }
 
       .modal-content h3 {
-        font-size: 1.5rem; /* Ajustar tamaño del encabezado */
+        font-size: 1.5rem; /* Adjust header size */
       }
 
       .modal-content p, .modal-content ol {
-        font-size: 14px; /* Ajustar tamaño del texto */
-        line-height: 1.6; /* Mejorar espaciado entre líneas */
+        font-size: 14px; /* Adjust text size */
+        line-height: 1.6; /* Improve line spacing */
       }
       .preview-banner {
         font-size: 1.5rem;
@@ -431,24 +434,24 @@
       }
       .floating-buttons {
         position: fixed;
-        bottom: 20px; /* Mover al fondo */
-        left: 50%; /* Centrar horizontalmente */
-        transform: translateX(-50%); /* Ajuste para centrar */
-        top: auto; /* Resetear top */
-        flex-direction: row; /* Apilar horizontalmente */
-        gap: 10px; /* Espacio entre botones */
-        width: auto; /* Ajustar ancho automáticamente */
+        bottom: 20px; /* Move to the bottom */
+        left: 50%; /* Center horizontally */
+        transform: translateX(-50%); /* Adjust to center */
+        top: auto; /* Reset top */
+        flex-direction: row; /* Stack horizontally */
+        gap: 10px; /* Space between buttons */
+        width: auto; /* Adjust width automatically */
       }
 
       .floating-btn {
-        padding: 10px 15px; /* Reducir padding para móvil */
-        font-size: 12px; /* Reducir tamaño de fuente */
-        min-width: 120px; /* Ancho mínimo para usabilidad */
+        padding: 10px 15px; /* Reduce padding for mobile */
+        font-size: 12px; /* Reduce font size */
+        min-width: 120px; /* Minimum width for usability */
       }
       body {
-        padding-bottom: 85px; /* Ajusta el valor que prefieras */
-  }
-  /* En dispositivos móviles, se agrega espacio extra para evitar la superposición con los botones flotantes */ 
+        padding-bottom: 85px; /* Adjust the value as preferred */
+      }
+      /* On mobile devices, add extra space to avoid overlap with floating buttons */
       footer {
         padding-bottom: 80px;
       }
@@ -456,7 +459,7 @@
   </style>
 </head>
 <body>
-  <!-- Botones flotantes para info -->
+  <!-- Floating buttons for info -->
   <div class="floating-buttons">
     <button id="aboutBtn" class="floating-btn">About this project</button>
     <button id="instructionsBtn" class="floating-btn">Instructions</button> 
