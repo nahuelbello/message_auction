@@ -1,0 +1,1236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-0L3MMEZ5C5"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-0L3MMEZ5C5');
+</script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="description" content="Message Auction is an innovative dApp where your messages transform into bids, blending fun, transparency, and blockchain rewards. Join the auction and leave your mark!" > 
+  <!-- For a favicon in PNG format of 32x32 pixels -->
+  <link rel="icon" type="image/png" sizes="32x32" href="message_auction_logo.PNG">
+  <title>Message Auction</title>
+  <!-- Import Google Fonts: Orbitron for headlines and Roboto for body text -->
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Roboto:wght@400;500&display=swap" rel="stylesheet">
+  <!-- Chart.js for graphical display -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    /* Modern Crypto-Inspired Styles */
+    body {
+      font-family: 'Roboto', sans-serif;
+      background: linear-gradient(135deg, #121212, #1e1e1e);
+      margin: 0;
+      padding: 0;
+      color: #e0e0e0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    
+    .banner {
+      width: 100%;
+      background: linear-gradient(135deg, #00C853, #B2FF59);
+      padding: 60px 20px;
+      max-width: 1200px;
+      margin: 0 auto;
+      text-align: center;
+      border-bottom-right-radius: 15px;
+      border-bottom-left-radius: 15px;
+      font-family: 'Orbitron', sans-serif;
+      font-size: 5rem;
+      color: #ffffff;
+      text-shadow: 0 0 10px #00ff00;
+      box-shadow: 0 4px 10px rgba(0,200,83,0.5);
+      margin-bottom: 20px;
+      animation: fadeIn 1s ease-in;
+    }
+    .widget {
+      background: linear-gradient(145deg, #1e1e1e, #2c2c2c); /* Gradiente sutil */
+      padding: 30px 40px;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5), 0 0 15px rgba(0, 200, 83, 0.3); /* Sombra con brillo verde */
+      width: 90%;
+      max-width: 600px;
+      margin-bottom: 20px;
+      animation: fadeIn 1s ease-in, glowBorder 2s infinite alternate; /* Animación de borde */
+      position: relative;
+    }
+    .mobile-metamask-info {
+      font-size: 12px;
+      color: #B2FF59; /* Light green to match the theme */
+      text-align: center;
+      margin: 5px 0 10px 0; /* Spacing to separate it from the button */
+      line-height: 1.4;
+    }
+
+    @keyframes glowBorder {
+      0% { border: 1px solid rgba(0, 200, 83, 0.2); }
+      100% { border: 1px solid rgba(0, 200, 83, 0.5); }
+    }
+    h1 {
+      text-align: center;
+      margin-bottom: 20px;
+      font-family: 'Orbitron', sans-serif;
+      color: #00E676;
+    }
+    h2 {
+      color: #B2FF59;
+      margin-top: 20px;
+      font-family: 'Orbitron', sans-serif;
+    }
+    p {
+      line-height: 1.5;
+      text-align: center;
+    }
+    .status {
+      margin-top: 15px;
+      padding: 10px;
+      border-radius: 5px;
+      text-align: center;
+      opacity: 0;
+      transition: opacity 0.5s ease-in-out;
+    }
+    .info {
+      margin: 10px 0;
+      font-size: 14px;
+      text-align: center;
+    }
+    .input-group {
+      display: flex;
+      align-items: center;
+    }
+    .input-group input {
+      flex: 1;
+    }
+    .small-preview {
+      margin-left: 8px;
+      padding: 12px;
+      border: 1px solid #00C853;
+      border-radius: 6px;
+      background: #2c2c2c;
+      color: #00E676;
+      font-family: 'Orbitron', sans-serif;
+      font-size: 0.9rem;
+      cursor: pointer;
+      white-space: nowrap;
+      max-width: 130px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      transition: background 0.3s ease, color 0.3s ease;
+    }
+    .small-preview:hover {
+      background: #00E676;
+      color: #121212;
+    }
+    input, button {
+      width: 100%;
+      padding: 12px;
+      margin: 8px 0;
+      font-size: 16px;
+      border: 1px solid #00C853;
+      border-radius: 6px;
+      box-sizing: border-box;
+      background: #2c2c2c;
+      color: #e0e0e0;
+    }
+    input:focus {
+      outline: none;
+      border-color: #00E676;
+      box-shadow: 0 0 8px #00E676;
+    }
+    button {
+      background: #00C853;
+      border: none;
+      color: #fff;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+    button:hover {
+      background: #00E676;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #333;
+      margin: 20px 0;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    /* Modal for message preview and for floating info */
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 10;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0,0,0,0.7);
+    }
+    .modal-content {
+      position: relative;
+      background: #1e1e1e;
+      margin: 10% auto;
+      padding: 20px;
+      border-radius: 12px;
+      width: 80%;
+      max-width: 500px;
+      text-align: center;
+      color: #e0e0e0;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+      animation: fadeIn 0.5s ease-in;
+    }
+    .close-modal {
+      position: absolute;
+      top: 5px;
+      right: 10px;
+      cursor: pointer;
+      font-size: 16px;
+      color: #fff;
+    }
+    .preview-banner {
+      background: linear-gradient(135deg, #00C853, #B2FF59);
+      padding: 40px 20px;
+      font-family: 'Orbitron', sans-serif;
+      font-size: 2.5rem;
+      color: #fff;
+      text-shadow: 0 0 8px #00ff00;
+      border-radius: 8px;
+      margin-bottom: 20px;
+    }
+    /* Simulation section */
+    .simulate-input-group {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .simulate-input-group input {
+      width: 70%;
+    }
+    .simulate-input-group button {
+      width: 30%;
+      margin: 0;
+    }
+    #chartContainer, #simulationChartContainer {
+      width: 100%;
+      max-width: 300px;
+      margin: 0 auto 20px;
+    }
+    /* Popup for shares explanation */
+    .popup {
+      position: fixed;
+      z-index: 20;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: #1e1e1e;
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+      width: 80%;
+      max-width: 400px;
+    }
+    .popup-content {
+      position: relative;
+      color: #e0e0e0;
+      font-size: 14px;
+      text-align: center;
+    }
+    .close-popup {
+      position: absolute;
+      top: -30px;
+      right: -10px;
+      cursor: pointer;
+      font-size: 16px;
+      color: #00E676;
+    }
+    .info-icon {
+      display: inline-block;
+      background: #00E676;
+      color: #121212;
+      border-radius: 50%;
+      width: 14px;
+      height: 14px;
+      text-align: center;
+      line-height: 14px;
+      font-size: 10px;
+      font-weight: bold;
+      margin-left: 5px;
+      cursor: pointer;
+    }
+    .close {
+      position: absolute;
+      top: 5px;
+      right: 10px;
+      cursor: pointer;
+      font-size: 16px;
+      color: #fff;
+    }
+    /* Floating buttons for info */
+    .floating-buttons {
+      position: fixed;
+      left: 15px;
+      top: 70%;
+      transform: translateY(-50%);
+      display: flex;
+      flex-direction: column;
+      gap: 0px;
+      z-index: 1000;
+    }
+    .floating-btn {
+      background: linear-gradient(135deg, #00C853, #00E676); /* Smooth gradient */
+      color: #fff;
+      border: none;
+      border-radius: 10px; /* More rounded corners */
+      padding: 12px 18px;
+      cursor: pointer;
+      font-family: 'Orbitron', sans-serif;
+      font-size: 14px;
+      box-shadow: 0 2px 6px rgba(0, 200, 83, 0.6), 0 0 10px rgba(0, 200, 83, 0.3); /* Base glow */
+      transition: all 0.3s ease; /* Smooth transition */
+    }
+
+    .floating-btn:hover {
+      background: linear-gradient(135deg, #00E676, #B2FF59); /* Gradient change */
+      transform: scale(1.05); /* Slightly increase size */
+      box-shadow: 0 6px 18px rgba(0, 200, 83, 0.8), 0 0 30px rgba(0, 200, 83, 0.5); /* More intense glow */
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    .fixed-logo {
+      position: fixed;     /* Stays fixed on the screen */
+      bottom: 20px;        /* Adjust distance from bottom edge */
+      right: 20px;         /* Adjust distance from right edge */
+      width: 80px;         /* Adjust size as needed */
+      height: auto;        /* Maintain aspect ratio */
+      z-index: 1000;       /* Ensure it stays above other elements */
+      opacity: 0.9; 
+    }
+
+    footer {
+      width: 100%;
+      background: #1e1e1e;
+      color: #e0e0e0;
+      text-align: center;
+      padding: 10px 20px;
+      margin-top: 20px;
+    }
+
+    .footer-container {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .footer-links {
+      margin-bottom: 5px;
+    }
+
+    .footer-links a {
+      color: #00E676;
+      text-decoration: none;
+      margin: 0 10px;
+    }
+
+    .footer-links a:hover {
+      text-decoration: underline;
+    }
+    
+    @media (max-width: 768px) {
+      /* Responsive adjustments for the banner, widgets, and other elements */
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+      }
+      .banner {
+        font-size: 2.5rem;
+        padding: 30px 10px;
+      }
+      .fixed-logo {
+        bottom: 100px; /* or the value you prefer to avoid covering the button */
+        right: 20px;
+        width: 70px;   /* optional: slightly reduce the size on mobile */
+      }
+      .widget {
+        width: 95%;
+        padding: 20px;
+      }
+      h1, h2 {
+        font-size: 1.5rem;
+      }
+      p, .info {
+        font-size: 14px;
+      }
+      .input-group {
+        flex-direction: row;
+        align-items: center;
+        gap: 10px;
+      }
+      .input-group input {
+        flex: 1;
+        width: auto;
+        padding: 10px;
+        font-size: 14px;
+      }
+      .small-preview {
+        width: auto;
+        padding: 9px 12px;
+        margin-left: 0;
+        font-size: 14px;
+        min-width: 80px;
+        max-width: 120px;
+      }
+      input, button {
+        padding: 12px;
+        font-size: 16px;
+      }
+      .simulate-input-group {
+        flex-direction: row;
+        align-items: center;
+        gap: 10px;
+      }
+      .simulate-input-group input {
+        width: 60%;
+        padding: 10px;
+        font-size: 14px;
+      }
+      .simulate-input-group button {
+        width: 40%;
+        padding: 10px;
+        font-size: 14px;
+      }
+      #chartContainer, #simulationChartContainer {
+        max-width: 200px;
+        margin: 0 auto 15px;
+      }
+      canvas {
+        width: 100% !important;
+        height: auto !important;
+      }
+      .modal-content, .popup {
+        width: 95%; /* Increase width to use more space */
+        padding: 15px; /* Reduce padding for more content space */
+        font-size: 16px; /* Increase font size for readability */
+        max-height: 90vh; /* Increase maximum height */
+        overflow-y: auto; /* Keep scroll if necessary */
+      }
+
+      .modal-content h3 {
+        font-size: 1.5rem; /* Adjust header size */
+      }
+
+      .modal-content p, .modal-content ol {
+        font-size: 14px; /* Adjust text size */
+        line-height: 1.6; /* Improve line spacing */
+      }
+      .preview-banner {
+        font-size: 1.5rem;
+        padding: 20px 10px;
+      }
+      .close-modal, .close-popup {
+        font-size: 20px;
+      }
+      .floating-buttons {
+        position: fixed;
+        bottom: 20px; /* Move to the bottom */
+        left: 50%; /* Center horizontally */
+        transform: translateX(-50%); /* Adjust to center */
+        top: auto; /* Reset top */
+        flex-direction: row; /* Stack horizontally */
+        gap: 10px; /* Space between buttons */
+        width: auto; /* Adjust width automatically */
+      }
+
+      .floating-btn {
+        padding: 10px 15px; /* Reduce padding for mobile */
+        font-size: 12px; /* Reduce font size */
+        min-width: 120px; /* Minimum width for usability */
+      }
+      body {
+        padding-bottom: 85px; /* Adjust the value as preferred */
+      }
+      /* On mobile devices, add extra space to avoid overlap with floating buttons */
+      footer {
+        padding-bottom: 80px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Floating buttons for info -->
+  <div class="floating-buttons">
+    <button id="aboutBtn" class="floating-btn">About this project</button>
+    <button id="instructionsBtn" class="floating-btn">Instructions</button> 
+    <button id="transparencyBtn" class="floating-btn">Transparency</button> 
+  </div>
+  
+  <!-- Banner -->
+  <div class="banner" id="bannerMessage">Loading message...</div>
+  
+  <!-- Main widget -->
+  <div class="widget">
+    <h1>Message Auction</h1>
+    <p class="info">
+      <strong><i class="fas fa-gavel"></i> Current Bid:</strong> <span id="currentBid">Loading...</span> ETH
+    </p>
+    <p class="info">
+      <strong><i class="fas fa-share-alt"></i> Total Shares:</strong> 
+      <span id="totalShares">0</span> units
+      <span id="sharesInfo" class="info-icon">?</span>
+    </p>
+    <p class="info">
+      <strong><i class="fas fa-user-circle"></i> Your Shares:</strong> <span id="userSharesPercentage">0</span>%
+    </p>
+    <p class="info">
+      <strong><i class="fas fa-coins"></i> Your Pending Reward:</strong> <span id="pendingReward">0</span> ETH
+    </p>
+    
+    <!-- Main chart -->
+    <div id="chartContainer">
+      <canvas id="sharesChart"></canvas>
+    </div>
+    
+    <hr>
+    <h2>Place a New Bid</h2>
+    <div class="input-group">
+      <input type="text" id="newMessage" placeholder="Enter your message (max 50 characters)" maxlength="50">
+      <div id="smallPreview" class="small-preview" title="Click for a larger preview">Preview</div>
+    </div>
+    <input type="number" id="bidAmount" placeholder="ETH amount" step="0.01" min="0">
+    <button id="placeBidBtn">Place Bid</button>
+    <div id="bidError" class="error-message" style="display:none;"></div>
+    
+    <hr>
+    <h2>Latest Bids</h2>
+    <div id="bidHistory"></div>
+    
+    <hr>
+    <h2>Withdraw Funds</h2>
+    <button id="withdrawBtn">Withdraw</button>
+    
+    <button id="connectWalletBtn">Connect Wallet</button>
+    <button id="disconnectWalletBtn" style="display:none;">Disconnect Wallet</button>
+    <p
+    class="mobile-metamask-info">IMPORTANT: If your browser lacks an injected provider (e.g., using Chrome/Safari on mobile or a PC without a wallet extension like MetaMask), you won’t be able to connect. You can both connect through an injected provider in your browser or use the browser section in your mobile wallet.
+    </p>
+    
+    <div id="status" class="status"></div>
+  </div>
+  
+  <!-- Modal for message preview -->
+  <div id="modal" class="modal">
+    <div class="modal-content">
+      <span id="closeModal" class="close">&times;</span>
+      <div class="preview-banner" id="previewBanner">Your Message Preview</div>
+      <p>This is how your message will appear in the banner.</p>
+    </div>
+  </div>
+  
+  <!-- Popup for shares explanation -->
+  <div id="sharesPopup" class="popup" style="display: none;">
+    <div class="popup-content">
+      <span id="closeSharesPopup" class="close-popup">&times;</span>
+      <p>Shares represent your contribution to the auction. 
+      They are calculated based on your bid amount and a bonus factor, 
+      which may apply depending on the order of your bid. Basically are your portion of the cake. You can calculate them 
+      <a href="#simulateOwnershipSection" id="goToSimulate" style="color: #00E676; text-decoration: underline;">here</a>.</p>
+    </div>
+  </div>
+
+  <!-- Popup for bonus explanation -->
+  <div id="bonusPopup" class="popup" style="display: none;">
+    <div class="popup-content">
+      <span id="closeBonusPopup" class="close-popup">&times;</span>
+      <p>The bonus mechanism rewards early participants by increasing the shares they receive when they bid. For the first 
+        10 bidders, there's an extra multiplier: the first five get a 1.5x bonus and the next five get a 1.25x bonus. 
+        After that, bids receive a standard 1.0x multiplier. This means early bidders earn more shares—and potentially 
+        more rewards—for the same ETH amount. You can know if you are eligible for a bonus by connecting your wallet.</p>
+    </div>
+  </div>
+  
+  <!-- Modal for "About this project" -->
+  <div id="aboutModal" class="modal">
+    <div class="modal-content">
+      <span id="closeAbout" class="close-modal">&times;</span>
+      <h3>About This Project</h3>
+      <p>
+        Message Auction is a playful, community-driven experience where your message takes center stage on our banner until someone outbids you.
+      </p>
+      <p>
+        Each time someone places a bid, that amount of money is proportionally distributed among existing participants according to their shares. 
+        The more shares you hold, the larger your portion of each new bid.
+      </p>
+      <p>
+        Your message is truly yours—with only a character limit to hold it back, it can be advertising, jokes, or any form of expression you choose.
+      </p>
+      <p>
+        It's a lively blend of friendly competition and real rewards. Jump in and see how far your message (and potential earnings) can go!
+      </p>
+    </div>
+  </div>
+
+
+  <!-- Modal for "Transparency" -->
+  <div id="transparencyModal" class="modal">
+    <div class="modal-content">
+      <span id="closeTransparency" class="close-modal">&times;</span>
+      <h3>Transparency</h3>
+      <p>
+        We believe in complete transparency. All our code and the smart contract details can be publicly verified. 
+        [<a href="https://github.com/nahuelbello/message_auction.git" target="_blank" style="color: #00E676; text-decoration: underline;">Repository</a>] – 
+        [<a href="https://etherscan.io/address/0x5B0474f5109D9594A2b818E7c33f8BC68C403dc7#code
+        " target="_blank" style="color: #00E676; text-decoration: underline;">Smart Contract</a>]
+      </p>
+      <p>
+        A 4% founder fee is applied to every bid. This fee is reinvested to improve this project and fund future developments.
+      </p>
+      <p>
+        The Early Bird Bonus rewards the first 10 bidders with a higher share multiplier. The first 5 bids receive a 1.5x bonus, while bids 6 to 10 receive a 1.25x bonus – giving you a larger stake in future rewards.
+      </p>
+      <p>
+        For any questions or feedback, feel free to reach out via 
+        <a href="https://www.linkedin.com/in/nahuel-bello-rendon-9a9710301/" target="_blank" style="color:#00E676; text-decoration:underline;">LinkedIn</a> or 
+        <a href="https://github.com/nahuelbello" target="_blank" style="color:#00E676; text-decoration:underline;">GitHub</a>
+      </p>
+    </div>
+  </div>
+  
+  <!-- Modal for "Instructions" -->
+  <div id="instructionsModal" class="modal">
+    <div class="modal-content">
+      <span id="closeInstructions" class="close-modal">&times;</span>
+      <h3>Instructions</h3>
+      <ol>
+        <li>
+          <strong>Connect Your Wallet:</strong>  
+          Click “Connect Wallet” to link your browser wallet (e.g., MetaMask). This allows the dApp to read your balance and send transactions.
+        </li>
+        
+        <li>
+          <strong>Enter Your Message &amp; Bid Amount:</strong>  
+          Type a short message (up to 50 characters) that you want displayed on the banner. Then specify how much ETH you want to bid.
+        </li>
+        
+        <li>
+          <strong>Place Your Bid:</strong>  
+          Click “Place Bid” and confirm the transaction in your wallet. Make sure your new bid is at least <em>0.01 ETH</em> higher than the current bid.
+        </li>
+        
+        <li>
+          <strong>Watch the Banner:</strong>  
+          If your bid is now the highest, your message will instantly appear at the top of the page. It will remain until someone else outbids you.
+        </li>
+        
+        <li>
+          <strong>Withdraw Your Rewards:</strong>  
+          Over time, every new bid increases the reward pool. If you have shares, click “Withdraw” to claim your accumulated ETH rewards (as long as you have a pending amount).
+        </li>
+        
+      </ol>
+    </div>
+  </div>
+  
+  <!-- Simulation widget -->
+  <div class="widget" id="simulateOwnershipSection">
+    <h2>Ownership Simulator</h2>
+    <div class="input-group simulate-input-group">
+      <input type="number" id="simulateBidAmount" placeholder="Amount in ETH" step="0.01" min="0">
+      <button id="simulateOwnershipBtn">Simulate</button>
+    </div>
+    <div id="simulationChartContainer">
+      <canvas id="simulationChart"></canvas>
+    </div>
+    <div class="simulation-results">
+      <p class="info"><strong>Estimated Ownership:</strong> <span id="estimatedOwnership">0</span>%</p>
+      <p class="info"><strong>New Shares:</strong> <span id="newShares">0</span></p>
+      <p class="info">
+        <strong>Bonus:</strong> 
+        <span id="bonusFactor">1.0</span>x
+        <span id="bonusInfo" class="info-icon">?</span> 
+      </p>
+    </div>
+  </div>
+  
+  <!-- Scripts: Ethers, WalletConnect, Web3Modal -->
+  <script src="https://cdn.jsdelivr.net/npm/ethers@5.7.2/dist/ethers.umd.min.js"></script>
+  <script src="https://unpkg.com/@walletconnect/web3-provider@1.7.8/dist/umd/index.min.js"></script>
+  <script src="https://unpkg.com/web3modal@1.9.12/dist/index.js"></script>
+  <script>
+    // --- Helper functions ---
+    function getCustomErrorMessage(err, context) {
+      const message = err.message || "";
+      if (context === "placeBid") {
+        if (message.includes("New bid must exceed current bid"))
+          return "Your bid must exceed the current bid by at least 0.01 ETH.";
+        else if (message.includes("Initial bid must be"))
+          return "Your initial bid must be at least 0.01 ETH.";
+        else if (message.includes("Founder fee transfer failed"))
+          return "Failed to transfer founder fee. Please try again.";
+      } else if (context === "withdraw") {
+        if (message.includes("No shares"))
+          return "You have no shares.";
+        else if (message.includes("No funds to withdraw"))
+          return "There are no funds available for withdrawal.";
+        else if (message.includes("Withdrawal failed"))
+          return "Withdrawal failed. Please try again.";
+      } else if (context === "simulate") {
+        if (message.includes("invalid value"))
+          return "Please enter a valid ETH amount.";
+      } else if (context === "connectWallet") {
+        return "Failed to connect wallet. Please try again.";
+      }
+      return "";
+    }
+    
+    // Formatea los números de shares dividiéndolos por 1e12 y agregando comas.
+    function formatSharesFriendly(bigNum) {
+      const divisor = ethers.BigNumber.from("1000000000000"); // 1e12
+      const friendly = bigNum.div(divisor);
+      return friendly.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    }
+    
+    // --- Global variables ---
+    const contractAddress = "0x5B0474f5109D9594A2b818E7c33f8BC68C403dc7";
+    const contractABI = [
+      "function currentBid() view returns (uint256)",
+      "function currentMessage() view returns (string)",
+      "function currentBidder() view returns (address)",
+      "function totalShares() view returns (uint256)",
+      "function sharesOf(address) view returns (uint256)",
+      "function pendingReward(address user) view returns (uint256)",
+      "function placeBid(string memory message) payable",
+      "function withdraw()",
+      "function totalBids() view returns (uint256)",
+      "function earlyBirdClaimed(address) view returns (bool)",
+      "function earlyBirdCount() view returns (uint256)",
+      "event NewBid(address indexed bidder, uint256 bid, string message)",
+      "event Withdrawal(address indexed user, uint256 amount)"
+    ];
+    let provider, signer, contract, web3Modal;
+    let sharesChart, simulationChart;
+    const defaultProvider = new ethers.providers.JsonRpcProvider("https://eth-mainnet.g.alchemy.com/v2/T_QL1fNKmAx8mKNHscnvfgYyJ9OkLIxg");
+    
+    // --- Status function ---
+    function showStatus(message, isError = false) {
+      const statusEl = document.getElementById("status");
+      statusEl.innerText = message;
+      statusEl.style.backgroundColor = isError ? "#ffcccb" : "#00E676";
+      statusEl.style.color = isError ? "#b71c1c" : "#121212";
+      statusEl.style.opacity = "1";
+      setTimeout(() => { statusEl.style.opacity = "0"; }, 3000);
+    }
+    
+    // --- loadBidHistory ---
+    async function loadBidHistory() {
+      try {
+        const filter = contract.filters.NewBid();
+        const events = await contract.queryFilter(filter, 0, "latest");
+        const bidHistoryDiv = document.getElementById("bidHistory");
+        bidHistoryDiv.innerHTML = "";
+        events.reverse().slice(0, 10).forEach(event => {
+          const bidder = event.args.bidder;
+          const bid = ethers.utils.formatEther(event.args.bid);
+          const message = event.args.message;
+          const bidElement = document.createElement("p");
+          bidElement.innerHTML = `<strong>${bidder}</strong> bid <strong>${bid}</strong> ETH: ${message}`;
+          bidHistoryDiv.appendChild(bidElement);
+        });
+      } catch (err) {
+        console.error("Error loading bid history", err);
+      }
+    }
+    
+    // --- Main functions ---
+    async function init() {
+      try {
+        console.log("Initializing application...");
+        if (window.ethereum) {
+          provider = new ethers.providers.Web3Provider(window.ethereum);
+          console.log("Using Web3Provider with window.ethereum");
+        } else {
+          provider = new ethers.providers.JsonRpcProvider("https://eth-mainnet.g.alchemy.com/v2/T_QL1fNKmAx8mKNHscnvfgYyJ9OkLIxg");
+          console.log("Using JsonRpcProvider fallback");
+        }
+        try {
+          const network = await provider.getNetwork();
+          console.log("Connected network:", network);
+        } catch (e) {
+          console.error("Error connecting to the network:", e);
+          showStatus("Network connection error", true);
+          return;
+        }
+        contract = new ethers.Contract(contractAddress, contractABI, provider);
+        console.log("Contract initialized");
+        await getCurrentState();
+        updateSimulationChart(0);
+        contract.on("NewBid", (bidder, bid, message) => {
+          console.log("New bid detected");
+          getCurrentState();
+        });
+      } catch (err) {
+        console.error("Error in init:", err);
+        showStatus("Error initializing application", true);
+      }
+    }
+    
+    async function connectWallet() {
+      try {
+        console.log("Connecting wallet...");
+        const providerOptions = {
+          walletconnect: {
+            package: window.WalletConnectProvider,
+            options: {
+              rpc: {
+                1337: "https://eth-mainnet.g.alchemy.com/v2/T_QL1fNKmAx8mKNHscnvfgYyJ9OkLIxg",
+                31337: "https://eth-mainnet.g.alchemy.com/v2/T_QL1fNKmAx8mKNHscnvfgYyJ9OkLIxg"
+              }
+            }
+          }
+        };
+        if (!web3Modal) {
+          web3Modal = new window.Web3Modal.default({
+            cacheProvider: false,
+            providerOptions,
+            disableInjectedProvider: false,
+          });
+        }
+        const externalProvider = await web3Modal.connect();
+        provider = new ethers.providers.Web3Provider(externalProvider);
+        if (!await checkNetwork()) return;
+        signer = provider.getSigner();
+        const address = await signer.getAddress();
+        console.log("Wallet connected:", address);
+        contract = new ethers.Contract(contractAddress, contractABI, signer);
+        document.getElementById("connectWalletBtn").style.display = "none";
+        document.getElementById("disconnectWalletBtn").style.display = "block";
+        showStatus("Wallet connected successfully!");
+        await getCurrentState();
+      } catch (e) {
+        console.error("Error connecting wallet:", e);
+        let customMessage = getCustomErrorMessage(e, "connectWallet");
+        if (!customMessage) customMessage = "Error connecting wallet.";
+        showStatus(customMessage, true);
+      }
+    }
+    
+    function disconnectWallet() {
+      if (web3Modal) { web3Modal.clearCachedProvider(); }
+      provider = defaultProvider;
+      signer = null;
+      contract = new ethers.Contract(contractAddress, contractABI, provider);
+      document.getElementById("connectWalletBtn").style.display = "block";
+      document.getElementById("disconnectWalletBtn").style.display = "none";
+      showStatus("Wallet disconnected.");
+    }
+    
+    async function getCurrentState() {
+      try {
+        console.log("Getting current state...");
+        if (!contract) {
+          console.error("Contract not initialized");
+          showStatus("Error: Contract not initialized", true);
+          return;
+        }
+        let message, bid, totalShares;
+        try {
+          message = await contract.currentMessage();
+          console.log("Current message:", message);
+        } catch (e) {
+          console.error("Error loading message:", e);
+          message = "Error loading message";
+        }
+        try {
+          bid = await contract.currentBid();
+          console.log("Current bid:", ethers.utils.formatEther(bid));
+        } catch (e) {
+          console.error("Error loading bid:", e);
+          bid = ethers.BigNumber.from("0");
+        }
+        try {
+          totalShares = await contract.totalShares();
+          console.log("Total shares:", totalShares.toString());
+        } catch (e) {
+          console.error("Error loading total shares:", e);
+          totalShares = ethers.BigNumber.from("0");
+        }
+        if (message.trim() === "") { message = "This is your message"; }
+        document.getElementById("bannerMessage").innerText = message;
+        document.getElementById("currentBid").innerText = ethers.utils.formatEther(bid);
+        document.getElementById("totalShares").innerText = formatSharesFriendly(totalShares);
+        
+        updateChart(0);
+
+        if (signer) {
+          try {
+            const userAddress = await signer.getAddress();
+            console.log("User address:", userAddress);
+            const userShares = await contract.sharesOf(userAddress);
+            console.log("User shares:", userShares.toString());
+            const pending = await contract.pendingReward(userAddress);
+            console.log("Pending reward:", ethers.utils.formatEther(pending));
+            let userSharesPercentage = "0";
+            if (!totalShares.eq(0)) {
+              const percentage = userShares.mul(10000).div(totalShares).toNumber() / 100;
+              userSharesPercentage = percentage.toFixed(2);
+            }
+            document.getElementById("pendingReward").innerText = ethers.utils.formatEther(pending);
+            document.getElementById("userSharesPercentage").innerText = userSharesPercentage;
+            updateChart(parseFloat(userSharesPercentage));
+          } catch (e) {
+            console.error("Error getting user data:", e);
+            showStatus("Error loading user data", true);
+          }
+        }
+        await loadBidHistory();
+      } catch (err) {
+        console.error("General error in getCurrentState:", err);
+        showStatus("Error loading contract state", true);
+      }
+    }
+    
+    function updateChart(userPercentage) {
+      const ctx = document.getElementById('sharesChart').getContext('2d');
+      if (!sharesChart) {
+        sharesChart = new Chart(ctx, {
+          type: 'doughnut',
+          data: {
+            labels: ['Your Shares', 'Other Shares'],
+            datasets: [{
+              data: [userPercentage, 100 - userPercentage],
+              backgroundColor: ['#00E676', '#424242']
+            }]
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            animation: { animateRotate: true },
+            plugins: {
+              tooltip: {
+                callbacks: {
+                  label: function(context) {
+                    let label = context.label 
+                    let value = context.parsed;
+                return label + ': ' + value + '%';
+              }
+            }
+          }
+        }
+      }
+    });
+      } else {
+        sharesChart.data.datasets[0].data = [userPercentage, 100 - userPercentage];
+        sharesChart.update();
+      }
+    }
+    
+    function updateSimulationChart(simPercentage) {
+      const ctxSim = document.getElementById('simulationChart').getContext('2d');
+      if (!simulationChart) {
+        simulationChart = new Chart(ctxSim, {
+          type: 'doughnut',
+          data: {
+            labels: ['Your Simulated Shares', 'Other Shares'],
+            datasets: [{
+              data: [simPercentage, 100 - simPercentage],
+              backgroundColor: ['#00E676', '#424242']
+            }]
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            animation: { animateRotate: true },
+            plugins: {
+              tooltip: {
+                callbacks: {
+                  label: function(context) {
+                    let label = context.label 
+                    let value = context.parsed;
+                return label + ': ' + value + '%';
+              }
+            }
+          }
+        }
+      }
+    });
+    } else {
+      simulationChart.data.datasets[0].data = [simPercentage, 100 - simPercentage];
+      simulationChart.update();
+    }
+}
+    
+    document.getElementById("newMessage").addEventListener("input", () => {
+      const text = document.getElementById("newMessage").value || "This is your message";
+      document.getElementById("smallPreview").innerText = text;
+    });
+    
+    document.getElementById("smallPreview").addEventListener("click", () => {
+      let text = document.getElementById("newMessage").value;
+      if (text.trim() === "") { text = "This is your message"; }
+      document.getElementById("previewBanner").innerText = text;
+      document.getElementById("modal").style.display = "block";
+    });
+    
+    document.getElementById("placeBidBtn").addEventListener("click", async () => {
+      if (!signer) { 
+        alert("Please connect your wallet.");
+        return;
+      }
+      const newMessage = document.getElementById("newMessage").value;
+      const bidAmount = document.getElementById("bidAmount").value;
+      if (!newMessage || !bidAmount) {
+        alert("Please enter a message and an amount.");
+        return;
+      }
+      try {
+        showStatus("Sending transaction...");
+        const tx = await contract.placeBid(newMessage, {
+          value: ethers.utils.parseEther(bidAmount)
+        });
+        await tx.wait();
+        showStatus("Bid placed successfully!");
+        document.getElementById("newMessage").value = "";
+        document.getElementById("bidAmount").value = "";
+        await getCurrentState();
+      } catch (err) {
+        console.error(err);
+        let customMessage = getCustomErrorMessage(err, "placeBid");
+        if (!customMessage) customMessage = "Error placing bid.";
+        showStatus(customMessage, true);
+      }
+    });
+    
+    document.getElementById("withdrawBtn").addEventListener("click", async () => {
+      if (!signer) { 
+        alert("Please connect your wallet.");
+        return;
+      }
+      try {
+        showStatus("Processing withdrawal...");
+        const tx = await contract.withdraw();
+        await tx.wait();
+        showStatus("Funds withdrawn successfully!");
+        await getCurrentState();
+      } catch (err) {
+        console.error(err);
+        let customMessage = getCustomErrorMessage(err, "withdraw");
+        if (!customMessage) customMessage = "Error withdrawing funds.";
+        showStatus(customMessage, true);
+      }
+    });
+    
+    document.getElementById("connectWalletBtn").addEventListener("click", connectWallet);
+    document.getElementById("disconnectWalletBtn").addEventListener("click", disconnectWallet);
+    
+    // Close preview modal
+    const modal = document.getElementById("modal");
+    const closeModal = document.getElementById("closeModal");
+    closeModal.addEventListener("click", () => {
+      modal.style.display = "none";
+    });
+    window.addEventListener("click", (event) => {
+      if (event.target === modal) {
+        modal.style.display = "none";
+      }
+    });
+    
+    // Toggle logic for shares explanation popup
+    const sharesInfoIcon = document.getElementById("sharesInfo");
+    const sharesPopup = document.getElementById("sharesPopup");
+    const closeSharesPopup = document.getElementById("closeSharesPopup");
+
+    function toggleSharesPopup() {
+      if (sharesPopup.style.display === "block") {
+        sharesPopup.style.display = "none";
+      } else {
+        sharesPopup.style.display = "block";
+      }
+    }
+    sharesInfoIcon.addEventListener("click", toggleSharesPopup);
+    closeSharesPopup.addEventListener("click", () => {
+      sharesPopup.style.display = "none";
+    });
+    window.addEventListener("click", (event) => {
+      if (!sharesPopup.contains(event.target) && event.target !== sharesInfoIcon) {
+        sharesPopup.style.display = "none";
+      }
+    });
+
+    // Bonus info popup logic
+    const bonusInfoIcon = document.getElementById("bonusInfo");
+    const bonusPopup = document.getElementById("bonusPopup");
+    const closeBonusPopup = document.getElementById("closeBonusPopup");
+    const goToSimulate = document.getElementById("goToSimulate");
+
+    function toggleBonusPopup() {
+      if (bonusPopup.style.display === "block") {
+        bonusPopup.style.display = "none";
+      } else {
+        bonusPopup.style.display = "block";
+      }
+    }
+
+    bonusInfoIcon.addEventListener("click", toggleBonusPopup);
+    closeBonusPopup.addEventListener("click", () => {
+      bonusPopup.style.display = "none";
+    });
+
+    // Close pop up when clicking outside
+    window.addEventListener("click", (event) => {
+      if (!bonusPopup.contains(event.target) && event.target !== bonusInfoIcon) {
+        bonusPopup.style.display = "none";
+      }
+    });
+
+    goToSimulate.addEventListener("click", () => {
+    sharesPopup.style.display = "none";
+  });
+    
+    // Floating buttons: About, Instructions and Transparency
+    const aboutBtn = document.getElementById("aboutBtn");
+    const instructionsBtn = document.getElementById("instructionsBtn");
+    const transparencyBtn = document.getElementById("transparencyBtn");
+    const aboutModal = document.getElementById("aboutModal");
+    const instructionsModal = document.getElementById("instructionsModal");
+    const transparencyModal = document.getElementById("transparencyModal");
+    const closeAbout = document.getElementById("closeAbout");
+    const closeInstructions = document.getElementById("closeInstructions");
+    const closeTransparency = document.getElementById("closeTransparency");
+
+    // Function for closing all modals
+  function closeAllModals() {
+    const modals = document.querySelectorAll('.modal');
+    modals.forEach(modal => modal.style.display = "none");
+  }
+
+    aboutBtn.addEventListener("click", () => {
+      closeAllModals();
+      aboutModal.style.display = "block";
+    });
+    instructionsBtn.addEventListener("click", () => {
+      closeAllModals();
+      instructionsModal.style.display = "block";
+    });
+    transparencyBtn.addEventListener("click", () => {
+      closeAllModals();
+      transparencyModal.style.display = "block";
+    });
+    closeAbout.addEventListener("click", () => {
+      aboutModal.style.display = "none";
+    });
+    closeInstructions.addEventListener("click", () => {
+      instructionsModal.style.display = "none";
+    });
+    closeTransparency.addEventListener("click", () => {
+      transparencyModal.style.display = "none";
+    });
+    window.addEventListener("click", (event) => {
+      if (event.target === aboutModal) {
+        aboutModal.style.display = "none";
+      }
+      if (event.target === instructionsModal) {
+        instructionsModal.style.display = "none";
+      }
+      if (event.target === transparencyModal) {
+        transparencyModal.style.display = "none";
+      }
+    });
+    
+    document.getElementById("simulateOwnershipBtn").addEventListener("click", async () => {
+      const bidAmount = document.getElementById("simulateBidAmount").value;
+      if (!bidAmount || parseFloat(bidAmount) <= 0) {
+        showStatus("Please enter a valid amount in ETH.", true);
+        return;
+      }
+      try {
+        console.log("Simulate clicked with amount:", bidAmount);
+        const bidValue = ethers.utils.parseEther(bidAmount);
+        const SCALE = ethers.BigNumber.from("1000000000000"); // 1e12
+        let bonusFactor = SCALE; // Default 1.0x
+        let currentUserShares = ethers.BigNumber.from("0");
+        let currentTotalShares = await contract.totalShares();
+        if (signer) {
+          const userAddress = await signer.getAddress();
+          currentUserShares = await contract.sharesOf(userAddress);
+          const hasClaimedBonus = await contract.earlyBirdClaimed(userAddress);
+          const earlyBirdCount = await contract.earlyBirdCount();
+          if (!hasClaimedBonus && earlyBirdCount.lt(10)) {
+            bonusFactor = earlyBirdCount.lt(5)
+              ? ethers.BigNumber.from("1500000000000")
+              : ethers.BigNumber.from("1250000000000");
+          }
+        }
+        const newShares = bidValue.mul(bonusFactor).div(SCALE);
+        const finalUserShares = currentUserShares.add(newShares);
+        const newTotalShares = currentTotalShares.add(newShares);
+        let ownershipPercentage = 0;
+        if (!newTotalShares.isZero()) {
+          ownershipPercentage = finalUserShares.mul(10000).div(newTotalShares).toNumber() / 100;
+        }
+        document.getElementById("estimatedOwnership").innerText = ownershipPercentage.toFixed(2);
+        document.getElementById("newShares").innerText = formatSharesFriendly(newShares);
+        document.getElementById("bonusFactor").innerText = (bonusFactor.toNumber() / SCALE.toNumber()).toFixed(2);
+        updateSimulationChart(ownershipPercentage);
+        showStatus("Simulation completed successfully!");
+      } catch (err) {
+        console.error("Error in simulation:", err);
+        let customMessage = getCustomErrorMessage(err, "simulate");
+        if (!customMessage) customMessage = "Error performing simulation.";
+        showStatus(customMessage, true);
+      }
+    });
+    
+    async function checkNetwork() {
+      try {
+        const network = await provider.getNetwork();
+        console.log("Current network:", network);
+        if (network.chainId !==1) {
+          showStatus("Please connect to the correct network", true);
+          return false;
+        }
+        return true;
+      } catch (e) {
+        console.error("Error checking network:", e);
+        return false;
+      }
+    }
+
+    window.addEventListener("click", (event) => {
+      if (event.target === aboutModal) {
+        aboutModal.style.display = "none";
+      }
+      if (event.target === instructionsModal) {
+        instructionsModal.style.display = "none";
+      }
+      if (event.target === transparencyModal) {
+        transparencyModal.style.display = "none";
+      }
+    });
+    
+    window.onload = init;
+
+  </script>
+  <img src="./message_auction_logo.PNG" alt="Logo" class="fixed-logo">
+  <footer>
+    <div class="footer-container">
+      <div class="footer-links">
+        <a href="https://github.com/nahuelbello/message_auction.git" target="_blank">Repository</a>
+        <a href="https://etherscan.io/address/0x5B0474f5109D9594A2b818E7c33f8BC68C403dc7#code
+        " target="_blank">Smart Contract</a>
+        <a href="faq.html">FAQ</a>
+      </div>
+      <p>© 2025 Message Auction. Released under the MIT License.</p>
+    </div>
+  </footer>
+</body>
+</html>
