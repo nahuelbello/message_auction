@@ -67,58 +67,37 @@ body {
   #hero-text {
     text-align: center;
     padding: 40px 20px;
-  }
-  #hero-text h1 {
-    font-size: 3rem;
-    font-family: 'Orbitron', sans-serif;
-    margin-bottom: 10px;
-    color: #00E676;
-  }
-  #hero-text p {
-    font-size: 1.2rem;
+    max-width: 500px;
+    margin: 0 auto; 
   }
   
+  #hero-text h1 {
+    font-size: 3.5rem;
+    font-family: 'Orbitron', sans-serif;
+    color: #00E676;
+  }
   /* ---------------------- Sección 3: Qué es Message Auction ---------------------- */
   #what-is {
     text-align: center;
     padding: 40px 20px;
   }
-  #what-is h2 {
-    font-family: 'Orbitron', sans-serif;
-    color: #B2FF59;
-    margin-bottom: 20px;
-  }
-  #what-is p {
-    margin-bottom: 15px;
-  }
-  #what-is ul {
-    list-style: none;
-    padding: 0;
-    margin: 0 auto 20px;
-    max-width: 400px;
-    text-align: left;
-  }
-  #what-is ul li {
-    margin: 10px 0;
-  }
-  
-  /* ---------------------- Sección 4: Cómo gano dinero con esto? ---------------------- */
-  #how-to-earn {
-    text-align: center;
-    padding: 40px 20px;
-  }
-  #how-to-earn h2 {
-    font-family: 'Orbitron', sans-serif;
-    color: #B2FF59;
-    margin-bottom: 20px;
-  }
-  #how-to-earn p {
-    margin-bottom: 15px;
+
+  #what-is h3 {
+    /* En lugar de usar padding del 20% a cada lado,
+       podemos limitar el ancho y centrarlo con margin auto */
     max-width: 800px;
-    margin-left: auto;
-    margin-right: auto;
-  }
+    margin: 0 auto 15px auto; /* 0 arriba, 15px abajo, auto a los lados */
+    text-align: left;
   
+    /* Tipografía y estilo */
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 18px;
+    font-weight: 300;
+    line-height: 1.6;
+    letter-spacing: 0.2px;
+    color: #ececec; /* Ajustalo según el color de fondo que tengas */
+  }
+
   /* ---------------------- Sección 5: Instrucciones de Participación ---------------------- */
   #instructions {
     padding: 40px 20px;
@@ -397,4 +376,85 @@ body {
     border-radius: 8px;
     margin-bottom: 20px;
   }
-  
+  /* ---------------------- Sección de Beneficios ---------------------- */
+#benefits {
+  padding: 40px 20px;
+  text-align: center;
+}
+
+#benefits h2 {
+  font-family: 'Orbitron', sans-serif;
+  color: #B2FF59;
+  margin-bottom: 30px;
+}
+
+.benefit-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 20px;
+}
+
+.benefit-card {
+  background: #2c2c2c;
+  border: 1px solid #00C853;
+  border-radius: 8px;
+  padding: 20px;
+  flex: 1 1 calc(25% - 20px); /* Se adapta a 4 tarjetas por fila en escritorio */
+  max-width: 300px;
+  box-sizing: border-box;
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.benefit-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 5px 15px rgba(0,200,83,0.4);
+}
+
+.benefit-icon {
+  font-size: 2rem;
+  margin-bottom: 10px;
+  color: #00E676;
+}
+
+.benefit-title {
+  font-family: 'Orbitron', sans-serif;
+  color: #B2FF59;
+  font-size: 1.2rem;
+  margin-bottom: 10px;
+}
+
+.benefit-text {
+  font-family: 'Roboto', sans-serif;
+  color: #e0e0e0;
+  font-size: 1rem;
+}
+
+/* ---------------------- Section: How Can I Earn Money With This? ---------------------- */
+#earn-money {
+  text-align: center;
+  padding: 40px 20px;
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+#earn-money h2 {
+  font-family: 'Orbitron', sans-serif;
+  color: #B2FF59;
+  margin-bottom: 20px;
+}
+
+#earn-money p {
+  font-family: 'Roboto', sans-serif;
+  color: #e0e0e0;
+  font-size: 1rem;
+  line-height: 1.6;
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 18px;
+  font-weight: 300;
+  line-height: 1.6;
+  letter-spacing: 1px;
+  color: #ececec;
+  text-align: left;
+}
+
