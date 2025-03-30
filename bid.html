@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- Google Tag Manager -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-0L3MMEZ5C5"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-0L3MMEZ5C5');
+  </script>
+
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="description" content="Message Auction is an innovative dApp where your messages transform into bids, blending fun, transparency, and blockchain rewards.">
+  <link rel="icon" type="image/png" sizes="32x32" href="message_auction_logo.PNG">
+  <title>Message Auction - Bid</title>
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Roboto:wght@400;500&display=swap" rel="stylesheet">
+  <!-- Chart.js -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <!-- Link to external CSS (shared with landing page) -->
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <!-- Banner -->
+  <header id="stickyHeader">
+    <div class="banner">
+      <div class="banner-marquee">
+        <div class="marquee-content">
+          <span id="bannerMessage">Loading message...</span>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main widget: Información y acciones para pujar -->
+  <div class="widget">
+    <h1>Message Auction</h1>
+    <p class="info">
+      <strong>Current Bid:</strong> <span id="currentBid">Loading...</span> ETH
+    </p>
+    <p class="info">
+      <strong>Total Shares:</strong> <span id="totalShares">0</span> units
+      <span id="sharesInfo" class="info-icon" title="Click for more info">?</span>
+    </p>
+    <p class="info">
+      <strong>Your Shares:</strong> <span id="userSharesPercentage">0</span>%
+    </p>
+    <p class="info">
+      <strong>Your Pending Reward:</strong> <span id="pendingReward">0</span> ETH
+    </p>
+    
+    <!-- Gráfico de participación -->
+    <div id="chartContainer">
+      <canvas id="sharesChart"></canvas>
+    </div>
+    
+    <hr>
+    <!-- Sección de puja -->
+    <h2>Place a New Bid</h2>
+    <div class="input-group">
+      <input type="text" id="newMessage" placeholder="Enter your message (max 50 characters)" maxlength="50">
+      <div id="smallPreview" class="small-preview" title="Click for a larger preview">Preview</div>
+    </div>
+    <input type="number" id="bidAmount" placeholder="ETH amount" step="0.01" min="0">
+    <button id="placeBidBtn">Place Bid</button>
+    <div id="bidError" class="error-message" style="display:none;"></div>
+    
+    <hr>
+    <!-- Sección de últimas pujas -->
+    <h2>Latest Bids</h2>
+    <div id="bidHistory"></div>
+    
+    <hr>
+    <!-- Sección de retiro de fondos -->
+    <h2>Withdraw Funds</h2>
+    <button id="withdrawBtn">Withdraw</button>
+    
+    <!-- Conexión/Desconexión de wallet -->
+    <button id="connectWalletBtn">Connect Wallet</button>
+    <button id="disconnectWalletBtn" style="display:none;">Disconnect Wallet</button>
+    
+    <p class="mobile-metamask-info">
+      IMPORTANT: If your browser lacks an injected provider (e.g., using Chrome/Safari on mobile or a PC without a wallet extension like MetaMask), you won’t be able to connect.
+    </p>
+    
+    <div id="status" class="status"></div>
+  </div>
+  
+  <!-- Modal for message preview -->
+  <div id="modal" class="modal">
+    <div class="modal-content">
+      <span id="closeModal" class="close">&times;</span>
+      <div class="preview-banner" id="previewBanner">Your Message Preview</div>
+      <p>This is how your message will appear in the banner.</p>
+    </div>
+  </div>
+  
+  <!-- Simulation widget: Ownership Simulator -->
+  <div class="widget" id="simulateOwnershipSection">
+    <h2>Ownership Simulator</h2>
+    <div class="input-group simulate-input-group">
+      <input type="number" id="simulateBidAmount" placeholder="Amount in ETH" step="0.01" min="0">
+      <button id="simulateOwnershipBtn">Simulate</button>
+    </div>
+    <div id="simulationChartContainer">
+      <canvas id="simulationChart"></canvas>
+    </div>
+    <div class="simulation-results">
+      <p class="info"><strong>Estimated Ownership:</strong> <span id="estimatedOwnership">0</span>%</p>
+      <p class="info"><strong>New Shares:</strong> <span id="newShares">0</span></p>
+      <p class="info"><strong>Bonus:</strong> <span id="bonusFactor">1.0</span>x <span id="bonusInfo" class="info-icon" title="Click for bonus details">?</span></p>
+    </div>
+  </div>
+  
+  <!-- Footer -->
+  <footer>
+    <div class="footer-container">
+      <div class="footer-links">
+        <a href="https://github.com/nahuelbello/message_auction.git" target="_blank">Repository</a>
+        <a href="https://etherscan.io/address/0x5B0474f5109D9594A2b818E7c33f8BC68C403dc7#code" target="_blank">Smart Contract</a>
+        <a href="faq.html">FAQ</a>
+      </div>
+      <p>© 2025 Message Auction. Released under the MIT License.</p>
+    </div>
+  </footer>
+  
+  <!-- Incluye el archivo de JavaScript unificado -->
+  <script src="js/common.js"></script>
+<script src="js/bid.js"></script>
+</body>
+</html>

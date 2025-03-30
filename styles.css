@@ -1,460 +1,525 @@
 /* ---------------------- Global Styles ---------------------- */
 body {
-    font-family: 'Roboto', sans-serif;
-    background: linear-gradient(135deg, #121212, #1e1e1e);
-    margin: 0;
-    padding: 0;
-    color: #e0e0e0;
-    scroll-behavior: smooth;
-  }
-  
-  /* ---------------------- Header (sin fondo verde) ---------------------- */
-  header {
-    top: 0;
-    z-index: 1100;
-    transition: padding 0.3s;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-  
-  /* Contenedor principal del banner */
-  .banner {
-    width: 100%;
-    background: linear-gradient(135deg, #00C853, #B2FF59);
-    padding: 60px 20px;
-    max-width: 1200px;
-    margin: 0 auto;
-    text-align: center;
-    border-bottom-right-radius: 15px;
-    border-bottom-left-radius: 15px;
-    font-family: 'Orbitron', sans-serif;
-    font-size: 5rem;
-    color: #ffffff;
-    text-shadow: 0 0 10px #00ff00;
-    box-shadow: 0 4px 10px rgba(0,200,83,0.5);
-    margin-bottom: 20px;
-    animation: fadeIn 1s ease-in;
-    position: relative;
-    overflow: hidden; /* Oculta el texto cuando sale del contenedor */
-  }
-  
-  /* Contenedor para la animación tipo marquee */
-  .banner-marquee {
-    white-space: nowrap;  /* No baja de línea */
-    overflow: hidden;     /* Oculta el texto que se sale */
-    display: block;
-  }
-  
-  /* Texto que se desplaza de derecha a izquierda */
-  #bannerMessage {
-    display: inline-block;
-    padding-left: 100%;           /* Empieza fuera de la parte derecha */
-    animation: marqueeScroll 10s linear infinite;
-  }
-  
-  /* Keyframes de la animación */
-  @keyframes marqueeScroll {
-    0% {
-      transform: translateX(0);
-    }
-    100% {
-      transform: translateX(-100%);
-    }
-  }
-  
-  /* ---------------------- Sección 2: Hero Text ---------------------- */
-  #hero-text {
-    text-align: center;
-    padding: 40px 20px;
-    max-width: 500px;
-    margin: 0 auto; 
-  }
-  
-  #hero-text h1 {
-    font-size: 3.5rem;
-    font-family: 'Orbitron', sans-serif;
-    color: #00E676;
-  }
-  /* ---------------------- Sección 3: Qué es Message Auction ---------------------- */
-  #what-is {
-    text-align: center;
-    padding: 40px 20px;
-  }
-
-  #what-is h3 {
-    /* En lugar de usar padding del 20% a cada lado,
-       podemos limitar el ancho y centrarlo con margin auto */
-    max-width: 800px;
-    margin: 0 auto 15px auto; /* 0 arriba, 15px abajo, auto a los lados */
-    text-align: left;
-  
-    /* Tipografía y estilo */
-    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-    font-size: 18px;
-    font-weight: 300;
-    line-height: 1.6;
-    letter-spacing: 0.2px;
-    color: #ececec; /* Ajustalo según el color de fondo que tengas */
-  }
-
-  /* ---------------------- Sección 5: Instrucciones de Participación ---------------------- */
-  #instructions {
-    padding: 40px 20px;
-  }
-  #instructions h2 {
-    text-align: center;
-    font-family: 'Orbitron', sans-serif;
-    color: #B2FF59;
-    margin-bottom: 20px;
-  }
-  .instruction {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin: 30px 0;
-    flex-wrap: wrap;
-  }
-  .instruction.left .instruction-text {
-    order: 1;
-    width: 45%;
-    padding: 10px;
-    text-align: left;
-  }
-  .instruction.left .instruction-screenshot {
-    order: 2;
-    width: 45%;
-    padding: 10px;
-    text-align: center;
-  }
-  .instruction.right .instruction-text {
-    order: 2;
-    width: 45%;
-    padding: 10px;
-    text-align: right;
-  }
-  .instruction.right .instruction-screenshot {
-    order: 1;
-    width: 45%;
-    padding: 10px;
-    text-align: center;
-  }
-  .screenshot {
-    background: #FF9800;
-    color: #121212;
-    padding: 20px;
-    border-radius: 8px;
-    font-weight: bold;
-  }
-  
-  /* ---------------------- Sección 6: Simula tu Participación ---------------------- */
-  #simulation {
-    text-align: center;
-    padding: 40px 20px;
-  }
-  #simulation h2 {
-    font-family: 'Orbitron', sans-serif;
-    color: #B2FF59;
-    margin-bottom: 20px;
-  }
-  #simulation p {
-    margin-bottom: 15px;
-  }
-  .simulate-input-group {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 10px;
-    margin: 20px 0;
-    flex-wrap: wrap;
-  }
-  .simulate-input-group input,
-  .simulate-input-group button {
-    padding: 10px;
-    font-size: 1rem;
-    border: 1px solid #00C853;
-    border-radius: 6px;
-    background: #2c2c2c;
-    color: #e0e0e0;
-    width: 200px;
-  }
-  
-  /* ---------------------- Sección 7: Últimas Pujas ---------------------- */
-  #latest-bids {
-    text-align: center;
-    padding: 40px 20px;
-  }
-  #latest-bids h2 {
-    font-family: 'Orbitron', sans-serif;
-    color: #B2FF59;
-    margin-bottom: 20px;
-  }
-  #bidHistory p {
-    font-size: 0.9rem;
-    margin: 5px 0;
-  }
-  
-  /* ---------------------- Sección 8: Transparencia ---------------------- */
-  #transparency-info {
-    text-align: center;
-    padding: 40px 20px;
-    font-size: 0.9rem;
-    max-width: 800px;
-    margin: 0 auto;
-  }
-  #transparency-info a {
-    color: #00E676;
-    text-decoration: underline;
-    font-weight: bold;
-  }
-  
-  /* ---------------------- Sección 9: CTA ---------------------- */
-  #cta {
-    text-align: center;
-    padding: 40px 20px;
-  }
-  #cta button {
-    background: #00C853;
-    border: none;
-    color: #fff;
-    padding: 20px 30px;
-    font-size: 1.2rem;
-    border-radius: 8px;
-    cursor: pointer;
-    transition: background 0.3s;
-  }
-  #cta button:hover {
-    background: #00E676;
-  }
-  
-  /* ---------------------- Sección 10: Footer ---------------------- */
-  footer {
-    width: 100%;
-    background: #1e1e1e;
-    color: #e0e0e0;
-    text-align: center;
-    padding: 10px 20px;
-    margin-top: 20px;
-  }
-  .footer-container {
-    max-width: 1200px;
-    margin: 0 auto;
-  }
-  .footer-links {
-    margin-bottom: 5px;
-  }
-  .footer-links a {
-    color: #00E676;
-    text-decoration: none;
-    margin: 0 10px;
-  }
-  .footer-links a:hover {
-    text-decoration: underline;
-  }
-  
-  /* ---------------------- Estilos del Widget y Elementos Existentes ---------------------- */
-  .widget {
-    background: linear-gradient(145deg, #1e1e1e, #2c2c2c);
-    padding: 30px 40px;
-    border-radius: 12px;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.5), 0 0 15px rgba(0,200,83,0.3);
-    width: 90%;
-    max-width: 600px;
-    margin: 40px auto;
-    animation: fadeIn 1s ease-in, glowBorder 2s infinite alternate;
-    position: relative;
-    text-align: center;
-  }
-  .input-group {
-    display: flex;
-    align-items: center;
-    margin-bottom: 10px;
-  }
-  .input-group input {
-    flex: 1;
-  }
-  .small-preview {
-    margin-left: 8px;
-    padding: 12px;
-    border: 1px solid #00C853;
-    border-radius: 6px;
-    background: #2c2c2c;
-    color: #00E676;
-    font-family: 'Orbitron', sans-serif;
-    font-size: 0.9rem;
-    cursor: pointer;
-    white-space: nowrap;
-    max-width: 130px;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    transition: background 0.3s ease, color 0.3s ease;
-  }
-  .small-preview:hover {
-    background: #00E676;
-    color: #121212;
-  }
-  input, button {
-    width: 100%;
-    padding: 12px;
-    margin: 8px 0;
-    font-size: 16px;
-    border: 1px solid #00C853;
-    border-radius: 6px;
-    box-sizing: border-box;
-    background: #2c2c2c;
-    color: #e0e0e0;
-  }
-  input:focus {
-    outline: none;
-    border-color: #00E676;
-    box-shadow: 0 0 8px #00E676;
-  }
-  button {
-    background: #00C853;
-    border: none;
-    color: #fff;
-    font-weight: 600;
-    cursor: pointer;
-    transition: background 0.3s ease;
-  }
-  button:hover {
-    background: #00E676;
-  }
-  hr {
-    border: none;
-    border-top: 1px solid #333;
-    margin: 20px 0;
-  }
-  @keyframes glowBorder {
-    0%   { border: 1px solid rgba(0,200,83,0.2); }
-    100% { border: 1px solid rgba(0,200,83,0.5); }
-  }
-  @keyframes fadeIn {
-    from { opacity: 0; transform: translateY(20px); }
-    to   { opacity: 1; transform: translateY(0); }
-  }
-  
-  /* ---------------------- Modal Styles (Preview) ---------------------- */
-  .modal {
-    display: none;
-    position: fixed;
-    z-index: 10;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0,0,0,0.7);
-  }
-  .modal-content {
-    position: relative;
-    background: #1e1e1e;
-    margin: 10% auto;
-    padding: 20px;
-    border-radius: 12px;
-    width: 80%;
-    max-width: 500px;
-    text-align: center;
-    color: #e0e0e0;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.5);
-    animation: fadeIn 0.5s ease-in;
-  }
-  .close {
-    position: absolute;
-    top: 5px;
-    right: 10px;
-    cursor: pointer;
-    font-size: 16px;
-    color: #fff;
-  }
-  .preview-banner {
-    background: linear-gradient(135deg, #00C853, #B2FF59);
-    padding: 40px 20px;
-    font-family: 'Orbitron', sans-serif;
-    font-size: 2.5rem;
-    color: #fff;
-    text-shadow: 0 0 8px #00ff00;
-    border-radius: 8px;
-    margin-bottom: 20px;
-  }
-  /* ---------------------- Sección de Beneficios ---------------------- */
-#benefits {
-  padding: 40px 20px;
-  text-align: center;
-}
-
-#benefits h2 {
-  font-family: 'Orbitron', sans-serif;
-  color: #B2FF59;
-  margin-bottom: 30px;
-}
-
-.benefit-container {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 20px;
-}
-
-.benefit-card {
-  background: #2c2c2c;
-  border: 1px solid #00C853;
-  border-radius: 8px;
-  padding: 20px;
-  flex: 1 1 calc(25% - 20px); /* Se adapta a 4 tarjetas por fila en escritorio */
-  max-width: 300px;
-  box-sizing: border-box;
-  transition: transform 0.3s, box-shadow 0.3s;
-}
-
-.benefit-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 5px 15px rgba(0,200,83,0.4);
-}
-
-.benefit-icon {
-  font-size: 2rem;
-  margin-bottom: 10px;
-  color: #00E676;
-}
-
-.benefit-title {
-  font-family: 'Orbitron', sans-serif;
-  color: #B2FF59;
-  font-size: 1.2rem;
-  margin-bottom: 10px;
-}
-
-.benefit-text {
   font-family: 'Roboto', sans-serif;
+  background: linear-gradient(135deg, #121212, #1e1e1e);
+  margin: 0;
+  padding: 0;
   color: #e0e0e0;
-  font-size: 1rem;
+  scroll-behavior: smooth;
+  overflow-x: hidden;
+}
+
+img {
+max-width: 70%;
+height: auto;
+}
+
+/* ---------------------- Header (sin fondo verde) ---------------------- */
+header {
+top: 0;
+z-index: 1100;
+transition: padding 0.3s;
+display: flex;
+align-items: center;
+justify-content: center;
+}
+
+/* Contenedor principal del banner */
+.banner {
+width: 100%;
+background: linear-gradient(135deg, #00C853, #B2FF59);
+padding: 60px 20px;
+max-width: 1200px;
+margin: 0 auto;
+text-align: center;
+border-bottom-right-radius: 15px;
+border-bottom-left-radius: 15px;
+font-family: 'Orbitron', sans-serif;
+font-size: 5rem;
+color: #ffffff;
+text-shadow: 0 0 10px #00ff00;
+box-shadow: 0 4px 10px rgba(0,200,83,0.5);
+margin-bottom: 20px;
+animation: fadeIn 1s ease-in;
+position: relative;
+overflow: hidden; /* Oculta el texto cuando sale del contenedor */
+}
+
+/* Contenedor para la animación tipo marquee */
+.banner-marquee {
+white-space: nowrap;
+overflow: hidden;
+display: block;
+}
+/* Texto que se desplaza de derecha a izquierda */
+#bannerMessage {
+display: inline-block;
+padding-left: 100%;
+animation: marqueeScroll 10s linear infinite;
+}
+@keyframes marqueeScroll {
+0%   { transform: translateX(0); }
+100% { transform: translateX(-100%); }
+}
+
+/* ---------------------- Sección 2: Hero Text ---------------------- */
+#hero-text {
+text-align: center;
+padding: 40px 20px;
+max-width: 500px;
+margin: 0 auto; 
+}
+#hero-text h1 {
+font-size: 3.5rem;
+font-family: 'Orbitron', sans-serif;
+color: #00E676;
+}
+
+/* ---------------------- Sección 3: Qué es Message Auction ---------------------- */
+#what-is {
+text-align: center;
+padding: 40px 20px;
+}
+#what-is h3 {
+max-width: 800px;
+margin: 0 auto 15px auto;
+text-align: left;
+font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+font-size: 18px;
+font-weight: 300;
+line-height: 1.6;
+letter-spacing: 0.2px;
+color: #ececec;
+}
+
+/* ---------------------- Sección 5: Instrucciones de Participación ---------------------- */
+
+#instructions {
+padding: 40px 20px;
+}
+#instructions h2 {
+text-align: center;
+font-family: 'Orbitron', sans-serif;
+color: #B2FF59;
+margin-bottom: 20px;
+}
+.instruction {
+display: flex;
+align-items: center;
+justify-content: center;
+margin: 30px 0;
+flex-wrap: wrap;
+}
+.instruction.left .instruction-text {
+order: 1;
+width: 45%;
+padding: 10px;
+text-align: right;
+}
+.instruction.left .instruction-screenshot {
+order: 2;
+width: 45%;
+padding: 10px;
+text-align: center;
+}
+.instruction.right .instruction-text {
+order: 2;
+width: 45%;
+padding: 10px;
+text-align: left;
+}
+.instruction.right .instruction-screenshot {
+order: 1;
+width: 45%;
+padding: 10px;
+text-align: center;
+}
+.screenshot {
+background: #FF9800;
+color: #121212;
+padding: 20px;
+border-radius: 8px;
+font-weight: bold;
+}
+
+/* ---------------------- Sección 6: Simula tu Participación ---------------------- */
+#simulation,
+#simulateOwnershipSection {
+text-align: center;
+padding: 20px 20px;
+}
+#simulation h2,
+#simulateOwnershipSection {
+font-family: 'Orbitron', sans-serif;
+color: #B2FF59;
+margin-bottom: 20px;
+}
+#simulation p {
+max-width: 800px;
+margin: 0 auto 15px auto;
+text-align: center;
+font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+font-size: 18px;
+font-weight: 300;
+line-height: 1.6;
+letter-spacing: 0.2px;
+color: #ececec;
+}
+#simulateOwnershipSection p {
+max-width: 800px;
+margin: 0 auto 15px auto;
+text-align: center;
+font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+font-size: 18px;
+font-weight: 300;
+line-height: 1.6;
+letter-spacing: 0.2px;
+color: #ececec;
+}
+.simulate-input-group {
+display: flex;
+align-items: center;
+justify-content: center;
+gap: 10px;
+margin: 20px 0;
+flex-wrap: wrap;
+}
+.simulate-input-group input,
+.simulate-input-group button {
+padding: 10px;
+font-size: 1rem;
+border: 1px solid #00C853;
+border-radius: 6px;
+background: #2c2c2c;
+color: #e0e0e0;
+width: 200px;
+}
+
+/* ---------------------- Sección 7: Últimas Pujas ---------------------- */
+#latest-bids {
+text-align: center;
+padding: 40px 20px;
+}
+#latest-bids h2 {
+font-family: 'Orbitron', sans-serif;
+color: #B2FF59;
+margin-bottom: 20px;
+}
+#bidHistory p {
+font-size: 0.9rem;
+margin: 5px 0;
+}
+
+/* ---------------------- Sección 8: Transparencia ---------------------- */
+#transparency-info {
+max-width: 1200px;
+margin: 0 auto 15px auto;
+text-align: center;
+font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+font-size: 18px;
+font-weight: 300;
+line-height: 1.6;
+letter-spacing: 0.2px;
+color: #ececec;
+}
+#transparency-info a {
+color: #00E676;
+text-decoration: underline;
+font-weight: bold;
+}
+
+/* ---------------------- Sección 9: CTA ---------------------- */
+#cta {
+text-align: center;
+padding: 40px 20px;
+}
+#cta button {
+background: #00C853;
+border: none;
+color: #fff;
+padding: 20px 25px;
+max-width: 40%;
+font-size: 1.5rem;
+border-radius: 8px;
+cursor: pointer;
+transition: background 0.3s;
+display: inline-block;
+width: auto;
+}
+#cta button:hover {
+background: #00E676;
+}
+
+/* ---------------------- Sección 10: Footer ---------------------- */
+footer {
+width: 100%;
+background: #1e1e1e;
+color: #e0e0e0;
+text-align: center;
+padding: 10px 20px;
+margin-top: 20px;
+}
+.footer-container {
+max-width: 1200px;
+margin: 0 auto;
+}
+.footer-links {
+margin-bottom: 5px;
+}
+.footer-links a {
+color: #00E676;
+text-decoration: none;
+margin: 0 10px;
+}
+.footer-links a:hover {
+text-decoration: underline;
+}
+
+/* ---------------------- Estilos del Widget y Elementos Existentes ---------------------- */
+.widget {
+background: linear-gradient(145deg, #1e1e1e, #2c2c2c);
+padding: 30px 40px;
+border-radius: 12px;
+box-shadow: 0 4px 12px rgba(0,0,0,0.5), 0 0 15px rgba(0,200,83,0.3);
+width: 90%;
+max-width: 600px;
+margin: 40px auto;
+animation: fadeIn 1s ease-in, glowBorder 2s infinite alternate;
+position: relative;
+text-align: center;
+}
+.input-group {
+display: flex;
+align-items: center;
+margin-bottom: 10px;
+}
+.input-group input {
+flex: 1;
+}
+.small-preview {
+margin-left: 8px;
+padding: 12px;
+border: 1px solid #00C853;
+border-radius: 6px;
+background: #2c2c2c;
+color: #00E676;
+font-family: 'Orbitron', sans-serif;
+font-size: 0.9rem;
+cursor: pointer;
+white-space: nowrap;
+max-width: 130px;
+overflow: hidden;
+text-overflow: ellipsis;
+transition: background 0.3s ease, color 0.3s ease;
+}
+.small-preview:hover {
+background: #00E676;
+color: #121212;
+}
+input, button {
+width: 100%;
+padding: 12px;
+margin: 8px 0;
+font-size: 16px;
+border: 1px solid #00C853;
+border-radius: 6px;
+box-sizing: border-box;
+background: #2c2c2c;
+color: #e0e0e0;
+}
+input:focus {
+outline: none;
+border-color: #00E676;
+box-shadow: 0 0 8px #00E676;
+}
+button {
+background: #00C853;
+border: none;
+color: #fff;
+font-weight: 600;
+cursor: pointer;
+transition: background 0.3s ease;
+}
+button:hover {
+background: #00E676;
+}
+hr {
+border: none;
+border-top: 1px solid #333;
+margin: 20px 0;
+}
+
+/* AÑADIDO DESDE BID: .status (para mensajes de estado) */
+.status {
+margin-top: 15px;
+padding: 10px;
+border-radius: 5px;
+text-align: center;
+opacity: 0;
+transition: opacity 0.5s ease-in-out;
+}
+
+/* AÑADIDO DESDE BID: .mobile-metamask-info */
+.mobile-metamask-info {
+font-size: 12px;
+color: #B2FF59;
+text-align: center;
+margin: 5px 0 10px 0;
+line-height: 1.4;
+}
+
+/* AÑADIDO DESDE BID: contenedores de charts (#chartContainer, #simulationChartContainer) */
+#chartContainer, #simulationChartContainer {
+width: 100%;
+max-width: 300px;
+margin: 0 auto 20px;
+}
+
+/* AÑADIDO DESDE BID: animaciones glowBorder y fadeIn (aunque ya tienes fadeIn) */
+@keyframes glowBorder {
+0% { border: 1px solid rgba(0,200,83,0.2); }
+100% { border: 1px solid rgba(0,200,83,0.5); }
+}
+/* fadeIn ya existe, la dejamos */
+
+/* AÑADIDO DESDE BID: .modal (ya lo tienes, pero revisa si coincide) */
+.modal {
+display: none;
+position: fixed;
+z-index: 10;
+left: 0;
+top: 0;
+width: 100%;
+height: 100%;
+background-color: rgba(0,0,0,0.7);
+}
+.modal-content {
+position: relative;
+background: #1e1e1e;
+margin: 10% auto;
+padding: 20px;
+border-radius: 12px;
+width: 80%;
+max-width: 500px;
+text-align: center;
+color: #e0e0e0;
+box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+animation: fadeIn 0.5s ease-in;
+}
+.close {
+position: absolute;
+top: 5px;
+right: 10px;
+cursor: pointer;
+font-size: 16px;
+color: #fff;
+}
+.preview-banner {
+background: linear-gradient(135deg, #00C853, #B2FF59);
+padding: 40px 20px;
+font-family: 'Orbitron', sans-serif;
+font-size: 2.5rem;
+color: #fff;
+text-shadow: 0 0 8px #00ff00;
+border-radius: 8px;
+margin-bottom: 20px;
+}
+
+/* ---------------------- Sección de Beneficios ---------------------- */
+#benefits {
+padding: 40px 20px;
+text-align: center;
+}
+#benefits h2 {
+font-family: 'Orbitron', sans-serif;
+color: #B2FF59;
+margin-bottom: 30px;
+}
+.benefit-container {
+display: flex;
+flex-wrap: wrap;
+justify-content: center;
+gap: 20px;
+}
+.benefit-card {
+background: #2c2c2c;
+border: 1px solid #00C853;
+border-radius: 8px;
+padding: 20px;
+flex: 1 1 calc(25% - 20px);
+max-width: 300px;
+box-sizing: border-box;
+transition: transform 0.3s, box-shadow 0.3s;
+}
+.benefit-card:hover {
+transform: translateY(-5px);
+box-shadow: 0 5px 15px rgba(0,200,83,0.4);
+}
+.benefit-icon {
+font-size: 2rem;
+margin-bottom: 10px;
+color: #00E676;
+}
+.benefit-title {
+font-family: 'Orbitron', sans-serif;
+color: #B2FF59;
+font-size: 1.2rem;
+margin-bottom: 10px;
+}
+.benefit-text {
+font-family: 'Roboto', sans-serif;
+color: #e0e0e0;
+font-size: 1rem;
 }
 
 /* ---------------------- Section: How Can I Earn Money With This? ---------------------- */
 #earn-money {
-  text-align: center;
-  padding: 40px 20px;
-  max-width: 1000px;
-  margin: 0 auto;
+text-align: center;
+padding: 40px 20px;
+max-width: 1000px;
+margin: 0 auto;
 }
-
 #earn-money h2 {
-  font-family: 'Orbitron', sans-serif;
-  color: #B2FF59;
-  margin-bottom: 20px;
+font-family: 'Orbitron', sans-serif;
+color: #B2FF59;
+margin-bottom: 20px;
 }
-
 #earn-money p {
-  font-family: 'Roboto', sans-serif;
-  color: #e0e0e0;
-  font-size: 1rem;
-  line-height: 1.6;
-  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-  font-size: 18px;
-  font-weight: 300;
-  line-height: 1.6;
-  letter-spacing: 1px;
-  color: #ececec;
-  text-align: left;
+font-family: 'Roboto', sans-serif;
+color: #e0e0e0;
+font-size: 1rem;
+line-height: 1.6;
+font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+font-size: 18px;
+font-weight: 300;
+line-height: 1.6;
+letter-spacing: 1px;
+color: #ececec;
 }
 
+/* Ocultamos secciones Desktop/Mobile por defecto (si usas el switch) */
+#desktopInstructions, #mobileInstructions {
+display: none;
+margin-bottom: 120px;
+}
+
+#instructionsTitle {
+font-family: 'Orbitron', sans-serif;
+color: #B2FF59;
+margin-bottom: 20px;
+text-align: center;
+padding-bottom: 75px;
+}
+
+#desktopInstructions p, #mobileInstructions p {
+font-family: 'Roboto', sans-serif;
+color: #e0e0e0;
+font-size: 1rem;
+line-height: 1.6;
+font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+font-size: 18px;
+font-weight: 300;
+line-height: 1.6;
+letter-spacing: 1px;
+color: #ececec;
+}
