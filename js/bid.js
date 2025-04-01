@@ -257,4 +257,80 @@ window.addEventListener("click", (event) => {
   if (event.target === modal) modal.style.display = "none";
 });
 
-// (Agrega aquí el resto de la lógica que necesites específica para la página de pujas)
+document.addEventListener("DOMContentLoaded", function() {
+  // Elementos del popup
+  const sharesInfoIcon = document.getElementById("sharesInfo");
+  const sharesPopup = document.getElementById("sharesPopup");
+  const closeSharesPopup = document.getElementById("closeSharesPopup");
+
+  // Al hacer click en el signo de pregunta, se muestra el popup
+  sharesInfoIcon.addEventListener("click", function(e) {
+    e.stopPropagation(); // Prevenir propagación si es necesario
+    sharesPopup.style.display = "block";
+  });
+
+  // Al hacer click en la "x", se cierra el popup
+  closeSharesPopup.addEventListener("click", function(e) {
+    e.stopPropagation();
+    sharesPopup.style.display = "none";
+  });
+
+  // Si se hace click fuera del popup, se cierra
+  window.addEventListener("click", function(e) {
+    if (!sharesPopup.contains(e.target) && e.target !== sharesInfoIcon) {
+      sharesPopup.style.display = "none";
+    }
+  });
+});
+
+// Assuming your popup element has id="sharesPopup"
+function toggleSharesPopup() {
+  const popup = document.getElementById('sharesPopup');
+  // Toggle display between "block" and "none"
+  popup.style.display = (popup.style.display === "block") ? "none" : "block";
+}
+
+// Attach the event listener to the icon
+const sharesInfoIcon = document.getElementById('sharesInfo');
+sharesInfoIcon.addEventListener('click', toggleSharesPopup);
+
+// Función de scroll suave usando requestAnimationFrame
+function smoothScrollTo(targetId, duration = 800) {
+  const target = document.getElementById(targetId);
+  if (!target) return;
+  
+  const targetPosition = target.getBoundingClientRect().top + window.pageYOffset;
+  const startPosition = window.pageYOffset;
+  const distance = targetPosition - startPosition;
+  let startTime = null;
+
+  function animation(currentTime) {
+    if (startTime === null) startTime = currentTime;
+    const timeElapsed = currentTime - startTime;
+    const run = easeInOutQuad(timeElapsed, startPosition, distance, duration);
+    window.scrollTo(0, run);
+    if (timeElapsed < duration) requestAnimationFrame(animation);
+  }
+
+  // Función de easing (easeInOutQuad)
+  function easeInOutQuad(t, b, c, d) {
+    t /= d / 2;
+    if (t < 1) return c / 2 * t * t + b;
+    t--;
+    return -c / 2 * (t * (t - 2) - 1) + b;
+  }
+
+  requestAnimationFrame(animation);
+}
+
+// Agregar el event listener al enlace que lleva al simulador
+document.addEventListener("DOMContentLoaded", function() {
+  const goToSimulate = document.getElementById("goToSimulate");
+  if (goToSimulate) {
+    goToSimulate.addEventListener("click", function(e) {
+      e.preventDefault();
+      smoothScrollTo("simulateOwnershipSection", 800);
+      document.getElementById("sharesPopup").style.display = "none";
+    });
+  }
+});

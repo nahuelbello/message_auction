@@ -34,8 +34,9 @@
   <!-- Sección 2: Video and manijeo -->
   <section id="hero-text" class="hero-content">
     <h1>Your Message<br>Your Bids<br>Your Rewards</h1>
-  <img src="message_auction_logo.PNG" alt="Logo of Message Auction" style="display: block; width: 40%; margin: 0 auto;">
+    <img src="message_auction_logo.PNG" alt="Logo of Message Auction" style="display: block; width: 60%; margin: 0 auto;">
   </section>
+
   <!-- Sección 3: ¿Qué es Message Auction? -->
   <section id="what-is">
     <h3>
@@ -43,6 +44,11 @@
       The idea is that every time someone makes a new bid, the money is distributed among everyone who participated before, using a system of “shares.” 
       The fun part is that with each new bid, if you already hold shares, you earn rewards
     </h3>
+  </section>
+
+  <section id="cta">
+    <button onclick="window.open('bid.html', '_blank', 'noopener,noreferrer')">
+      Place Your Bid & Start Earning ETH
   </section>
 
 <!-- Section: Benefits of Participating -->
@@ -79,8 +85,6 @@
   </div>
 </section>
 
-
-
 <!-- Section: How Can I Earn Money With This? -->
 <section id="earn-money">
   <h2>Sounds good but, ¿How can I earn money with this?</h2>
@@ -90,18 +94,54 @@
   </p>
 </section>
 
+<!-- Sección de Instrucciones -->
+<h2 id="instructionsTitle">This is how you can be part:</h2>
+
 <!-- Switch manual para elegir dispositivo -->
-<div class="device-toggle" style="text-align:center; margin:20px 0;">
-  <label>
-    <input type="radio" name="deviceType" value="desktop" id="desktopRadio"> Desktop
+<div class="device-toggle" style="text-align:center; margin-top: -40px; margin-bottom: 60px;">
+  <!-- Radio Desktop oculto -->
+  <input 
+    type="radio" 
+    name="deviceType" 
+    value="desktop" 
+    id="desktopRadio" 
+    style="display: none;"
+  />
+
+  <!-- Imagen que hace clic para desktop -->
+  <label for="desktopRadio" style="cursor: pointer; margin-right: 30px;">
+    <img 
+      src="landing_page_images/desktopicon.png" 
+      alt="Desktop" 
+      style="width: 80px;" 
+    />
   </label>
-  <label style="margin-left: 20px;">
-    <input type="radio" name="deviceType" value="mobile" id="mobileRadio"> Mobile
+
+  <img 
+    src="landing_page_images/barr.png" 
+    alt="Barr" 
+    style="width: 33px;"
+  />
+  <!-- Radio Mobile oculto -->
+  <input 
+    type="radio" 
+    name="deviceType" 
+    value="mobile" 
+    id="mobileRadio" 
+    style="display: none;"
+  />
+
+  <!-- Imagen que hace clic para mobile -->
+  <label for="mobileRadio" style="cursor: pointer; margin-left: 30px;">
+    <img 
+      src="landing_page_images/mobileicon.png" 
+      alt="Mobile" 
+      style="width: 55px;"
+    />
   </label>
 </div>
 
-<!-- Sección de Instrucciones para Desktop -->
-<h2 id="instructionsTitle">This is how you can be part of this:</h2>
+
  <section id="desktopInstructions">
   <!-- Instrucción 1: Texto a la izquierda, screenshot a la derecha -->
   <div class="instruction left">
@@ -118,8 +158,8 @@
   <!-- Instrucción 2: Texto a la derecha, screenshot a la izquierda -->
   <div class="instruction right">
     <div class="instruction-screenshot">
-      <img src="landing_page_images/img2dsk.png" alt="Desktop Step 2 first Screenshot">
-      <img src="landing_page_images/img3dsk.png" alt="Desktop Step 2 second Screenshot">
+      <img src="landing_page_images/img2dsk.png" alt="Desktop Step 2 first Screenshot" style="width: 70%">
+      <img src="landing_page_images/img3dsk.png" alt="Desktop Step 2 second Screenshot"  style="width: 70%">
     </div>
     <div class="instruction-text">
       <p>
@@ -129,7 +169,7 @@
   </div>
   <!-- Instrucción 3: Texto a la izquierda, screenshot a la derecha -->
   <div class="instruction left">
-    <div class="instruction-text">
+    <div class="instruction-text" id="instruction-step3">
       <p>
         Once you've connected your wallet, you can start thinking about your message. 
         You can write whatever you want without limitations or censorship (except for a 50-character limit). 
@@ -139,13 +179,13 @@
       </p>
     </div>
     <div class="instruction-screenshot">
-      <img src="landing_page_images/img1both.png" alt="Desktop Step 3 Screenshot">
+      <img src="landing_page_images/img1both.png" alt="Desktop Step 3 Screenshot" style="width: 70%">
     </div>
   </div>
   <!-- Instrucción 4: Texto a la derecha, screenshot a la izquierda -->
   <div class="instruction right">
     <div class="instruction-screenshot">
-      <img src="landing_page_images/img2both.jpg" alt="Desktop Step 4 Screenshot">
+      <img src="landing_page_images/img2both.jpg" alt="Desktop Step 4 Screenshot" style="width: 60%">
     </div>
     <div class="instruction-text">
       <p>
@@ -162,74 +202,73 @@
       </p>
     </div>
     <div class="instruction-screenshot">
-      <img src="landing_page_images/img3both.png" alt="Desktop Step 5 Screenshot">
+      <img src="landing_page_images/img3both.png" alt="Desktop Step 5 Screenshot" style="width: 90%"">
     </div>
   </div>
 </section>
 
-<!-- Sección de Instrucciones para Mobile (ya la tienes) -->
 <section id="mobileInstructions">
-  <!-- Instrucción 1: Texto a la izquierda, screenshot a la derecha -->
-  <div class="instruction left">
+  <!-- Instrucción 1 -->
+  <div class="instruction">
     <div class="instruction-text">
       <p>
-        First, make sure you have installed and configured a wallet. You can use anyone, but we recommend MetaMask or Trust Wallet because they are the ones we have tested the most
+        First, make sure you have installed and configured a wallet. You can use anyone, but we recommend MetaMask or Trust Wallet because they are the ones we have tested the most.
       </p>
     </div>
     <div class="instruction-screenshot">
       <img src="landing_page_images/img1mob.png" alt="Mobile Step 1 Screenshot">
     </div>
   </div>
-  <!-- Instrucción 2: Texto a la derecha, screenshot a la izquierda -->
-  <div class="instruction right">
+
+  <!-- Instrucción 2 -->
+  <div class="instruction">
+    <div class="instruction-text">
+      <p>
+        Then, go to the "Discover" icon, and in the search bar, paste the website link or type "messageauction.com" and press enter. Once you're on that page, click on "Connect wallet".
+      </p>
+    </div>
     <div class="instruction-screenshot">
       <img src="landing_page_images/img2mob.png" alt="Mobile Step 2 Screenshot">
     </div>
+  </div>
+
+  <!-- Instrucción 3 -->
+  <div class="instruction">
     <div class="instruction-text">
       <p>
-        Go to the "Discover" icon, and in the search bar, paste the website link or type "messageauction.com" and press enter. Then, once you're on that page, click on "Connect wallet"
+        Once you've connected your wallet, you can start thinking about your message. You can write whatever you want without limitations or censorship (except for a 50-character limit). Then enter the amount of ETH you want to bid and click "Place bid" to confirm the transaction. (Keep in mind that you must have sufficient funds in your account to cover the gas fees and the 4% founder fee—for example, if you bid 1 ETH, you should have over 1.05 ETH for your bid to be successful)
       </p>
     </div>
+    <div class="instruction-screenshot">
+      <img src="landing_page_images/img1both.png" alt="Desktop Step 3 Screenshot">
+    </div>
   </div>
-    <!-- Instrucción 3: Texto a la izquierda, screenshot a la derecha -->
-    <div class="instruction left">
-      <div class="instruction-text">
-        <p>
-          Once you've connected your wallet, you can start thinking about your message. 
-          You can write whatever you want without limitations or censorship (except for a 50-character limit). 
-          Then enter the amount of ETH you want to bid and click "Place bid" to confirm the transaction.
-          (Keep in mind that you must have sufficient funds in your account to cover the gas fees and the 4% founder fee—for example, if you bid 1 ETH, 
-          you should have over 1.05 ETH for your bid to be successful)
-        </p>
-      </div>
-      <div class="instruction-screenshot">
-        <img src="landing_page_images/img1both.png" alt="Desktop Step 3 Screenshot">
-      </div>
+
+  <!-- Instrucción 4 -->
+  <div class="instruction">
+    <div class="instruction-text">
+      <p>
+        Once your bid is placed, your message will be the banner’s main feature until someone outbids you. As more users participate in the future, your ETH rewards will accumulate here.
+      </p>
     </div>
-    <!-- Instrucción 4: Texto a la derecha, screenshot a la izquierda -->
-    <div class="instruction right">
-      <div class="instruction-screenshot">
-        <img src="landing_page_images/img2both.jpg" alt="Desktop Step 4 Screenshot">
-      </div>
-      <div class="instruction-text">
-        <p>
-          Once your bid is placed, your message will be the banner’s main feature until someone outbids you. As more users participate in the future, your ETH rewards will accumulate here
-        </p>
-      </div>
+    <div class="instruction-screenshot">
+      <img src="landing_page_images/img2both.jpg" alt="Desktop Step 4 Screenshot">
     </div>
-    <!-- Instrucción 5: Texto a la izquierda, screenshot a la derecha -->
-    <div class="instruction left">
-      <div class="instruction-text">
-        <p>
-          As your earnings increase, you can withdraw them at any time. 
-          Just reconnect your wallet (it must be the same address you used to bid), click on "Withdraw," confirm the transaction, and your ETH will be transferred in a few minutes
-        </p>
-      </div>
-      <div class="instruction-screenshot">
-        <img src="landing_page_images/img3both.png" alt="Desktop Step 5 Screenshot">
-      </div>
+  </div>
+
+  <!-- Instrucción 5 -->
+  <div class="instruction">
+    <div class="instruction-text">
+      <p>
+        As your earnings increase, you can withdraw them at any time. Just reconnect your wallet (it must be the same address you used to bid), click on "Withdraw," confirm the transaction, and your ETH will be transferred in a few minutes.
+      </p>
     </div>
+    <div class="instruction-screenshot">
+      <img src="landing_page_images/img3both.png" alt="Desktop Step 5 Screenshot" style="margin-top: 20px;">
+    </div>
+  </div>
 </section>
+
 
   <!-- Sección 6: Simula tu Participación -->
   <section class="widget" id="simulateOwnershipSection">
@@ -249,7 +288,7 @@ Simply enter your bid amount, and the simulator will calculate your estimated ow
     <div class="simulation-results">
       <p class="info"><strong>Estimated Ownership:</strong> <span id="estimatedOwnership">0</span>%</p>
       <p class="info"><strong>New Shares:</strong> <span id="newShares">0</span></p>
-      <p class="info"><strong>Bonus:</strong> <span id="bonusFactor">1.0</span>x <span id="bonusInfo" class="info-icon" title="Click for bonus details">?</span></p>
+      <p class="info"><strong>Bonus:</strong> <span id="bonusFactor">1.0</span>x</p>
     </div>
   </section>
 
@@ -278,7 +317,7 @@ Simply enter your bid amount, and the simulator will calculate your estimated ow
   <!-- Sección 9: CTA - Botón para ir a la página de puja -->
   <section id="cta">
     <button onclick="window.open('bid.html', '_blank', 'noopener,noreferrer')">
-      Place Your Bid & Start Earning ETH
+      Place Your Bid
   </section>
 
   <!-- Sección 10: Footer -->

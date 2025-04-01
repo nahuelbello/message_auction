@@ -1,16 +1,16 @@
 /* ---------------------- Global Styles ---------------------- */
 body {
-  font-family: 'Roboto', sans-serif;
-  background: linear-gradient(135deg, #121212, #1e1e1e);
-  margin: 0;
-  padding: 0;
-  color: #e0e0e0;
-  scroll-behavior: smooth;
-  overflow-x: hidden;
+font-family: 'Roboto', sans-serif;
+background: linear-gradient(135deg, #121212, #1e1e1e);
+margin: 0;
+padding: 0;
+color: #e0e0e0;
+scroll-behavior: smooth;
+overflow-x: hidden;
 }
 
 img {
-max-width: 70%;
+max-width: 90%;
 height: auto;
 }
 
@@ -64,15 +64,28 @@ animation: marqueeScroll 10s linear infinite;
 
 /* ---------------------- Sección 2: Hero Text ---------------------- */
 #hero-text {
-text-align: center;
-padding: 40px 20px;
-max-width: 500px;
-margin: 0 auto; 
+  display: flex;              /* Activamos flexbox */
+  align-items: center;        /* Centra verticalmente los elementos */
+  justify-content: space-between; /* Espacia texto e imagen a los extremos */
+  padding: 40px 20px;
+  max-width: 1200px;          /* Ajusta según tu preferencia */
+  margin: 0 auto;
 }
+
 #hero-text h1 {
-font-size: 3.5rem;
-font-family: 'Orbitron', sans-serif;
-color: #00E676;
+  flex: 1;                    /* Permite que el texto ocupe un espacio flexible */
+  font-size: 3.5rem;
+  font-family: 'Orbitron', sans-serif;
+  color: #00E676;
+  text-align: center;           /* Alineación del texto a la izquierda */
+}
+
+#hero-text img {
+  flex: 1;                    /* La imagen también ocupa un espacio flexible */
+  max-width: 40%;            /* Ajusta el tamaño deseado */
+  margin: 0 auto;            /* Centra la imagen dentro de su contenedor flexible */
+  display: block;
+  transform: translateX(-30px);
 }
 
 /* ---------------------- Sección 3: Qué es Message Auction ---------------------- */
@@ -83,7 +96,6 @@ padding: 40px 20px;
 #what-is h3 {
 max-width: 800px;
 margin: 0 auto 15px auto;
-text-align: left;
 font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
 font-size: 18px;
 font-weight: 300;
@@ -194,7 +206,6 @@ background: #2c2c2c;
 color: #e0e0e0;
 width: 200px;
 }
-
 /* ---------------------- Sección 7: Últimas Pujas ---------------------- */
 #latest-bids {
 text-align: center;
@@ -238,6 +249,7 @@ background: #00C853;
 border: none;
 color: #fff;
 padding: 20px 25px;
+
 max-width: 40%;
 font-size: 1.5rem;
 border-radius: 8px;
@@ -245,6 +257,7 @@ cursor: pointer;
 transition: background 0.3s;
 display: inline-block;
 width: auto;
+margin-bottom: 30px;
 }
 #cta button:hover {
 background: #00E676;
@@ -291,7 +304,6 @@ text-align: center;
 .input-group {
 display: flex;
 align-items: center;
-margin-bottom: 10px;
 }
 .input-group input {
 flex: 1;
@@ -361,11 +373,11 @@ transition: opacity 0.5s ease-in-out;
 
 /* AÑADIDO DESDE BID: .mobile-metamask-info */
 .mobile-metamask-info {
-font-size: 12px;
-color: #B2FF59;
-text-align: center;
-margin: 5px 0 10px 0;
-line-height: 1.4;
+font-size: 12px !important;
+color: #B2FF59 !important;
+text-align: center !important;
+margin: 5px 0 10px 0 !important;
+line-height: 1.4 !important;
 }
 
 /* AÑADIDO DESDE BID: contenedores de charts (#chartContainer, #simulationChartContainer) */
@@ -481,13 +493,12 @@ margin: 0 auto;
 }
 #earn-money h2 {
 font-family: 'Orbitron', sans-serif;
+font-weight: 100;
 color: #B2FF59;
+margin-top: 80px;
 margin-bottom: 20px;
 }
 #earn-money p {
-font-family: 'Roboto', sans-serif;
-color: #e0e0e0;
-font-size: 1rem;
 line-height: 1.6;
 font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
 font-size: 18px;
@@ -495,6 +506,7 @@ font-weight: 300;
 line-height: 1.6;
 letter-spacing: 1px;
 color: #ececec;
+padding-bottom: 150px;
 }
 
 /* Ocultamos secciones Desktop/Mobile por defecto (si usas el switch) */
@@ -505,6 +517,7 @@ margin-bottom: 120px;
 
 #instructionsTitle {
 font-family: 'Orbitron', sans-serif;
+font-weight: 300;
 color: #B2FF59;
 margin-bottom: 20px;
 text-align: center;
@@ -512,9 +525,6 @@ padding-bottom: 75px;
 }
 
 #desktopInstructions p, #mobileInstructions p {
-font-family: 'Roboto', sans-serif;
-color: #e0e0e0;
-font-size: 1rem;
 line-height: 1.6;
 font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
 font-size: 18px;
@@ -522,4 +532,172 @@ font-weight: 300;
 line-height: 1.6;
 letter-spacing: 1px;
 color: #ececec;
+}
+
+.popup {
+display: none;
+position: fixed;
+z-index: 20;
+left: 50%;
+top: 50%;
+transform: translate(-50%, -50%);
+background: #1e1e1e;
+padding: 20px;
+border-radius: 12px;
+box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+width: 80%;
+max-width: 400px;
+}
+.info {
+font-size: 1rem !important;
+font-family: "Helvetica Neue", Helvetica, Arial, sans-serif !important;
+line-height: 1.6 !important;
+letter-spacing: 1px !important;
+margin: 0 !important;
+color: #ececec !important;
+}
+
+.info-icon {
+display: inline-block;
+position: relative;
+width: 15px;          /* adjust as needed */
+height: 15px;         /* adjust as needed */
+line-height: 16px;    /* so the "?" is vertically centered */
+text-align: center;   /* center the "?" horizontally */
+font-size: 12px;      /* adjust as needed */
+font-weight: bold;
+color: #00E676;       /* text color */
+border: solid #00E676;  /* green border */
+border-radius: 50%;         /* makes it circular */
+cursor: pointer;            /* shows clickable pointer on hover */
+background-color: transparent; /* or #1e1e1e if you want a background */
+margin-left: 8px;  
+margin-bottom: 1px;         /* small spacing from preceding text */
+vertical-align: text-bottom;
+transition: background 0.3s, color 0.3s;
+}
+
+/* Optional: On hover, invert colors or highlight it */
+.info-icon:hover {
+background-color: #00E676;  /* fill the circle */
+color: #121212;             /* make the "?" dark */
+}
+
+h1 {
+text-align: center;
+margin-bottom: 20px;
+font-family: 'Orbitron', sans-serif;
+color: #00E676;
+}
+h2 {
+color: #B2FF59;
+margin-top: 20px;
+font-family: 'Orbitron', sans-serif;
+}
+
+p {
+font-size: 1rem;
+font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+line-height: 1.6;
+letter-spacing: 1px;
+margin: 0;
+color: #ececec;
+}
+  
+@media only screen and (max-width: 768px) {
+  /* Ajustes para el Banner */
+  .banner {
+    font-size: 3rem; /* reduce el tamaño de fuente */
+    padding: 40px 10px; /* reduce los espacios */
+  }
+
+  /* Ajustes para la Sección Hero */
+  #hero-text {
+    flex-direction: column; /* apila los elementos */
+    text-align: center;
+    padding: 20px 10px;
+  }
+  #hero-text h1 {
+    font-size: 2.5rem;
+    margin-bottom: 20px;
+  }
+  #hero-text img {
+    max-width: 80%;
+    transform: translateX(0);
+    margin-top: 20px;
+  }
+
+  /* Ajustes para las Instrucciones */
+  .instruction {
+    flex-direction: column;
+    text-align: center;
+
+  }
+  .instruction.left .instruction-text,
+  .instruction.left .instruction-screenshot,
+  .instruction.right .instruction-text,
+  .instruction.right .instruction-screenshot {
+    text-align: center;
+    order: initial;
+  }
+
+  /* Ajustes para el botón CTA */
+  #cta button {
+    max-width: 90%;
+    font-size: 1.2rem;
+  }
+
+  /* Ajustes para el Widget */
+  .widget {
+    width: 90% !important;       /* Ajusta según necesites */
+    max-width: 600px;           /* O el valor que prefieras */
+    margin: 20px auto !important;
+    padding: 20px 15px !important; /* Menos padding horizontal para que se vea centrado */
+  }
+
+  /* Ajustes para las Tarjetas de Beneficios */
+  .benefit-container {
+    flex-direction: column;
+    gap: 10px;
+  }
+  .benefit-card {
+    max-width: 90%;
+    margin: 10px auto;
+  }
+  .device-toggle {
+    text-align: center;
+    margin-top: -70px !important;
+    margin-bottom: 80px !important;
+  }
+  /* Icono Desktop */
+  .device-toggle label[for="desktopRadio"] {
+    margin-right: 20px !important;
+  }
+  .device-toggle label[for="desktopRadio"] img {
+    width: 60px !important;
+  }
+  /* La barra */
+  .device-toggle img[alt="Barr"] {
+    width: 25px !important;
+  }
+  /* Icono Mobile */
+  .device-toggle label[for="mobileRadio"] {
+    margin-left: 20px !important;
+  }
+  .device-toggle label[for="mobileRadio"] img {
+    width: 40px !important;
+  }
+  #mobileInstructions p {
+    font-size: 16px;    /* Ajusta el tamaño que desees */
+    line-height: 1.5;   /* Un poco más comprimido si quieres */
+    letter-spacing: 0.5px; /* También puedes ajustar el espaciado entre letras */
+  }
+
+  /* Agregar margen lateral para que el texto no toque los bordes */
+  #mobileInstructions .instruction-text {
+    padding: 0 15px;    /* Ajusta el valor según el espacio que quieras */
+  }
+  #transparency-info {
+  padding: 0 15px;
+  }
 }
