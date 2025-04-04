@@ -1,23 +1,22 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-0L3MMEZ5C5"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-0L3MMEZ5C5');
-</script>
+  <!-- Google Tag Manager -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-0L3MMEZ5C5"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){ dataLayer.push(arguments); }
+    gtag('js', new Date());
+    gtag('config', 'G-0L3MMEZ5C5');
+  </script>
   <meta charset="UTF-8" />
   <title>FAQ - Message Auction</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <!-- Keep the same fonts for consistency with your dApp -->
-  <link
-    href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Roboto:wght@400;500&display=swap"
-    rel="stylesheet"
-  />
+  <link rel="icon" type="image/png" sizes="32x32" href="landing_page_images/message_auction_logo.png">
+  <meta name="description" content="Message Auction FAQ - Your questions answered!" />
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Roboto:wght@400;500&display=swap" rel="stylesheet" />
+  <!-- Inline CSS for FAQ styling -->
   <style>
     /* Overall page styling */
     body {
@@ -51,7 +50,7 @@
       margin: 0;
     }
     
-    /* Search bar styling */
+    /* Search Bar */
     #faq-search {
       display: block;
       width: 100%;
@@ -92,7 +91,7 @@
       transition: all 0.3s ease-out;
     }
     
-    /* Header (question) */
+    /* FAQ Header (Question) */
     .faq-header {
       display: flex;
       align-items: center;
@@ -102,13 +101,12 @@
       font-family: 'Orbitron', sans-serif;
       font-size: 1.1rem;
       color: #B2FF59;
-      position: relative;
     }
     .faq-header:hover {
       background: rgba(0, 230, 118, 0.1);
     }
     
-    /* Arrow styling */
+    /* Arrow Styling */
     .arrow {
       font-size: 1.2rem;
       transition: transform 0.3s;
@@ -117,7 +115,7 @@
       transform: rotate(90deg);
     }
     
-    /* Hidden answer */
+    /* FAQ Answer (Hidden by default) */
     .faq-answer {
       max-height: 0;
       opacity: 0;
@@ -134,7 +132,7 @@
       line-height: 1.5;
     }
     
-    /* Highlight class for matches */
+    /* Highlight for Search Matches */
     .highlight {
       background: #00C853;
       color: #121212;
@@ -142,7 +140,7 @@
       border-radius: 3px;
     }
     
-    /* Back link to main page */
+    /* Back Link */
     .back-link {
       display: block;
       text-align: center;
@@ -155,16 +153,13 @@
       text-decoration: underline;
     }
     
-    /* Responsive tweaks */
+    /* Responsive Styles */
     @media (max-width: 768px) {
       .faq-banner {
         padding: 40px 10px;
       }
       .faq-banner h1 {
         font-size: 1.8rem;
-      }
-      .faq-banner p {
-        font-size: 1rem;
       }
       .faq-header {
         font-size: 1rem;
@@ -202,440 +197,445 @@
       }
     }
   </style>
-  
 </head>
 <body>
-  <!-- Banner / Header Section -->
-  <div class="faq-banner">
-    <h1>Everything You Need to Know</h1>
-    <p>Your most common questions, answered!</p>
-  </div>
-
-  <!-- Search Bar -->
-  <input 
-    type="text" 
-    id="faq-search" 
-    placeholder="Search FAQ..." 
-  />
-
-  <!-- Accordion Container -->
-  <div class="faq-container">
-    <!-- FAQ 1 -->
-    <div class="faq-item">
-      <div class="faq-header">
-        <span>1. What is Message Auction?</span>
-        <span class="arrow">▶</span>
-      </div>
-      <div class="faq-answer">
-        <p>
-          Message Auction is a decentralized application (dApp) where users bid with short messages in ETH. The highest bid’s message is displayed on the main banner, and all participants earn rewards based on their shares.
-        </p>
-      </div>
+  <!-- Header Banner Section -->
+  <header>
+    <div class="faq-banner">
+      <h1>Everything You Need to Know</h1>
+      <p>Your most common questions, answered!</p>
     </div>
+  </header>
 
-    <!-- FAQ 2 -->
-    <div class="faq-item">
-      <div class="faq-header">
-        <span>2. How do I place a bid?</span>
-        <span class="arrow">▶</span>
-      </div>
-      <div class="faq-answer">
-        <p>
-          1. Connect your wallet by clicking “Connect Wallet.”<br/>
-          2. Enter your message and ETH amount (≥0.01 ETH above the current bid).<br/>
-          3. Click “Place Bid” and confirm in your wallet.<br/>
-          4. If successful, your message appears on the banner immediately.
-        </p>
-      </div>
-    </div>
+  <!-- Search Bar Section -->
+  <section id="search">
+    <input type="text" id="faq-search" placeholder="Search FAQ..." />
+  </section>
 
-    <!-- FAQ 3 -->
-    <div class="faq-item">
-      <div class="faq-header">
-        <span>3. Why do I need to connect a wallet?</span>
-        <span class="arrow">▶</span>
-      </div>
-      <div class="faq-answer">
-        <p>
-          Because this is a blockchain-based dApp, you need a wallet to send transactions (bids, withdrawals) and to receive any ETH rewards. It also proves ownership of your funds and secures them.
-        </p>
-      </div>
-    </div>
+  <!-- Main FAQ Content -->
+  <main>
+    <section class="faq-container">
+      <!-- FAQ Item 1 -->
+      <article class="faq-item">
+        <header class="faq-header">
+          <span>1. What is Message Auction?</span>
+          <span class="arrow">▶</span>
+        </header>
+        <div class="faq-answer">
+          <p>
+            Message Auction is a decentralized application (dApp) where users bid with short messages in ETH. The highest bid’s message is displayed on the main banner, and all participants earn rewards based on their shares.
+          </p>
+        </div>
+      </article>
 
-        <!-- FAQ 4 -->
-        <div class="faq-item">
-            <div class="faq-header">
-              <span>4. What is the minimum bid increment?</span>
-              <span class="arrow">▶</span>
-            </div>
-            <div class="faq-answer">
-              <p>
-                You must outbid the current highest bid by at least 0.01 ETH. The very first bid must be at least 0.01 ETH if there’s no current bid yet.
-              </p>
-            </div>
-          </div>
-      
-          <!-- FAQ 5 -->
-          <div class="faq-item">
-            <div class="faq-header">
-              <span>5. What happens if someone outbids me?</span>
-              <span class="arrow">▶</span>
-            </div>
-            <div class="faq-answer">
-              <p>
-                Your message will no longer be displayed on the banner. However, you keep the shares you earned from your bid, which means you still receive a portion of future bids as rewards. You can always place a higher bid to reclaim the banner.
-              </p>
-            </div>
-          </div>
-      
-          <!-- FAQ 6 -->
-          <div class="faq-item">
-            <div class="faq-header">
-              <span>6. How are rewards distributed?</span>
-              <span class="arrow">▶</span>
-            </div>
-            <div class="faq-answer">
-              <p>
-                Each time a new bid comes in, 4% goes to the founder, and the rest is distributed proportionally among all share holders. Your portion depends on how many shares you hold compared to the total shares.
-              </p>
-            </div>
-          </div>
-      
-          <!-- FAQ 7 -->
-          <div class="faq-item">
-            <div class="faq-header">
-              <span>7. What are “shares” and how do I get them?</span>
-              <span class="arrow">▶</span>
-            </div>
-            <div class="faq-answer">
-              <p>
-                Shares represent your stake in the auction. You receive shares each time you place a bid, based on your bid amount and any applicable Early Bird Bonus. The more shares you have, the larger your portion of each new bid.
-              </p>
-            </div>
-          </div>
-      
-          <!-- FAQ 8 -->
-          <div class="faq-item">
-            <div class="faq-header">
-              <span>8. What is the Early Bird Bonus?</span>
-              <span class="arrow">▶</span>
-            </div>
-            <div class="faq-answer">
-              <p>
-                The first 10 unique bidders get a multiplier on their shares. The first 5 receive 1.5x, and the next 5 receive 1.25x. After that, all bids receive a standard 1.0x multiplier.
-              </p>
-            </div>
-          </div>
-      
-          <!-- FAQ 9 -->
-          <div class="faq-item">
-            <div class="faq-header">
-              <span>9. How do I know if I’m still eligible for the Early Bird Bonus?</span>
-              <span class="arrow">▶</span>
-            </div>
-            <div class="faq-answer">
-              <p>
-                The contract tracks how many people have already claimed the bonus. If it’s under 10 and you haven’t bid before, you’ll automatically receive the bonus. Once 10 people have claimed it, the bonus is no longer available.
-              </p>
-            </div>
-          </div>
-      
-          <!-- FAQ 10 -->
-          <div class="faq-item">
-            <div class="faq-header">
-              <span>10. Why do I see a “Founder fee transfer failed” error?</span>
-              <span class="arrow">▶</span>
-            </div>
-            <div class="faq-answer">
-              <p>
-                This indicates the contract couldn’t transfer the 4% founder fee. It’s rare and usually points to a network or address issue. Try again or wait a bit for the network to clear.
-              </p>
-            </div>
-          </div>
-      
-          <!-- FAQ 11 -->
-          <div class="faq-item">
-            <div class="faq-header">
-              <span>11. What does the founder do with the 4% fee?</span>
-              <span class="arrow">▶</span>
-            </div>
-            <div class="faq-answer">
-              <p>
-                The founder fee supports and improves the project, covering development costs and funding potential new features.
-              </p>
-            </div>
-          </div>
-      
-          <!-- FAQ 12 -->
-          <div class="faq-item">
-            <div class="faq-header">
-              <span>12. How do I withdraw my rewards?</span>
-              <span class="arrow">▶</span>
-            </div>
-            <div class="faq-answer">
-              <p>
-                1. Connect your wallet.<br/>
-                2. Click “Withdraw.”<br/>
-                3. Confirm the transaction in your wallet.<br/>
-                If you have pending rewards, you’ll receive them in ETH.
-              </p>
-            </div>
-          </div>
-      
-          <!-- FAQ 13 -->
-          <div class="faq-item">
-            <div class="faq-header">
-              <span>13. Why do I see “No shares” or “No funds to withdraw”?</span>
-              <span class="arrow">▶</span>
-            </div>
-            <div class="faq-answer">
-              <p>
-                “No shares” appears if you haven’t placed any bid yet (you have zero shares).  
-                “No funds to withdraw” means you do have shares but no pending rewards at the moment.
-              </p>
-            </div>
-          </div>
-      
-          <!-- FAQ 14 -->
-          <div class="faq-item">
-            <div class="faq-header">
-              <span>14. Do I have to pay gas fees?</span>
-              <span class="arrow">▶</span>
-            </div>
-            <div class="faq-answer">
-              <p>
-                Yes. Every transaction on the blockchain (placing bids, withdrawing rewards) requires gas fees, which depend on the network’s congestion.
-              </p>
-            </div>
-          </div>
-      
-          <!-- FAQ 15 -->
-          <div class="faq-item">
-            <div class="faq-header">
-              <span>15. Why is my transaction stuck or pending?</span>
-              <span class="arrow">▶</span>
-            </div>
-            <div class="faq-answer">
-              <p>
-                It could be due to network congestion or low gas fees. Check your wallet or a block explorer to see if you need to speed up the transaction.
-              </p>
-            </div>
-          </div>
-      
-          <!-- FAQ 16 -->
-          <div class="faq-item">
-            <div class="faq-header">
-              <span>16. Where can I see the code?</span>
-              <span class="arrow">▶</span>
-            </div>
-            <div class="faq-answer">
-              <p>
-                The whole code is on GitHub, and there’s a direct link to the deployed contract in the “Transparency” section. You can also check the smart contract on </a href="https://etherscan.io/address/0x5B0474f5109D9594A2b818E7c33f8BC68C403dc7#code">Etherscan</a>.
-              </p>
-            </div>
-          </div>
-      
-          <!-- FAQ 17 -->
-          <div class="faq-item">
-            <div class="faq-header">
-              <span>17. Is this code audited?</span>
-              <span class="arrow">▶</span>
-            </div>
-            <div class="faq-answer">
-              <p>
-                The project is open-source but may not have a formal third-party audit. You can review the contract yourself or consult a security expert.
-              </p>
-            </div>
-          </div>
-      
-          <!-- FAQ 18 -->
-          <div class="faq-item">
-            <div class="faq-header">
-              <span>18. Can I see all the bids that have been placed?</span>
-              <span class="arrow">▶</span>
-            </div>
-            <div class="faq-answer">
-              <p>
-                The dApp shows the latest bids (usually the last 10). For a full history, check the contract’s events on a block explorer or the repository logs.
-              </p>
-            </div>
-          </div>
-      
-          <!-- FAQ 19 -->
-          <div class="faq-item">
-            <div class="faq-header">
-              <span>19. Are the messages moderated?</span>
-              <span class="arrow">▶</span>
-            </div>
-            <div class="faq-answer">
-              <p>
-                There's no built-in moderation, it means you can write whatever you want on the banner.
-              </p>
-            </div>
-          </div>
-      
-          <!-- FAQ 20 -->
-          <div class="faq-item">
-            <div class="faq-header">
-              <span>20. Why does my banner message disappear?</span>
-              <span class="arrow">▶</span>
-            </div>
-            <div class="faq-answer">
-              <p>
-                If someone outbids you, their message replaces yours. You still keep your shares and can earn from future bids.
-              </p>
-            </div>
-          </div>
-      
-          <!-- FAQ 21 -->
-          <div class="faq-item">
-            <div class="faq-header">
-              <span>21. Can I change my message without placing a new bid?</span>
-              <span class="arrow">▶</span>
-            </div>
-            <div class="faq-answer">
-              <p>
-                No. The only way to change the banner message is to place a new, higher bid, ensuring fairness for everyone.
-              </p>
-            </div>
-          </div>
-      
-          <!-- FAQ 22 -->
-          <div class="faq-item">
-            <div class="faq-header">
-              <span>22. How often do I need to refresh to see updates?</span>
-              <span class="arrow">▶</span>
-            </div>
-            <div class="faq-answer">
-              <p>
-                The dApp listens for “NewBid” events and updates automatically. If you notice any delay, a manual refresh (F5) will also fetch the latest data.
-              </p>
-            </div>
-          </div>
-      
-          <!-- FAQ 23 -->
-          <div class="faq-item">
-            <div class="faq-header">
-              <span>23. What is the Ownership Simulator?</span>
-              <span class="arrow">▶</span>
-            </div>
-            <div class="faq-answer">
-              <p>
-                The Ownership Simulator lets you estimate how many shares you’d gain and what your ownership percentage might be if you place a certain bid, factoring in any Early Bird Bonus.
-              </p>
-            </div>
-          </div>
-      
-          <!-- FAQ 24 -->
-          <div class="faq-item">
-            <div class="faq-header">
-              <span>24. How do I test this on a local or test network?</span>
-              <span class="arrow">▶</span>
-            </div>
-            <div class="faq-answer">
-              <p>
-                You can run a local blockchain (e.g., Hardhat, Ganache) or deploy the contract to a testnet (like Goerli) with test ETH. Make sure your wallet is connected to the correct network.
-              </p>
-            </div>
-          </div>
-      
-          <!-- FAQ 25 -->
-          <div class="faq-item">
-            <div class="faq-header">
-              <span>25. Do I lose my shares if I withdraw?</span>
-              <span class="arrow">▶</span>
-            </div>
-            <div class="faq-answer">
-              <p>
-                No. Withdrawing only claims your accumulated rewards. Your shares remain the same until you place another bid (which increases them).
-              </p>
-            </div>
-          </div>
-      
-          <!-- FAQ 26 -->
-          <div class="faq-item">
-            <div class="faq-header">
-              <span>26. How can I contact the founder or get support?</span>
-              <span class="arrow">▶</span>
-            </div>
-            <div class="faq-answer">
-              <p>
-                Check the “Transparency” section or the links provided (GitHub, LinkedIn). You can open an issue on GitHub or reach out directly via social media.
-              </p>
-            </div>
-          </div>
-      
-          <!-- FAQ 27 -->
-          <div class="faq-item">
-            <div class="faq-header">
-              <span>27. Are there any risks?</span>
-              <span class="arrow">▶</span>
-            </div>
-            <div class="faq-answer">
-              <p>
-      All investments involve some degree of risk, and cryptocurrencies can be especially volatile. The price of ETH may fluctuate significantly, and there’s always the possibility of transaction failures or unexpected network issues. It’s recommended that you do your own research and only invest funds you’re comfortable risking.        </p>
-            </div>
-          </div>
-      
-          <!-- FAQ 28 -->
-          <div class="faq-item">
-            <div class="faq-header">
-              <span>28. Is there a maximum number of bids?</span>
-              <span class="arrow">▶</span>
-            </div>
-            <div class="faq-answer">
-              <p>
-                No. Bids can continue indefinitely. There’s no limit to how many times users can outbid each other.
-              </p>
-            </div>
-          </div>
-      
-          <!-- FAQ 29 -->
-          <div class="faq-item">
-            <div class="faq-header">
-              <span>29. Can I remove my message or undo a bid?</span>
-              <span class="arrow">▶</span>
-            </div>
-            <div class="faq-answer">
-              <p>
-                Once a transaction is confirmed on the blockchain, it cannot be undone. If you no longer want your message displayed, someone else must outbid you.
-              </p>
-            </div>
-          </div>
-      
-          <!-- FAQ 30 -->
-          <div class="faq-item">
-            <div class="faq-header">
-              <span>30. How do I see my total shares and pending rewards?</span>
-              <span class="arrow">▶</span>
-            </div>
-            <div class="faq-answer">
-              <p>
-                When your wallet is connected, the dApp displays your current shares and pending reward in the main widget. If you have shares, you earn a portion of every new bid.
-              </p>
-            </div>
-          </div>
+      <!-- FAQ Item 2 -->
+      <article class="faq-item">
+        <header class="faq-header">
+          <span>2. How do I place a bid?</span>
+          <span class="arrow">▶</span>
+        </header>
+        <div class="faq-answer">
+          <p>
+            1. Connect your wallet by clicking “Connect Wallet.”<br />
+            2. Enter your message and ETH amount (≥0.01 ETH above the current bid).<br />
+            3. Click “Place Bid” and confirm in your wallet.<br />
+            4. If successful, your message appears on the banner immediately.
+          </p>
+        </div>
+      </article>
 
-    <!-- FAQ 31 -->
-    <div class="faq-item">
-      <div class="faq-header">
-        <span>31. Why can't I connect my wallet?</span>
-        <span class="arrow">▶</span>
-      </div>
-      <div class="faq-answer">
-        <p>
-            If your browser lacks an injected provider (e.g., using Chrome/Safari on mobile or a PC without a wallet extension like MetaMask), you won’t be able to connect.
-        </p>
-      </div>
-    </div>
-  </div>
+      <!-- FAQ Item 3 -->
+      <article class="faq-item">
+        <header class="faq-header">
+          <span>3. Why do I need to connect a wallet?</span>
+          <span class="arrow">▶</span>
+        </header>
+        <div class="faq-answer">
+          <p>
+            Because this is a blockchain-based dApp, you need a wallet to send transactions (bids, withdrawals) and receive ETH rewards. It also proves ownership and secures your funds.
+          </p>
+        </div>
+      </article>
 
-  <!-- Link back to main page -->
-  <a href="index.html" class="back-link">Return to Main Page</a>
+      <!-- FAQ Item 4 -->
+      <article class="faq-item">
+        <header class="faq-header">
+          <span>4. What is the minimum bid increment?</span>
+          <span class="arrow">▶</span>
+        </header>
+        <div class="faq-answer">
+          <p>
+            You must outbid the current highest bid by at least 0.01 ETH. The very first bid must be at least 0.01 ETH if no bid exists yet.
+          </p>
+        </div>
+      </article>
 
-  <!-- JavaScript to handle accordion toggling + search highlighting -->
+      <!-- FAQ Item 5 -->
+      <article class="faq-item">
+        <header class="faq-header">
+          <span>5. What happens if someone outbids me?</span>
+          <span class="arrow">▶</span>
+        </header>
+        <div class="faq-answer">
+          <p>
+            Your message will no longer be displayed on the banner. However, you keep the shares you earned, meaning you still receive a portion of future bids as rewards. You can always place a higher bid to reclaim the banner.
+          </p>
+        </div>
+      </article>
+
+      <!-- FAQ Item 6 -->
+      <article class="faq-item">
+        <header class="faq-header">
+          <span>6. How are rewards distributed?</span>
+          <span class="arrow">▶</span>
+        </header>
+        <div class="faq-answer">
+          <p>
+            Each time a new bid comes in, 4% goes to the founder, and the remainder is distributed proportionally among all shareholders. Your portion depends on your share compared to the total.
+          </p>
+        </div>
+      </article>
+
+      <!-- FAQ Item 7 -->
+      <article class="faq-item">
+        <header class="faq-header">
+          <span>7. What are “shares” and how do I get them?</span>
+          <span class="arrow">▶</span>
+        </header>
+        <div class="faq-answer">
+          <p>
+            Shares represent your stake in the auction. You receive them each time you place a bid, based on your bid amount and any applicable Early Bird Bonus. The more shares you have, the larger your portion of each new bid.
+          </p>
+        </div>
+      </article>
+
+      <!-- FAQ Item 8 -->
+      <article class="faq-item">
+        <header class="faq-header">
+          <span>8. What is the Early Bird Bonus?</span>
+          <span class="arrow">▶</span>
+        </header>
+        <div class="faq-answer">
+          <p>
+            The first 10 unique bidders receive a multiplier on their shares. The first 5 receive 1.5x, the next 5 receive 1.25x, and thereafter, bids receive a standard 1.0x multiplier.
+          </p>
+        </div>
+      </article>
+
+      <!-- FAQ Item 9 -->
+      <article class="faq-item">
+        <header class="faq-header">
+          <span>9. How do I know if I’m still eligible for the Early Bird Bonus?</span>
+          <span class="arrow">▶</span>
+        </header>
+        <div class="faq-answer">
+          <p>
+            The contract tracks how many have claimed the bonus. If fewer than 10 people have bid and you haven’t yet, you’ll automatically receive the bonus. Once 10 have claimed it, the bonus is no longer available.
+          </p>
+        </div>
+      </article>
+
+      <!-- FAQ Item 10 -->
+      <article class="faq-item">
+        <header class="faq-header">
+          <span>10. Why do I see a “Founder fee transfer failed” error?</span>
+          <span class="arrow">▶</span>
+        </header>
+        <div class="faq-answer">
+          <p>
+            This indicates that the contract couldn’t transfer the 4% founder fee. It’s rare and usually due to a network or address issue. Try again or wait for the network to clear.
+          </p>
+        </div>
+      </article>
+
+      <!-- FAQ Item 11 -->
+      <article class="faq-item">
+        <header class="faq-header">
+          <span>11. What does the founder do with the 4% fee?</span>
+          <span class="arrow">▶</span>
+        </header>
+        <div class="faq-answer">
+          <p>
+            The founder fee is used to support and improve the project by covering development costs and funding new features.
+          </p>
+        </div>
+      </article>
+
+      <!-- FAQ Item 12 -->
+      <article class="faq-item">
+        <header class="faq-header">
+          <span>12. How do I withdraw my rewards?</span>
+          <span class="arrow">▶</span>
+        </header>
+        <div class="faq-answer">
+          <p>
+            1. Connect your wallet.<br />
+            2. Click “Withdraw.”<br />
+            3. Confirm the transaction in your wallet.<br />
+            If you have pending rewards, they will be sent in ETH.
+          </p>
+        </div>
+      </article>
+
+      <!-- FAQ Item 13 -->
+      <article class="faq-item">
+        <header class="faq-header">
+          <span>13. Why do I see “No shares” or “No funds to withdraw”?</span>
+          <span class="arrow">▶</span>
+        </header>
+        <div class="faq-answer">
+          <p>
+            “No shares” appears if you haven’t placed any bid. “No funds to withdraw” means you have shares but currently no pending rewards.
+          </p>
+        </div>
+      </article>
+
+      <!-- FAQ Item 14 -->
+      <article class="faq-item">
+        <header class="faq-header">
+          <span>14. Do I have to pay gas fees?</span>
+          <span class="arrow">▶</span>
+        </header>
+        <div class="faq-answer">
+          <p>
+            Yes. Every blockchain transaction (placing bids, withdrawing rewards) requires gas fees, which depend on network congestion.
+          </p>
+        </div>
+      </article>
+
+      <!-- FAQ Item 15 -->
+      <article class="faq-item">
+        <header class="faq-header">
+          <span>15. Why is my transaction stuck or pending?</span>
+          <span class="arrow">▶</span>
+        </header>
+        <div class="faq-answer">
+          <p>
+            This could be due to network congestion or low gas fees. Check your wallet or a block explorer to see if you need to speed up the transaction.
+          </p>
+        </div>
+      </article>
+
+      <!-- FAQ Item 16 -->
+      <article class="faq-item">
+        <header class="faq-header">
+          <span>16. Where can I see the code?</span>
+          <span class="arrow">▶</span>
+        </header>
+        <div class="faq-answer">
+          <p>
+            The entire code is available on GitHub, and there is a direct link to the deployed contract on Etherscan.
+          </p>
+        </div>
+      </article>
+
+      <!-- FAQ Item 17 -->
+      <article class="faq-item">
+        <header class="faq-header">
+          <span>17. Is this code audited?</span>
+          <span class="arrow">▶</span>
+        </header>
+        <div class="faq-answer">
+          <p>
+            The project is open-source and may not have undergone a formal third-party audit. Please review the code or consult an expert if needed.
+          </p>
+        </div>
+      </article>
+
+      <!-- FAQ Item 18 -->
+      <article class="faq-item">
+        <header class="faq-header">
+          <span>18. Can I see all the bids that have been placed?</span>
+          <span class="arrow">▶</span>
+        </header>
+        <div class="faq-answer">
+          <p>
+            The dApp displays the latest bids (typically the last 10). For a complete history, check the contract’s events on a block explorer or review the repository logs.
+          </p>
+        </div>
+      </article>
+
+      <!-- FAQ Item 19 -->
+      <article class="faq-item">
+        <header class="faq-header">
+          <span>19. Are the messages moderated?</span>
+          <span class="arrow">▶</span>
+        </header>
+        <div class="faq-answer">
+          <p>
+            There is no built-in moderation; users can submit any message they desire.
+          </p>
+        </div>
+      </article>
+
+      <!-- FAQ Item 20 -->
+      <article class="faq-item">
+        <header class="faq-header">
+          <span>20. Why does my banner message disappear?</span>
+          <span class="arrow">▶</span>
+        </header>
+        <div class="faq-answer">
+          <p>
+            If someone outbids you, their message replaces yours. However, you retain your shares and continue to earn rewards from future bids.
+          </p>
+        </div>
+      </article>
+
+      <!-- FAQ Item 21 -->
+      <article class="faq-item">
+        <header class="faq-header">
+          <span>21. Can I change my message without placing a new bid?</span>
+          <span class="arrow">▶</span>
+        </header>
+        <div class="faq-answer">
+          <p>
+            No. The only way to update your message is by placing a new, higher bid.
+          </p>
+        </div>
+      </article>
+
+      <!-- FAQ Item 22 -->
+      <article class="faq-item">
+        <header class="faq-header">
+          <span>22. How often do I need to refresh to see updates?</span>
+          <span class="arrow">▶</span>
+        </header>
+        <div class="faq-answer">
+          <p>
+            The dApp automatically updates via “NewBid” events. If there is a delay, a manual refresh (F5) will display the latest data.
+          </p>
+        </div>
+      </article>
+
+      <!-- FAQ Item 23 -->
+      <article class="faq-item">
+        <header class="faq-header">
+          <span>23. What is the Ownership Simulator?</span>
+          <span class="arrow">▶</span>
+        </header>
+        <div class="faq-answer">
+          <p>
+            The Ownership Simulator estimates how many shares you’d receive and what your ownership percentage might be when placing a bid, including any Early Bird Bonus.
+          </p>
+        </div>
+      </article>
+
+      <!-- FAQ Item 24 -->
+      <article class="faq-item">
+        <header class="faq-header">
+          <span>24. How do I test this on a local or test network?</span>
+          <span class="arrow">▶</span>
+        </header>
+        <div class="faq-answer">
+          <p>
+            You can run a local blockchain (e.g., Hardhat, Ganache) or deploy the contract to a testnet (such as Goerli) with test ETH. Ensure your wallet is connected to the correct network.
+          </p>
+        </div>
+      </article>
+
+      <!-- FAQ Item 25 -->
+      <article class="faq-item">
+        <header class="faq-header">
+          <span>25. Do I lose my shares if I withdraw?</span>
+          <span class="arrow">▶</span>
+        </header>
+        <div class="faq-answer">
+          <p>
+            No. Withdrawing only claims your accumulated rewards. Your shares remain intact until you place a new bid.
+          </p>
+        </div>
+      </article>
+
+      <!-- FAQ Item 26 -->
+      <article class="faq-item">
+        <header class="faq-header">
+          <span>26. How can I contact the founder or get support?</span>
+          <span class="arrow">▶</span>
+        </header>
+        <div class="faq-answer">
+          <p>
+            Visit the “Transparency” section or use the provided links (GitHub, LinkedIn) to open an issue or contact the team directly.
+          </p>
+        </div>
+      </article>
+
+      <!-- FAQ Item 27 -->
+      <article class="faq-item">
+        <header class="faq-header">
+          <span>27. Are there any risks?</span>
+          <span class="arrow">▶</span>
+        </header>
+        <div class="faq-answer">
+          <p>
+            All investments involve risks, and cryptocurrencies are especially volatile. ETH prices can vary significantly, and transaction failures or network issues may occur. Always do your own research and invest only what you can afford to lose.
+          </p>
+        </div>
+      </article>
+
+      <!-- FAQ Item 28 -->
+      <article class="faq-item">
+        <header class="faq-header">
+          <span>28. Is there a maximum number of bids?</span>
+          <span class="arrow">▶</span>
+        </header>
+        <div class="faq-answer">
+          <p>
+            No. Bidding can continue indefinitely, and there is no cap on the number of bids.
+          </p>
+        </div>
+      </article>
+
+      <!-- FAQ Item 29 -->
+      <article class="faq-item">
+        <header class="faq-header">
+          <span>29. Can I remove my message or undo a bid?</span>
+          <span class="arrow">▶</span>
+        </header>
+        <div class="faq-answer">
+          <p>
+            Once a transaction is confirmed on the blockchain, it cannot be undone. If you no longer want your message displayed, someone else must outbid you.
+          </p>
+        </div>
+      </article>
+
+      <!-- FAQ Item 30 -->
+      <article class="faq-item">
+        <header class="faq-header">
+          <span>30. How do I see my total shares and pending rewards?</span>
+          <span class="arrow">▶</span>
+        </header>
+        <div class="faq-answer">
+          <p>
+            When your wallet is connected, the dApp displays your current shares and pending rewards in the main widget.
+          </p>
+        </div>
+      </article>
+
+      <!-- FAQ Item 31 -->
+      <article class="faq-item">
+        <header class="faq-header">
+          <span>31. Why can't I connect my wallet?</span>
+          <span class="arrow">▶</span>
+        </header>
+        <div class="faq-answer">
+          <p>
+            If your browser lacks an injected provider (for example, Chrome or Safari on mobile or a PC without a wallet extension like MetaMask), you won’t be able to connect.
+          </p>
+        </div>
+      </article>
+    </section>
+  </main>
+
+  <!-- Footer with Back Link -->
+  <footer>
+    <nav>
+      <a href="index.html" class="back-link">Return to Main Page</a>
+    </nav>
+  </footer>
+
+  <!-- JavaScript for FAQ Accordion and Search Functionality -->
   <script>
-    // ----- 1) Acordeón -----
+    // FAQ Accordion functionality
     const faqItems = document.querySelectorAll('.faq-item');
     faqItems.forEach(item => {
       const header = item.querySelector('.faq-header');
@@ -644,7 +644,7 @@
       });
     });
 
-    // ----- 2) Almacenamos el texto original para poder restaurarlo y resaltar -----
+    // Store original text for each FAQ to restore and highlight search matches
     const originalData = [];
     faqItems.forEach(item => {
       const questionEl = item.querySelector('.faq-header span');
@@ -655,52 +655,32 @@
       });
     });
 
-    // ----- 3) Función para resaltar coincidencias -----
+    // Function to highlight search matches in text
     function highlightText(text, searchTerm) {
-      if (!searchTerm) return text; // Si no hay término, devolvemos el texto tal cual
-      // Creamos una expresión regular para todas las coincidencias (case-insensitive)
+      if (!searchTerm) return text;
       const re = new RegExp(`(${searchTerm})`, 'gi');
-      // Reemplazamos cada coincidencia con un span.highlight
       return text.replace(re, `<span class="highlight">$1</span>`);
     }
 
-    // ----- 4) Manejador del input de búsqueda -----
+    // FAQ Search functionality
     const searchInput = document.getElementById('faq-search');
     searchInput.addEventListener('input', function() {
-      const filter = searchInput.value; // lo que va escribiendo el usuario
-
+      const filter = searchInput.value;
       faqItems.forEach((item, index) => {
         const { question, answer } = originalData[index];
-
-        // Restauramos el texto original (sin resaltar)
+        // Restore original text
         item.querySelector('.faq-header span').innerHTML = question;
         item.querySelector('.faq-answer p').innerHTML = answer;
-
-        // Si no hay nada escrito, mostramos todo y sin resaltar
         if (!filter) {
           item.style.display = "";
           return;
         }
-
-        // Buscamos en minúsculas para no discriminar mayúsculas
-        const questionLower = question.toLowerCase();
-        const answerLower   = answer.toLowerCase();
-        const filterLower   = filter.toLowerCase();
-
-        // Comprobamos si la pregunta o la respuesta incluyen el término
-        if (questionLower.includes(filterLower) || answerLower.includes(filterLower)) {
-          // Mostramos el item
+        const filterLower = filter.toLowerCase();
+        if (question.toLowerCase().includes(filterLower) || answer.toLowerCase().includes(filterLower)) {
           item.style.display = "";
-
-          // Resaltamos las coincidencias en la pregunta y la respuesta
-          const highlightedQuestion = highlightText(question, filter);
-          const highlightedAnswer   = highlightText(answer, filter);
-
-          // Reemplazamos el contenido con la versión resaltada
-          item.querySelector('.faq-header span').innerHTML = highlightedQuestion;
-          item.querySelector('.faq-answer p').innerHTML    = highlightedAnswer;
+          item.querySelector('.faq-header span').innerHTML = highlightText(question, filter);
+          item.querySelector('.faq-answer p').innerHTML = highlightText(answer, filter);
         } else {
-          // Si no coincide, lo ocultamos
           item.style.display = "none";
         }
       });

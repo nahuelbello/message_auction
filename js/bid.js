@@ -1,9 +1,14 @@
 // bid.js
+
+// Initialize the bid page when the window loads
 window.onload = init;
 
 let provider, signer, contract, web3Modal;
 let sharesChart, simulationChart;
 
+/**
+ * Initializes the bid page by setting up the provider, contract, and event listeners.
+ */
 async function init() {
   try {
     console.log("Initializing bid page...");
@@ -25,6 +30,7 @@ async function init() {
     contract = new ethers.Contract(contractAddress, contractABI, provider);
     await getCurrentState();
     updateSimulationChart(0);
+    // Listen for new bids on the contract
     contract.on("NewBid", (bidder, bid, message) => {
       console.log("New bid detected");
       getCurrentState();
@@ -35,6 +41,9 @@ async function init() {
   }
 }
 
+/**
+ * Connects the user's wallet using Web3Modal.
+ */
 async function connectWallet() {
   try {
     const providerOptions = {
@@ -74,6 +83,9 @@ async function connectWallet() {
   }
 }
 
+/**
+ * Disconnects the user's wallet.
+ */
 function disconnectWallet() {
   if (web3Modal) web3Modal.clearCachedProvider();
   provider = defaultProvider;
@@ -84,6 +96,9 @@ function disconnectWallet() {
   showStatus("Wallet disconnected.");
 }
 
+/**
+ * Retrieves the current state of the contract and updates the UI.
+ */
 async function getCurrentState() {
   try {
     let message, bid, totalShares;
@@ -117,6 +132,10 @@ async function getCurrentState() {
   }
 }
 
+/**
+ * Updates the main shares chart with the user's share percentage.
+ * @param {number} userPercentage - The percentage of shares the user holds.
+ */
 function updateChart(userPercentage) {
   const ctx = document.getElementById("sharesChart").getContext("2d");
   if (!sharesChart) {
@@ -150,6 +169,10 @@ function updateChart(userPercentage) {
   }
 }
 
+/**
+ * Updates the simulation chart with a simulated share percentage.
+ * @param {number} simPercentage - The simulated percentage of shares.
+ */
 function updateSimulationChart(simPercentage) {
   const ctxSim = document.getElementById("simulationChart").getContext("2d");
   if (!simulationChart) {
@@ -183,12 +206,13 @@ function updateSimulationChart(simPercentage) {
   }
 }
 
-// Agregar eventos para los elementos de la página de pujas…
+// Add event listener for new message input to update the preview text
 document.getElementById("newMessage").addEventListener("input", () => {
   const text = document.getElementById("newMessage").value || "This is your message";
   document.getElementById("smallPreview").innerText = text;
 });
 
+// Show the preview modal when the preview element is clicked
 document.getElementById("smallPreview").addEventListener("click", () => {
   let text = document.getElementById("newMessage").value;
   if (text.trim() === "") text = "This is your message";
@@ -196,6 +220,7 @@ document.getElementById("smallPreview").addEventListener("click", () => {
   document.getElementById("modal").style.display = "block";
 });
 
+// Event listener for placing a bid
 document.getElementById("placeBidBtn").addEventListener("click", async () => {
   if (!signer) {
     alert("Please connect your wallet.");
@@ -225,6 +250,7 @@ document.getElementById("placeBidBtn").addEventListener("click", async () => {
   }
 });
 
+// Event listener for withdrawal button
 document.getElementById("withdrawBtn").addEventListener("click", async () => {
   if (!signer) {
     alert("Please connect your wallet.");
@@ -244,38 +270,40 @@ document.getElementById("withdrawBtn").addEventListener("click", async () => {
   }
 });
 
+// Attach wallet connection/disconnection events
 document.getElementById("connectWalletBtn").addEventListener("click", connectWallet);
 document.getElementById("disconnectWalletBtn").addEventListener("click", disconnectWallet);
 
-// Cerrar modal de preview
+// Close the preview modal when the close button is clicked
 const modal = document.getElementById("modal");
 const closeModal = document.getElementById("closeModal");
 closeModal.addEventListener("click", () => {
   modal.style.display = "none";
 });
+// Close the modal if the user clicks outside of it
 window.addEventListener("click", (event) => {
   if (event.target === modal) modal.style.display = "none";
 });
 
+// Set up popup functionality for shares explanation
 document.addEventListener("DOMContentLoaded", function() {
-  // Elementos del popup
   const sharesInfoIcon = document.getElementById("sharesInfo");
   const sharesPopup = document.getElementById("sharesPopup");
   const closeSharesPopup = document.getElementById("closeSharesPopup");
 
-  // Al hacer click en el signo de pregunta, se muestra el popup
+  // Show the popup when the question mark is clicked
   sharesInfoIcon.addEventListener("click", function(e) {
-    e.stopPropagation(); // Prevenir propagación si es necesario
+    e.stopPropagation(); // Prevent propagation if needed
     sharesPopup.style.display = "block";
   });
 
-  // Al hacer click en la "x", se cierra el popup
+  // Close the popup when the "x" is clicked
   closeSharesPopup.addEventListener("click", function(e) {
     e.stopPropagation();
     sharesPopup.style.display = "none";
   });
 
-  // Si se hace click fuera del popup, se cierra
+  // Close the popup when clicking outside of it
   window.addEventListener("click", function(e) {
     if (!sharesPopup.contains(e.target) && e.target !== sharesInfoIcon) {
       sharesPopup.style.display = "none";
@@ -283,18 +311,24 @@ document.addEventListener("DOMContentLoaded", function() {
   });
 });
 
-// Assuming your popup element has id="sharesPopup"
+/**
+ * Toggles the display of the shares popup.
+ */
 function toggleSharesPopup() {
   const popup = document.getElementById('sharesPopup');
   // Toggle display between "block" and "none"
   popup.style.display = (popup.style.display === "block") ? "none" : "block";
 }
 
-// Attach the event listener to the icon
+// Attach event listener to the shares info icon for toggling the popup
 const sharesInfoIcon = document.getElementById('sharesInfo');
 sharesInfoIcon.addEventListener('click', toggleSharesPopup);
 
-// Función de scroll suave usando requestAnimationFrame
+/**
+ * Smooth scrolls to the target element using requestAnimationFrame.
+ * @param {string} targetId - The ID of the target element.
+ * @param {number} duration - The duration of the scroll animation in milliseconds.
+ */
 function smoothScrollTo(targetId, duration = 800) {
   const target = document.getElementById(targetId);
   if (!target) return;
@@ -312,7 +346,7 @@ function smoothScrollTo(targetId, duration = 800) {
     if (timeElapsed < duration) requestAnimationFrame(animation);
   }
 
-  // Función de easing (easeInOutQuad)
+  // Easing function (easeInOutQuad)
   function easeInOutQuad(t, b, c, d) {
     t /= d / 2;
     if (t < 1) return c / 2 * t * t + b;
@@ -323,7 +357,7 @@ function smoothScrollTo(targetId, duration = 800) {
   requestAnimationFrame(animation);
 }
 
-// Agregar el event listener al enlace que lleva al simulador
+// Add event listener to the link that scrolls to the simulator section
 document.addEventListener("DOMContentLoaded", function() {
   const goToSimulate = document.getElementById("goToSimulate");
   if (goToSimulate) {

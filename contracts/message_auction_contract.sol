@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.0;
 
-// Import ReentrancyGuard para protección contra ataques de reentrancia
+// Import ReentrancyGuard for protection against reentrancy attacks
 import "@openzeppelin/contracts/utils/ReentrancyGuard.sol";
 
 contract MessageAuction is ReentrancyGuard {
@@ -16,21 +16,21 @@ contract MessageAuction is ReentrancyGuard {
     uint256 public earlyBirdCount;
     mapping(address => bool) public earlyBirdClaimed;
 
-    // Sistema de shares
+    // Shares system
     uint256 public totalShares;
     mapping(address => uint256) public sharesOf;
 
-    // Acumulado de recompensa por share (para distribuir fondos)
+    // Accumulated reward per share (for funds distribution)
     uint256 public accRewardPerShare;
-    uint256 private constant SCALE = 1e12; // Factor de escala para decimales
+    uint256 private constant SCALE = 1e12; // Scale factor for decimals
 
-    // Para llevar el registro de lo que ya se le asignó a cada address
+    // Tracks the rewards already allocated to each address
     mapping(address => uint256) public rewardDebt;
 
     // Minimum bid increment
     uint256 public constant MIN_INCREMENT = 0.01 ether;
 
-    // Agregar contador de pujas totales
+    // Total bids counter
     uint256 public totalBids;
 
     event NewBid(address indexed bidder, uint256 bid, string message);
@@ -41,7 +41,7 @@ contract MessageAuction is ReentrancyGuard {
     }
 
     /**
-     * @notice Permite realizar una nueva puja con un mensaje.
+     * @notice Allows placing a new bid with a message.
      */
     function placeBid(string memory message) external payable nonReentrant {
         uint256 fee = (msg.value * FOUNDER_FEE) / 100;
@@ -62,14 +62,14 @@ contract MessageAuction is ReentrancyGuard {
         uint256 bonusFactor;
         if (!earlyBirdClaimed[msg.sender] && earlyBirdCount < EARLY_BIRD_LIMIT) {
             if (earlyBirdCount < 5) {
-                bonusFactor = 1500000000000; // 1.5x para los primeros 5
+                bonusFactor = 1500000000000; // 1.5x for the first 5
             } else {
-                bonusFactor = 1250000000000; // 1.25x para los siguientes 5
+                bonusFactor = 1250000000000; // 1.25x for the next 5
             }
             earlyBirdClaimed[msg.sender] = true;
             earlyBirdCount++;
         } else {
-            bonusFactor = 1000000000000; // 1.0x para el resto
+            bonusFactor = 1000000000000; // 1.0x for the rest
         }
 
         uint256 newShares = (msg.value * bonusFactor) / SCALE;
@@ -86,7 +86,7 @@ contract MessageAuction is ReentrancyGuard {
     }
 
     /**
-     * @notice Permite retirar las recompensas acumuladas.
+     * @notice Allows withdrawing the accumulated rewards.
      */
     function withdraw() external nonReentrant {
         uint256 userShares = sharesOf[msg.sender];
@@ -105,7 +105,9 @@ contract MessageAuction is ReentrancyGuard {
     }
 
     /**
-     * @notice Consulta el saldo de recompensa pendiente de una dirección.
+     * @notice Queries the pending reward balance for a given address.
+     * @param user The address to query.
+     * @return The pending reward in wei.
      */
     function pendingReward(address user) external view returns (uint256) {
         uint256 userShares = sharesOf[user];

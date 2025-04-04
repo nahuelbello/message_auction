@@ -1,18 +1,18 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <!-- Google tag (gtag.js) -->
+  <!-- Google Tag Manager -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-0L3MMEZ5C5"></script>
   <script>
     window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
+    function gtag(){ dataLayer.push(arguments); }
     gtag('js', new Date());
     gtag('config', 'G-0L3MMEZ5C5');
   </script>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <meta name="description" content="Message Auction is an innovative dApp where your messages transform into bids, blending fun, transparency, and blockchain rewards.">
-  <link rel="icon" type="image/png" sizes="32x32" href="message_auction_logo.PNG">
+  <meta name="description" content="Discover Message Auction, the innovative dApp where your message turns into a bid and earns you ETH rewards. Experience the future of blockchain auctions today!">
+  <link rel="icon" type="image/png" sizes="32x32" href="landing_page_images/message_auction_logo.png">
   <title>Message Auction</title>
   <!-- Google Fonts -->
   <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Roboto:wght@400;500&display=swap" rel="stylesheet">
@@ -20,7 +20,7 @@
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-  <!-- Sticky Header con Banner (Sección 1) -->
+  <!-- Header with Banner -->
   <header id="stickyHeader">
     <div class="banner">
       <div class="banner-marquee">
@@ -29,312 +29,305 @@
         </div>
       </div>
     </div>
-  </header>  
+  </header>
 
-  <!-- Sección 2: Video and manijeo -->
-  <section id="hero-text" class="hero-content">
-    <h1>Your Message<br>Your Bids<br>Your Rewards</h1>
-    <img src="message_auction_logo.PNG" alt="Logo of Message Auction" style="display: block; width: 60%; margin: 0 auto;">
-  </section>
+  <!-- Main Content -->
+  <main>
+    <!-- Hero Section -->
+    <section id="hero-text" class="hero-content">
+      <h1>Your Message<br>Your Bids<br>Your Rewards</h1>
+      <img src="landing_page_images/message_auction_logo.png" alt="Logo of Message Auction" style="display: block; width: 60%; margin: 0 auto;">
+    </section>
 
-  <!-- Sección 3: ¿Qué es Message Auction? -->
-  <section id="what-is">
-    <h3>
-      This dApp is basically an <strong>“auction game”</strong> on the Ethereum network, where people place bids (in ETH) to display their own message on the top banner. 
-      The idea is that every time someone makes a new bid, the money is distributed among everyone who participated before, using a system of “shares.” 
-      The fun part is that with each new bid, if you already hold shares, you earn rewards
-    </h3>
-  </section>
+    <!-- What is Message Auction? Section -->
+    <section id="what-is">
+      <h3>
+        This dApp is essentially an <strong>“auction game”</strong> on the Ethereum network, where users bid in ETH to display their own message on the top banner.
+        Every time someone makes a new bid, the funds are distributed among all previous participants using a system of “shares.”
+        The exciting part is that if you already hold shares, you earn rewards with each new bid.
+      </h3>
+    </section>
 
-  <section id="cta">
-    <button onclick="window.open('bid.html', '_blank', 'noopener,noreferrer')">
-      Place Your Bid & Start Earning ETH
-  </section>
+    <!-- Primary Call To Action Section -->
+    <section id="cta-primary">
+      <button onclick="window.open('bid.html', '_blank', 'noopener,noreferrer')">
+        Place Your Bid &amp; Start Earning ETH
+      </button>
+    </section>
 
-<!-- Section: Benefits of Participating -->
-<section id="benefits">
-  <div class="benefit-container">
-    <div class="benefit-card">
-      <div class="benefit-icon">📢</div>
-      <div class="benefit-title">Show Your Message</div>
-      <div class="benefit-text">
-        Be the center of attention on the banner and share your voice with the world
+    <!-- Benefits Section -->
+    <section id="benefits">
+      <div class="benefit-container">
+        <article class="benefit-card">
+          <div class="benefit-icon">📢</div>
+          <h4 class="benefit-title">Show Your Message</h4>
+          <p class="benefit-text">
+            Become the center of attention on the banner and share your voice with the world.
+          </p>
+        </article>
+        <article class="benefit-card">
+          <div class="benefit-icon">💰</div>
+          <h4 class="benefit-title">ETH Rewards</h4>
+          <p class="benefit-text">
+            Earn passive income with every new bid and accumulate ETH rewards.
+          </p>
+        </article>
+        <article class="benefit-card">
+          <div class="benefit-icon">🔒</div>
+          <h4 class="benefit-title">Security &amp; Transparency</h4>
+          <p class="benefit-text">
+            Operate with complete confidence thanks to Ethereum's blockchain technology.
+          </p>
+        </article>
+        <article class="benefit-card">
+          <div class="benefit-icon">🚀</div>
+          <h4 class="benefit-title">Early Bird Bonuses</h4>
+          <p class="benefit-text">
+            Take advantage of exclusive benefits for early participants to maximize your investment.
+          </p>
+        </article>
       </div>
-    </div>
-    <div class="benefit-card">
-      <div class="benefit-icon">💰</div>
-      <div class="benefit-title">ETH Rewards</div>
-      <div class="benefit-text">
-        Earn passive income with every new bid, accumulating ETH rewards
+    </section>
+
+    <!-- Earn Money Section -->
+    <section id="earn-money">
+      <h2>Sounds good but, how can I earn money with this?</h2>
+      <p>
+        When you place a bid in <strong>Message Auction</strong>, you not only showcase your message but also acquire shares in the system.
+        Every time someone outbids you, a portion of the bid is distributed among all previous participants proportionally to the shares they hold.
+        As the auction grows, your shares generate <strong>passive ETH income</strong>, and early participation rewards you with special bonuses that further boost your earnings.
+      </p>
+    </section>
+
+    <!-- Instructions Section -->
+    <section id="instructions">
+      <h2 id="instructionsTitle">This is how you can participate:</h2>
+      
+      <!-- Device Toggle (Desktop / Mobile) -->
+      <div class="device-toggle" style="text-align: center; margin-top: -40px; margin-bottom: 60px;">
+        <!-- Radio for Desktop -->
+        <input type="radio" name="deviceType" value="desktop" id="desktopRadio" style="display: none;">
+        <label for="desktopRadio" style="cursor: pointer; margin-right: 30px;">
+          <img src="landing_page_images/desktopicon.png" alt="Desktop" style="width: 80px;">
+        </label>
+        <img src="landing_page_images/barr.png" alt="Bar" style="width: 33px;">
+        <!-- Radio for Mobile -->
+        <input type="radio" name="deviceType" value="mobile" id="mobileRadio" style="display: none;">
+        <label for="mobileRadio" style="cursor: pointer; margin-left: 30px;">
+          <img src="landing_page_images/mobileicon.png" alt="Mobile" style="width: 55px;">
+        </label>
       </div>
-    </div>
-    <div class="benefit-card">
-      <div class="benefit-icon">🔒</div>
-      <div class="benefit-title">Security & Transparency</div>
-      <div class="benefit-text">
-        Operate with complete confidence thanks to Ethereum's blockchain technology
+
+      <!-- Desktop Instructions -->
+      <section id="desktopInstructions">
+        <div class="instruction left">
+          <div class="instruction-text">
+            <p>
+              First, ensure you have installed your wallet's extension in your browser (Chrome, Brave, etc.) and created a new wallet if you don't already have one.
+              You can use any wallet, but we recommend MetaMask or Trust.
+            </p>
+          </div>
+          <div class="instruction-screenshot">
+            <img src="landing_page_images/img1dsk.png" alt="Desktop Step 1 Screenshot">
+          </div>
+        </div>
+        <div class="instruction right">
+          <div class="instruction-screenshot">
+            <img src="landing_page_images/img2dsk.png" alt="Desktop Step 2 First Screenshot" style="width: 70%;">
+            <img src="landing_page_images/img3dsk.png" alt="Desktop Step 2 Second Screenshot" style="width: 70%;">
+          </div>
+          <div class="instruction-text">
+            <p>
+              Once your wallet is set up, click on "Connect Wallet" and confirm.
+            </p>
+          </div>
+        </div>
+        <div class="instruction left">
+          <div class="instruction-text" id="instruction-step3">
+            <p>
+              Once you've connected your wallet, start thinking about your message.
+              You can write anything without limitations or censorship (except for a 50-character limit).
+              Then, enter the ETH amount you want to bid and click "Place bid" to confirm the transaction.
+              (Keep in mind you must have enough funds in your account to cover the gas fees and the 4% founder fee—for example, if you bid 1 ETH, you should have over 1.05 ETH.)
+            </p>
+          </div>
+          <div class="instruction-screenshot">
+            <img src="landing_page_images/img1both.png" alt="Desktop Step 3 Screenshot" style="width: 70%;">
+          </div>
+        </div>
+        <div class="instruction right">
+          <div class="instruction-screenshot">
+            <img src="landing_page_images/img2both.jpg" alt="Desktop Step 4 Screenshot" style="width: 60%;">
+          </div>
+          <div class="instruction-text">
+            <p>
+              Once your bid is placed, your message will remain the main banner until someone outbids you. As more users participate, your ETH rewards will accumulate.
+            </p>
+          </div>
+        </div>
+        <div class="instruction left">
+          <div class="instruction-text">
+            <p>
+              As your earnings increase, you can withdraw them at any time.
+              Simply reconnect your wallet (it must be the same address used for bidding), click on "Withdraw," confirm the transaction, and your ETH will be transferred in a few minutes.
+            </p>
+          </div>
+          <div class="instruction-screenshot">
+            <img src="landing_page_images/img3both.png" alt="Desktop Step 5 Screenshot" style="width: 90%;">
+          </div>
+        </div>
+      </section>
+
+      <!-- Mobile Instructions -->
+      <section id="mobileInstructions">
+        <div class="instruction">
+          <div class="instruction-text">
+            <p>
+              First, ensure you have installed and configured a wallet. You can use any wallet, but we recommend MetaMask or Trust Wallet as they are the most tested.
+            </p>
+          </div>
+          <div class="instruction-screenshot">
+            <img src="landing_page_images/img1mob.png" alt="Mobile Step 1 Screenshot">
+          </div>
+        </div>
+        <div class="instruction">
+          <div class="instruction-text">
+            <p>
+              Then, go to the "Discover" icon, and in the search bar, paste the website link or type "messageauction.com" and press enter. Once on the page, click on "Connect wallet."
+            </p>
+          </div>
+          <div class="instruction-screenshot">
+            <img src="landing_page_images/img2mob.png" alt="Mobile Step 2 Screenshot">
+          </div>
+        </div>
+        <div class="instruction">
+          <div class="instruction-text">
+            <p>
+              Once you've connected your wallet, start thinking about your message. You can write anything without limitations or censorship (except for a 50-character limit).
+              Then, enter the ETH amount you want to bid and click "Place bid" to confirm the transaction.
+              (Remember to have enough funds for gas fees and the 4% founder fee—for example, if you bid 1 ETH, you should have over 1.05 ETH.)
+            </p>
+          </div>
+          <div class="instruction-screenshot">
+            <img src="landing_page_images/img1both.png" alt="Desktop Step 3 Screenshot">
+          </div>
+        </div>
+        <div class="instruction">
+          <div class="instruction-text">
+            <p>
+              Once your bid is placed, your message will remain the main banner until someone outbids you. As more users participate, your ETH rewards will accumulate.
+            </p>
+          </div>
+          <div class="instruction-screenshot">
+            <img src="landing_page_images/img2both.jpg" alt="Desktop Step 4 Screenshot">
+          </div>
+        </div>
+        <div class="instruction">
+          <div class="instruction-text">
+            <p>
+              As your earnings increase, you can withdraw them at any time. Reconnect your wallet (using the same address you bid with), click on "Withdraw," confirm the transaction, and your ETH will be transferred in a few minutes.
+            </p>
+          </div>
+          <div class="instruction-screenshot">
+            <img src="landing_page_images/img3both.png" alt="Desktop Step 5 Screenshot" style="margin-top: 20px;">
+          </div>
+        </div>
+      </section>
+    </section>
+
+    <!-- Ownership Simulator Section -->
+    <section id="simulateOwnershipSection" class="widget">
+      <h2>Ownership Simulator</h2>
+      <p>
+        This tool lets you estimate the percentage of shares you'll own based on your bid amount. It shows how your investment translates into potential rewards from future bids,
+        factoring in any bonus multipliers. Simply enter your bid amount, and the simulator will calculate your estimated ownership.
+      </p>
+      <div class="input-group simulate-input-group">
+        <input type="number" id="simulateBidAmount" placeholder="Amount in ETH" step="0.01" min="0">
+        <button id="simulateOwnershipBtn">Simulate</button>
       </div>
-    </div>
-    <div class="benefit-card">
-      <div class="benefit-icon">🚀</div>
-      <div class="benefit-title">Early Bird Bonuses</div>
-      <div class="benefit-text">
-        Take advantage of exclusive benefits for early participants and maximize your investment
+      <div id="simulationChartContainer">
+        <canvas id="simulationChart"></canvas>
       </div>
+      <div class="simulation-results">
+        <p class="info"><strong>Estimated Ownership:</strong> <span id="estimatedOwnership">0</span>%</p>
+        <p class="info"><strong>New Shares:</strong> <span id="newShares">0</span></p>
+        <p class="info"><strong>Bonus:</strong> <span id="bonusFactor">1.0</span>x</p>
+        <p class="mobile-metamask-info" style="margin-top: -5px;">
+          *The first 5 bids receive a 1.5x bonus, the next 5 a 1.25x bonus, and thereafter a 1.0x bonus.
+        </p>   
+      </div>
+    </section>
+
+    <!-- Latest Bids Section -->
+    <section id="latest-bids">
+      <h2>Latest Bids</h2>
+      <div id="bidHistory">
+        <!-- Bid history will be injected via JavaScript -->
+      </div>
+    </section>
+
+    <!-- Transparency Section -->
+    <section id="transparency-info">
+      <p>
+        We believe in complete transparency. All our <a href="https://github.com/nahuelbello/message_auction.git" target="_blank">Code</a> and
+        the <a href="https://etherscan.io/address/0x5B0474f5109D9594A2b818E7c33f8BC68C403dc7#code" target="_blank">Smart Contract</a> details can be publicly verified.
+      </p>
+      <p>A 4% founder fee is applied to every bid. This fee is reinvested to improve the project and fund future developments.</p>
+      <p>
+        The Early Bird Bonus rewards the first 10 bidders with a higher share multiplier. The first 5 bids receive a 1.5x bonus, while bids 6 to 10 receive a 1.25x bonus, giving you a larger stake in future rewards.
+      </p>
+      <p>
+        For any questions or feedback, feel free to reach out via
+        <a href="https://www.linkedin.com/in/nahuel-bello-rendon-9a9710301/" target="_blank">LinkedIn</a> or
+        <a href="https://github.com/nahuelbello" target="_blank">GitHub</a>.
+      </p>
+    </section>
+
+    <!-- Final Call To Action Section -->
+    <section id="cta-final">
+      <button onclick="window.open('bid.html', '_blank', 'noopener,noreferrer')">
+        Place Your Bid
+      </button>
+    </section>
+  </main>
+
+  <!-- Modal for Message Preview -->
+  <div id="modal" class="modal">
+    <div class="modal-content">
+      <span id="closeModal" class="close">&times;</span>
+      <div class="preview-banner" id="previewBanner">Your Message Preview</div>
+      <p>This is how your message will appear in the banner.</p>
     </div>
   </div>
-</section>
 
-<!-- Section: How Can I Earn Money With This? -->
-<section id="earn-money">
-  <h2>Sounds good but, ¿How can I earn money with this?</h2>
-  <p>
-    When you place a bid in <strong>Message Auction</strong>, you're not only showcasing your message but also acquiring shares in the system. Every time someone outbids you, a portion of the bid is distributed among all previous participants, proportional to the shares they hold.
-    As the auction grows, your shares generate <strong>passive ETH income</strong>. Additionally, early participation rewards you with special bonuses that further boost your earning potential
-  </p>
-</section>
-
-<!-- Sección de Instrucciones -->
-<h2 id="instructionsTitle">This is how you can be part:</h2>
-
-<!-- Switch manual para elegir dispositivo -->
-<div class="device-toggle" style="text-align:center; margin-top: -40px; margin-bottom: 60px;">
-  <!-- Radio Desktop oculto -->
-  <input 
-    type="radio" 
-    name="deviceType" 
-    value="desktop" 
-    id="desktopRadio" 
-    style="display: none;"
-  />
-
-  <!-- Imagen que hace clic para desktop -->
-  <label for="desktopRadio" style="cursor: pointer; margin-right: 30px;">
-    <img 
-      src="landing_page_images/desktopicon.png" 
-      alt="Desktop" 
-      style="width: 80px;" 
-    />
-  </label>
-
-  <img 
-    src="landing_page_images/barr.png" 
-    alt="Barr" 
-    style="width: 33px;"
-  />
-  <!-- Radio Mobile oculto -->
-  <input 
-    type="radio" 
-    name="deviceType" 
-    value="mobile" 
-    id="mobileRadio" 
-    style="display: none;"
-  />
-
-  <!-- Imagen que hace clic para mobile -->
-  <label for="mobileRadio" style="cursor: pointer; margin-left: 30px;">
-    <img 
-      src="landing_page_images/mobileicon.png" 
-      alt="Mobile" 
-      style="width: 55px;"
-    />
-  </label>
-</div>
-
-
- <section id="desktopInstructions">
-  <!-- Instrucción 1: Texto a la izquierda, screenshot a la derecha -->
-  <div class="instruction left">
-    <div class="instruction-text">
+  <!-- Shares Explanation Popup (Supplementary Content) -->
+  <aside id="sharesPopup" class="popup" style="display: none;">
+    <div class="popup-content">
+      <span id="closeSharesPopup" class="close-popup">&times;</span>
       <p>
-        First, make sure you have installed your wallet's extension in your Google Chrome, Brave or the browser you use, and create a new wallet if you don’t have one.
-        You can use any wallet, but we recommend MetaMask or Trust
+        Shares represent your stake in the auction. They are allocated based on the amount of ETH you bid (and can be multiplied with a bonus if you're one of the early participants). 
+        Each time a new bid is placed, that bid is distributed among all participants proportionally to the shares they hold. This means that the more shares you have, 
+        the larger your percentage of future bids will be. You can calculate them <a href="#simulateOwnershipSection" id="goToSimulate" style="color: #00E676; text-decoration: underline;">here</a>.
       </p>
     </div>
-    <div class="instruction-screenshot">
-      <img src="landing_page_images/img1dsk.png" alt="Desktop Step 1 Screenshot">
-    </div>
-  </div>
-  <!-- Instrucción 2: Texto a la derecha, screenshot a la izquierda -->
-  <div class="instruction right">
-    <div class="instruction-screenshot">
-      <img src="landing_page_images/img2dsk.png" alt="Desktop Step 2 first Screenshot" style="width: 70%">
-      <img src="landing_page_images/img3dsk.png" alt="Desktop Step 2 second Screenshot"  style="width: 70%">
-    </div>
-    <div class="instruction-text">
-      <p>
-        Once your wallet is set up, click on "Connect Wallet" and confirm
-      </p>
-    </div>
-  </div>
-  <!-- Instrucción 3: Texto a la izquierda, screenshot a la derecha -->
-  <div class="instruction left">
-    <div class="instruction-text" id="instruction-step3">
-      <p>
-        Once you've connected your wallet, you can start thinking about your message. 
-        You can write whatever you want without limitations or censorship (except for a 50-character limit). 
-        Then enter the amount of ETH you want to bid and click "Place bid" to confirm the transaction.
-        (Keep in mind that you must have sufficient funds in your account to cover the gas fees and the 4% founder fee—for example, if you bid 1 ETH, 
-        you should have over 1.05 ETH for your bid to be successful)
-      </p>
-    </div>
-    <div class="instruction-screenshot">
-      <img src="landing_page_images/img1both.png" alt="Desktop Step 3 Screenshot" style="width: 70%">
-    </div>
-  </div>
-  <!-- Instrucción 4: Texto a la derecha, screenshot a la izquierda -->
-  <div class="instruction right">
-    <div class="instruction-screenshot">
-      <img src="landing_page_images/img2both.jpg" alt="Desktop Step 4 Screenshot" style="width: 60%">
-    </div>
-    <div class="instruction-text">
-      <p>
-        Once your bid is placed, your message will be the banner’s main feature until someone outbids you. As more users participate in the future, your ETH rewards will accumulate here
-      </p>
-    </div>
-  </div>
-  <!-- Instrucción 5: Texto a la izquierda, screenshot a la derecha -->
-  <div class="instruction left">
-    <div class="instruction-text">
-      <p>
-        As your earnings increase, you can withdraw them at any time. 
-        Just reconnect your wallet (it must be the same address you used to bid), click on "Withdraw," confirm the transaction, and your ETH will be transferred in a few minutes
-      </p>
-    </div>
-    <div class="instruction-screenshot">
-      <img src="landing_page_images/img3both.png" alt="Desktop Step 5 Screenshot" style="width: 90%"">
-    </div>
-  </div>
-</section>
+  </aside>
 
-<section id="mobileInstructions">
-  <!-- Instrucción 1 -->
-  <div class="instruction">
-    <div class="instruction-text">
-      <p>
-        First, make sure you have installed and configured a wallet. You can use anyone, but we recommend MetaMask or Trust Wallet because they are the ones we have tested the most.
-      </p>
-    </div>
-    <div class="instruction-screenshot">
-      <img src="landing_page_images/img1mob.png" alt="Mobile Step 1 Screenshot">
-    </div>
-  </div>
-
-  <!-- Instrucción 2 -->
-  <div class="instruction">
-    <div class="instruction-text">
-      <p>
-        Then, go to the "Discover" icon, and in the search bar, paste the website link or type "messageauction.com" and press enter. Once you're on that page, click on "Connect wallet".
-      </p>
-    </div>
-    <div class="instruction-screenshot">
-      <img src="landing_page_images/img2mob.png" alt="Mobile Step 2 Screenshot">
-    </div>
-  </div>
-
-  <!-- Instrucción 3 -->
-  <div class="instruction">
-    <div class="instruction-text">
-      <p>
-        Once you've connected your wallet, you can start thinking about your message. You can write whatever you want without limitations or censorship (except for a 50-character limit). Then enter the amount of ETH you want to bid and click "Place bid" to confirm the transaction. (Keep in mind that you must have sufficient funds in your account to cover the gas fees and the 4% founder fee—for example, if you bid 1 ETH, you should have over 1.05 ETH for your bid to be successful)
-      </p>
-    </div>
-    <div class="instruction-screenshot">
-      <img src="landing_page_images/img1both.png" alt="Desktop Step 3 Screenshot">
-    </div>
-  </div>
-
-  <!-- Instrucción 4 -->
-  <div class="instruction">
-    <div class="instruction-text">
-      <p>
-        Once your bid is placed, your message will be the banner’s main feature until someone outbids you. As more users participate in the future, your ETH rewards will accumulate here.
-      </p>
-    </div>
-    <div class="instruction-screenshot">
-      <img src="landing_page_images/img2both.jpg" alt="Desktop Step 4 Screenshot">
-    </div>
-  </div>
-
-  <!-- Instrucción 5 -->
-  <div class="instruction">
-    <div class="instruction-text">
-      <p>
-        As your earnings increase, you can withdraw them at any time. Just reconnect your wallet (it must be the same address you used to bid), click on "Withdraw," confirm the transaction, and your ETH will be transferred in a few minutes.
-      </p>
-    </div>
-    <div class="instruction-screenshot">
-      <img src="landing_page_images/img3both.png" alt="Desktop Step 5 Screenshot" style="margin-top: 20px;">
-    </div>
-  </div>
-</section>
-
-
-  <!-- Sección 6: Simula tu Participación -->
-  <section class="widget" id="simulateOwnershipSection">
-    <h2>Ownership Simulator</h2>
-    <p>
-This tool lets you estimate the percentage of shares you'll own based on your bid amount. It shows you how your 
-investment translates into potential rewards from future bids, factoring in any bonus multipliers. 
-Simply enter your bid amount, and the simulator will calculate your estimated ownership
-    </p>
-    <div class="input-group simulate-input-group">
-      <input type="number" id="simulateBidAmount" placeholder="Amount in ETH" step="0.01" min="0">
-      <button id="simulateOwnershipBtn">Simulate</button>
-    </div>
-    <div id="simulationChartContainer">
-      <canvas id="simulationChart"></canvas>
-    </div>
-    <div class="simulation-results">
-      <p class="info"><strong>Estimated Ownership:</strong> <span id="estimatedOwnership">0</span>%</p>
-      <p class="info"><strong>New Shares:</strong> <span id="newShares">0</span></p>
-      <p class="info"><strong>Bonus:</strong> <span id="bonusFactor">1.0</span>x</p>
-    </div>
-  </section>
-
-  <!-- Sección 7: Últimas Pujas -->
-  <section id="latest-bids">
-    <h2>Latest bids</h2>
-    <div id="bidHistory">
-      <!-- Aquí se inyectarán las pujas recientes mediante JavaScript -->
-    </div>
-  </section>
-
-  <!-- Sección 8: Transparencia -->
-  <section id="transparency-info">
-    <p>
-      We believe in complete transparency. All our <a href="https://github.com/nahuelbello/message_auction.git" target="_blank">Code</a> and 
-      the <a href="https://etherscan.io/address/0x5B0474f5109D9594A2b818E7c33f8BC68C403dc7#code" target="_blank">Smart Contract</a> details can be publicly verified.
-    </p>
-    <p>A 4% founder fee is applied to every bid. This fee is reinvested to improve this project and fund future developments.</p>
-    <p>The Early Bird Bonus rewards the first 10 bidders with a higher share multiplier. The first 5 bids receive a 1.5x bonus, while bids 6 to 10 receive a 1.25x bonus, giving you a larger stake in future rewards.</p>
-    <p>For any questions or feedback, feel free to reach out via 
-      <a href="https://www.linkedin.com/in/nahuel-bello-rendon-9a9710301/" target="_blank">LinkedIn</a> or 
-      <a href="https://github.com/nahuelbello" target="_blank">GitHub</a>.
-    </p>
-  </section>
-
-  <!-- Sección 9: CTA - Botón para ir a la página de puja -->
-  <section id="cta">
-    <button onclick="window.open('bid.html', '_blank', 'noopener,noreferrer')">
-      Place Your Bid
-  </section>
-
-  <!-- Sección 10: Footer -->
+  <!-- Footer Section -->
   <footer>
     <div class="footer-container">
-      <div class="footer-links">
+      <nav class="footer-links">
         <a href="https://github.com/nahuelbello/message_auction.git" target="_blank">Repository</a>
         <a href="https://etherscan.io/address/0x5B0474f5109D9594A2b818E7c33f8BC68C403dc7#code" target="_blank">Smart Contract</a>
         <a href="faq.html">FAQ</a>
-      </div>
+      </nav>
       <p>© 2025 Message Auction. Released under the MIT License.</p>
     </div>
   </footer>
 
-  <!-- Link to external JavaScript -->
+  <!-- External JavaScript -->
   <script src="https://cdn.jsdelivr.net/npm/ethers@5.7.2/dist/ethers.umd.min.js"></script>
   <script src="js/common.js"></script>
-  <script src="js/landing.js"></script> 
+  <script src="js/bid.js"></script>
 </body>
 </html>
