@@ -96,9 +96,14 @@ async function loadBidHistory() {
 
 // Update simulation chart (moved to global scope)
 function updateSimulationChart(simPercentage) {
-  const ctxSim = document.getElementById("simulationChart").getContext("2d");
+  const ctxSim = document.getElementById("simulationChart");
+  if (!ctxSim) {
+    console.error("Simulation chart canvas not found");
+    return;
+  }
+  const ctx = ctxSim.getContext("2d");
   if (!simulationChart) {
-    simulationChart = new Chart(ctxSim, {
+    simulationChart = new Chart(ctx, {
       type: "doughnut",
       data: {
         labels: ["Your Simulated Shares", "Other Shares"],
@@ -123,8 +128,13 @@ function initSimulator() {
   updateSimulationChart(0);
 
   // Set up event listener for the "Simulate" button
-  document.getElementById("simulateOwnershipBtn").addEventListener("click", async () => {
-    const bidAmount = document.getElementById("simulateBidAmount").value;
+  const simulateBtn = document.getElementById("simulateOwnershipBtn");
+  if (!simulateBtn) {
+    console.error("Simulate button not found");
+    return;
+  }
+  simulateBtn.addEventListener("click", async () => {
+    const bidAmount = document.getElementById("simulateBidAmount")?.value;
     if (!bidAmount || parseFloat(bidAmount) <= 0) {
       showStatus("Please enter a valid amount in ETH.", true);
       return;
@@ -164,30 +174,6 @@ function initSimulator() {
       showStatus(customMessage, true);
     }
   });
-}
-
-// Detect active wallet provider
-function detectWalletProvider() {
-  const ethereum = window.ethereum;
-  if (!ethereum) return null;
-
-  // Check for MetaMask
-  if (ethereum.isMetaMask) {
-    return "MetaMask";
-  }
-  // Check for Trust Wallet (Trust Wallet doesn’t have a unique flag, but we can infer by lack of MetaMask flag and presence of provider)
-  else if (ethereum.isTrust) {
-    return "Trust Wallet";
-  }
-  // Generic fallback for other injected providers
-  return "Unknown Wallet";
-}
-
-// Check for multiple wallet extensions
-function checkMultipleWallets() {
-  const hasMetaMask = !!window.ethereum?.isMetaMask;
-  const hasTrust = !!window.ethereum?.isTrust || (window.web3 && window.web3.currentProvider.isTrust); // Trust Wallet detection is less reliable
-  return hasMetaMask && hasTrust;
 }
 
 // Page-specific logic
@@ -231,24 +217,6 @@ document.addEventListener("DOMContentLoaded", function () {
           return;
         }
 
-        // Detect current provider
-        const detectedWallet = detectWalletProvider();
-        console.log("Detected wallet:", detectedWallet);
-
-        // Check for multiple wallets
-        if (checkMultipleWallets()) {
-          const userChoice = confirm(
-            "Multiple wallet extensions detected (e.g., MetaMask and Trust Wallet). " +
-            "Currently, the active wallet is " + detectedWallet + ". " +
-            "To use a different wallet (e.g., MetaMask), disable or disconnect the other wallet extensions " +
-            "in your browser and click OK to retry. Click Cancel to proceed with " + detectedWallet + "."
-          );
-          if (userChoice) {
-            showStatus("Please disable the unwanted wallet extension and try again.", true);
-            return;
-          }
-        }
-
         // Request account access via injected provider
         await window.ethereum.request({ method: "eth_requestAccounts" });
         provider = new ethers.providers.Web3Provider(window.ethereum);
@@ -259,7 +227,7 @@ document.addEventListener("DOMContentLoaded", function () {
         contract = new ethers.Contract(contractAddress, contractABI, signer);
         document.getElementById("connectWalletBtn").style.display = "none";
         document.getElementById("disconnectWalletBtn").style.display = "block";
-        showStatus("Wallet connected successfully! Connected with: " + detectedWallet);
+        showStatus("Wallet connected successfully!");
         await getCurrentState();
       } catch (e) {
         console.error("Error connecting wallet:", e);
@@ -317,9 +285,11 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     function updateChart(userPercentage) {
-      const ctx = document.getElementById("sharesChart").getContext("2d");
+      const ctx = document.getElementById("sharesChart");
+      if (!ctx) return;
+      const chartCtx = ctx.getContext("2d");
       if (!sharesChart) {
-        sharesChart = new Chart(ctx, {
+        sharesChart = new Chart(chartCtx, {
           type: "doughnut",
           data: {
             labels: ["Your Shares", "Other Shares"],
