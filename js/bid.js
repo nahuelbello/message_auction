@@ -221,7 +221,8 @@ document.getElementById("smallPreview").addEventListener("click", () => {
 });
 
 // Event listener for placing a bid
-document.getElementById("placeBidBtn").addEventListener("click", async () => {
+document.getElementById("placeBidBtn").addEventListener("click", async (event) => {
+  event.preventDefault(); // Prevent default form submission
   if (!signer) {
     alert("Please connect your wallet.");
     return;

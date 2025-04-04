@@ -1,5 +1,3 @@
-// common.js
-
 /**
  * Returns a custom error message based on the error message and context.
  * @param {Error} err - The error object.
@@ -40,40 +38,4 @@ function formatSharesFriendly(bigNum) {
   const divisor = ethers.BigNumber.from("1000000000000"); // 1e12
   const friendly = bigNum.div(divisor);
   return friendly.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-}
-
-// Global variables shared between pages (if used on both pages)
-const contractAddress = "0x5B0474f5109D9594A2b818E7c33f8BC68C403dc7";
-const contractABI = [
-  "function currentBid() view returns (uint256)",
-  "function currentMessage() view returns (string)",
-  "function currentBidder() view returns (address)",
-  "function totalShares() view returns (uint256)",
-  "function sharesOf(address) view returns (uint256)",
-  "function pendingReward(address user) view returns (uint256)",
-  "function placeBid(string memory message) payable",
-  "function withdraw()",
-  "function totalBids() view returns (uint256)",
-  "function earlyBirdClaimed(address) view returns (bool)",
-  "function earlyBirdCount() view returns (uint256)",
-  "event NewBid(address indexed bidder, uint256 bid, string message)",
-  "event Withdrawal(address indexed user, uint256 amount)"
-];
-
-const defaultProvider = new ethers.providers.JsonRpcProvider("https://eth-mainnet.g.alchemy.com/v2/T_QL1fNKmAx8mKNHscnvfgYyJ9OkLIxg");
-
-/**
- * Displays a status message on the page.
- * @param {string} message - The status message to display.
- * @param {boolean} [isError=false] - Whether the message represents an error.
- */
-function showStatus(message, isError = false) {
-  const statusEl = document.getElementById("status");
-  if (statusEl) {
-    statusEl.innerText = message;
-    statusEl.style.backgroundColor = isError ? "#ffcccb" : "#00E676";
-    statusEl.style.color = isError ? "#b71c1c" : "#121212";
-    statusEl.style.opacity = "1";
-    setTimeout(() => { statusEl.style.opacity = "0"; }, 3000);
-  }
 }
