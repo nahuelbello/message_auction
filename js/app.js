@@ -1,6 +1,6 @@
 // app.js
 
-// Variables globales y configuración inicial
+// Global variables and initial setup
 const contractAddress = "0x5B0474f5109D9594A2b818E7c33f8BC68C403dc7";
 const contractABI = [
   "function currentBid() view returns (uint256)",
@@ -22,10 +22,9 @@ const defaultProvider = new ethers.providers.JsonRpcProvider("https://eth-mainne
 let provider = defaultProvider;
 let signer = null;
 let contract = new ethers.Contract(contractAddress, contractABI, provider);
-let web3Modal = null;
 let sharesChart, simulationChart;
 
-// Funciones auxiliares (de common.js)
+// Helper functions (from common.js)
 function showStatus(message, isError = false) {
   const statusEl = document.getElementById("status");
   if (!statusEl) return;
@@ -60,7 +59,7 @@ function formatSharesFriendly(bigNum) {
   return friendly.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 }
 
-// Funciones compartidas
+// Shared functions
 async function checkNetwork() {
   try {
     const network = await provider.getNetwork();
@@ -80,7 +79,7 @@ async function loadBidHistory() {
     const filter = contract.filters.NewBid();
     const events = await contract.queryFilter(filter, 0, "latest");
     const bidHistoryDiv = document.getElementById("bidHistory");
-    if (!bidHistoryDiv) return; // Evitar errores si no está en la página
+    if (!bidHistoryDiv) return; // Avoid errors if not on the page
     bidHistoryDiv.innerHTML = "";
     events.reverse().slice(0, 10).forEach(event => {
       const bidder = event.args.bidder;
@@ -95,13 +94,109 @@ async function loadBidHistory() {
   }
 }
 
-// Lógica específica para cada página
-document.addEventListener("DOMContentLoaded", function () {
-  // Detectar qué página estamos cargando
-  const isBidPage = document.getElementById("bid-widget") !== null;
-  const isLandingPage = document.getElementById("mobileInstructions") !== null; // Elemento único de landing
+// Update simulation chart (moved to global scope)
+function updateSimulationChart(simPercentage) {
+  const ctxSim = document.getElementById("simulationChart").getContext("2d");
+  if (!simulationChart) {
+    simulationChart = new Chart(ctxSim, {
+      type: "doughnut",
+      data: {
+        labels: ["Your Simulated Shares", "Other Shares"],
+        datasets: [{ data: [simPercentage, 100 - simPercentage], backgroundColor: ["#00E676", "#424242"] }],
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        animation: { animateRotate: true },
+        plugins: { tooltip: { callbacks: { label: (context) => context.label + ": " + context.parsed + "%" } } },
+      },
+    });
+  } else {
+    simulationChart.data.datasets[0].data = [simPercentage, 100 - simPercentage];
+    simulationChart.update();
+  }
+}
 
-  // Lógica de bid.js
+// Initialize simulator for both pages
+function initSimulator() {
+  // Initialize empty chart
+  updateSimulationChart(0);
+
+  // Set up event listener for the "Simulate" button
+  document.getElementById("simulateOwnershipBtn").addEventListener("click", async () => {
+    const bidAmount = document.getElementById("simulateBidAmount").value;
+    if (!bidAmount || parseFloat(bidAmount) <= 0) {
+      showStatus("Please enter a valid amount in ETH.", true);
+      return;
+    }
+    try {
+      const bidValue = ethers.utils.parseEther(bidAmount);
+      const SCALE = ethers.BigNumber.from("1000000000000"); // 1e12
+      let bonusFactor = SCALE; // Default bonus factor (1.0x)
+      let currentUserShares = ethers.BigNumber.from("0"); // Default to 0 if no wallet
+      let currentTotalShares = await contract.totalShares();
+
+      // If wallet is connected (only applies to bid.html), adjust bonus and shares
+      if (signer) {
+        const userAddress = await signer.getAddress();
+        currentUserShares = await contract.sharesOf(userAddress);
+        const hasClaimedBonus = await contract.earlyBirdClaimed(userAddress);
+        const earlyBirdCount = await contract.earlyBirdCount();
+        if (!hasClaimedBonus && earlyBirdCount.lt(10)) {
+          bonusFactor = earlyBirdCount.lt(5) ? ethers.BigNumber.from("1500000000000") : ethers.BigNumber.from("1250000000000");
+        }
+      }
+
+      const newShares = bidValue.mul(bonusFactor).div(SCALE);
+      const finalUserShares = currentUserShares.add(newShares);
+      const newTotalShares = currentTotalShares.add(newShares);
+      let ownershipPercentage = newTotalShares.isZero() ? 0 : finalUserShares.mul(10000).div(newTotalShares).toNumber() / 100;
+
+      document.getElementById("estimatedOwnership").innerText = ownershipPercentage.toFixed(2);
+      document.getElementById("newShares").innerText = formatSharesFriendly(newShares);
+      document.getElementById("bonusFactor").innerText = (bonusFactor.toNumber() / SCALE.toNumber()).toFixed(2);
+      updateSimulationChart(ownershipPercentage);
+      showStatus("Simulation completed successfully!");
+    } catch (err) {
+      console.error("Error in simulation:", err);
+      let customMessage = getCustomErrorMessage(err, "simulate");
+      if (!customMessage) customMessage = "Error performing simulation.";
+      showStatus(customMessage, true);
+    }
+  });
+}
+
+// Detect active wallet provider
+function detectWalletProvider() {
+  const ethereum = window.ethereum;
+  if (!ethereum) return null;
+
+  // Check for MetaMask
+  if (ethereum.isMetaMask) {
+    return "MetaMask";
+  }
+  // Check for Trust Wallet (Trust Wallet doesn’t have a unique flag, but we can infer by lack of MetaMask flag and presence of provider)
+  else if (ethereum.isTrust) {
+    return "Trust Wallet";
+  }
+  // Generic fallback for other injected providers
+  return "Unknown Wallet";
+}
+
+// Check for multiple wallet extensions
+function checkMultipleWallets() {
+  const hasMetaMask = !!window.ethereum?.isMetaMask;
+  const hasTrust = !!window.ethereum?.isTrust || (window.web3 && window.web3.currentProvider.isTrust); // Trust Wallet detection is less reliable
+  return hasMetaMask && hasTrust;
+}
+
+// Page-specific logic
+document.addEventListener("DOMContentLoaded", function () {
+  // Detect which page is being loaded
+  const isBidPage = document.getElementById("bid-widget") !== null;
+  const isLandingPage = document.getElementById("mobileInstructions") !== null; // Unique element in landing page
+
+  // Logic for bid.html
   if (isBidPage) {
     async function initBid() {
       try {
@@ -118,7 +213,6 @@ document.addEventListener("DOMContentLoaded", function () {
         contract = new ethers.Contract(contractAddress, contractABI, provider);
         console.log("Contract initialized");
         await getCurrentState();
-        updateSimulationChart(0);
         contract.on("NewBid", (bidder, bid, message) => {
           console.log("New bid detected");
           getCurrentState();
@@ -132,23 +226,32 @@ document.addEventListener("DOMContentLoaded", function () {
     async function connectWallet() {
       try {
         console.log("Connecting wallet...");
-        const providerOptions = {
-          walletconnect: {
-            package: window.WalletConnectProvider,
-            options: {
-              rpc: { 1: "https://eth-mainnet.g.alchemy.com/v2/T_QL1fNKmAx8mKNHscnvfgYyJ9OkLIxg" },
-            },
-          },
-        };
-        if (!web3Modal) {
-          web3Modal = new window.Web3Modal.default({
-            cacheProvider: false,
-            providerOptions,
-            disableInjectedProvider: false,
-          });
+        if (!window.ethereum) {
+          showStatus("No injected provider detected. Please install MetaMask or another wallet extension.", true);
+          return;
         }
-        const externalProvider = await web3Modal.connect();
-        provider = new ethers.providers.Web3Provider(externalProvider);
+
+        // Detect current provider
+        const detectedWallet = detectWalletProvider();
+        console.log("Detected wallet:", detectedWallet);
+
+        // Check for multiple wallets
+        if (checkMultipleWallets()) {
+          const userChoice = confirm(
+            "Multiple wallet extensions detected (e.g., MetaMask and Trust Wallet). " +
+            "Currently, the active wallet is " + detectedWallet + ". " +
+            "To use a different wallet (e.g., MetaMask), disable or disconnect the other wallet extensions " +
+            "in your browser and click OK to retry. Click Cancel to proceed with " + detectedWallet + "."
+          );
+          if (userChoice) {
+            showStatus("Please disable the unwanted wallet extension and try again.", true);
+            return;
+          }
+        }
+
+        // Request account access via injected provider
+        await window.ethereum.request({ method: "eth_requestAccounts" });
+        provider = new ethers.providers.Web3Provider(window.ethereum);
         if (!await checkNetwork()) return;
         signer = provider.getSigner();
         const address = await signer.getAddress();
@@ -156,20 +259,17 @@ document.addEventListener("DOMContentLoaded", function () {
         contract = new ethers.Contract(contractAddress, contractABI, signer);
         document.getElementById("connectWalletBtn").style.display = "none";
         document.getElementById("disconnectWalletBtn").style.display = "block";
-        showStatus("Wallet connected successfully!");
+        showStatus("Wallet connected successfully! Connected with: " + detectedWallet);
         await getCurrentState();
       } catch (e) {
         console.error("Error connecting wallet:", e);
         let customMessage = getCustomErrorMessage(e, "connectWallet");
-        if (!customMessage) customMessage = "Error connecting wallet.";
+        if (!customMessage) customMessage = "Error connecting wallet. Ensure your preferred wallet is active and unlocked.";
         showStatus(customMessage, true);
       }
     }
 
     function disconnectWallet() {
-      if (web3Modal) {
-        web3Modal.clearCachedProvider();
-      }
       provider = defaultProvider;
       signer = null;
       contract = new ethers.Contract(contractAddress, contractABI, provider);
@@ -238,29 +338,7 @@ document.addEventListener("DOMContentLoaded", function () {
       }
     }
 
-    function updateSimulationChart(simPercentage) {
-      const ctxSim = document.getElementById("simulationChart").getContext("2d");
-      if (!simulationChart) {
-        simulationChart = new Chart(ctxSim, {
-          type: "doughnut",
-          data: {
-            labels: ["Your Simulated Shares", "Other Shares"],
-            datasets: [{ data: [simPercentage, 100 - simPercentage], backgroundColor: ["#00E676", "#424242"] }],
-          },
-          options: {
-            responsive: true,
-            maintainAspectRatio: false,
-            animation: { animateRotate: true },
-            plugins: { tooltip: { callbacks: { label: (context) => context.label + ": " + context.parsed + "%" } } },
-          },
-        });
-      } else {
-        simulationChart.data.datasets[0].data = [simPercentage, 100 - simPercentage];
-        simulationChart.update();
-      }
-    }
-
-    // Eventos de la interfaz
+    // UI event listeners
     document.getElementById("connectWalletBtn").addEventListener("click", connectWallet);
     document.getElementById("disconnectWalletBtn").addEventListener("click", disconnectWallet);
 
@@ -380,52 +458,12 @@ document.addEventListener("DOMContentLoaded", function () {
       requestAnimationFrame(animation);
     }
 
-    document.getElementById("simulateOwnershipBtn").addEventListener("click", async () => {
-      const bidAmount = document.getElementById("simulateBidAmount").value;
-      if (!bidAmount || parseFloat(bidAmount) <= 0) {
-        showStatus("Please enter a valid amount in ETH.", true);
-        return;
-      }
-      try {
-        const bidValue = ethers.utils.parseEther(bidAmount);
-        const SCALE = ethers.BigNumber.from("1000000000000");
-        let bonusFactor = SCALE;
-        let currentUserShares = ethers.BigNumber.from("0");
-        let currentTotalShares = await contract.totalShares();
-        if (signer) {
-          const userAddress = await signer.getAddress();
-          currentUserShares = await contract.sharesOf(userAddress);
-          const hasClaimedBonus = await contract.earlyBirdClaimed(userAddress);
-          const earlyBirdCount = await contract.earlyBirdCount();
-          if (!hasClaimedBonus && earlyBirdCount.lt(10)) {
-            bonusFactor = earlyBirdCount.lt(5) ? ethers.BigNumber.from("1500000000000") : ethers.BigNumber.from("1250000000000");
-          }
-        }
-        const newShares = bidValue.mul(bonusFactor).div(SCALE);
-        const finalUserShares = currentUserShares.add(newShares);
-        const newTotalShares = currentTotalShares.add(newShares);
-        let ownershipPercentage = 0;
-        if (!newTotalShares.isZero()) {
-          ownershipPercentage = finalUserShares.mul(10000).div(newTotalShares).toNumber() / 100;
-        }
-        document.getElementById("estimatedOwnership").innerText = ownershipPercentage.toFixed(2);
-        document.getElementById("newShares").innerText = formatSharesFriendly(newShares);
-        document.getElementById("bonusFactor").innerText = (bonusFactor.toNumber() / SCALE.toNumber()).toFixed(2);
-        updateSimulationChart(ownershipPercentage);
-        showStatus("Simulation completed successfully!");
-      } catch (err) {
-        console.error("Error in simulation:", err);
-        let customMessage = getCustomErrorMessage(err, "simulate");
-        if (!customMessage) customMessage = "Error performing simulation.";
-        showStatus(customMessage, true);
-      }
-    });
-
-    // Iniciar la página de pujas
+    // Initialize bid page and simulator
     initBid();
+    initSimulator();
   }
 
-  // Lógica de landing.js
+  // Logic for landing page (index.html)
   if (isLandingPage) {
     function initLanding() {
       console.log("Landing page initialized");
@@ -472,9 +510,10 @@ document.addEventListener("DOMContentLoaded", function () {
       }
     }
 
-    // Iniciar la landing page
+    // Initialize landing page and simulator
     initLanding();
     setupDeviceToggle();
     initContractData();
+    initSimulator();
   }
 });
