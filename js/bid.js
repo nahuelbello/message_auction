@@ -1,50 +1,33 @@
 // bid.js
 
-// Se ejecuta al cargar la ventana
-window.onload = init;
-
-let provider, signer, contract, web3Modal;
 let sharesChart, simulationChart;
 
-/**
- * Inicializa la página de pujas configurando el proveedor, el contrato y los eventos.
- */
 async function init() {
   try {
     console.log("Initializing bid page...");
     if (window.ethereum) {
-      provider = new ethers.providers.Web3Provider(window.ethereum);
+      common.provider = new ethers.providers.Web3Provider(window.ethereum);
       console.log("Using Web3Provider with window.ethereum");
     } else {
-      provider = defaultProvider;
+      common.provider = common.defaultProvider;
       console.log("Using default provider");
     }
-    try {
-      const network = await provider.getNetwork();
-      console.log("Connected network:", network);
-    } catch (e) {
-      console.error("Network error:", e);
-      showStatus("Network connection error", true);
-      return;
-    }
-    contract = new ethers.Contract(contractAddress, contractABI, provider);
+    const network = await common.provider.getNetwork();
+    console.log("Connected network:", network);
+    common.contract = new ethers.Contract(common.contractAddress, common.contractABI, common.provider);
     console.log("Contract initialized");
     await getCurrentState();
     updateSimulationChart(0);
-    // Escucha nuevos eventos de pujas
-    contract.on("NewBid", (bidder, bid, message) => {
+    common.contract.on("NewBid", (bidder, bid, message) => {
       console.log("New bid detected");
       getCurrentState();
     });
   } catch (err) {
     console.error("Error in init:", err);
-    showStatus("Error initializing bid page", true);
+    common.showStatus("Error initializing bid page", true);
   }
 }
 
-/**
- * Conecta la wallet del usuario usando Web3Modal.
- */
 async function connectWallet() {
   try {
     console.log("Connecting wallet...");
@@ -53,123 +36,85 @@ async function connectWallet() {
         package: window.WalletConnectProvider,
         options: {
           rpc: {
-            1337: "https://eth-mainnet.g.alchemy.com/v2/T_QL1fNKmAx8mKNHscnvfgYyJ9OkLIxg",
-            31337: "https://eth-mainnet.g.alchemy.com/v2/T_QL1fNKmAx8mKNHscnvfgYyJ9OkLIxg"
+            1: "https://eth-mainnet.g.alchemy.com/v2/T_QL1fNKmAx8mKNHscnvfgYyJ9OkLIxg"
           }
         }
       }
     };
-    if (!web3Modal) {
-      web3Modal = new window.Web3Modal.default({
+    if (!common.web3Modal) {
+      common.web3Modal = new window.Web3Modal.default({
         cacheProvider: false,
         providerOptions,
         disableInjectedProvider: false,
       });
     }
-    const externalProvider = await web3Modal.connect();
-    provider = new ethers.providers.Web3Provider(externalProvider);
+    const externalProvider = await common.web3Modal.connect();
+    common.provider = new ethers.providers.Web3Provider(externalProvider);
     if (!await checkNetwork()) return;
-    signer = provider.getSigner();
-    const address = await signer.getAddress();
+    common.signer = common.provider.getSigner();
+    const address = await common.signer.getAddress();
     console.log("Wallet connected:", address);
-    contract = new ethers.Contract(contractAddress, contractABI, signer);
+    common.contract = new ethers.Contract(common.contractAddress, common.contractABI, common.signer);
     document.getElementById("connectWalletBtn").style.display = "none";
     document.getElementById("disconnectWalletBtn").style.display = "block";
-    showStatus("Wallet connected successfully!");
+    common.showStatus("Wallet connected successfully!");
     await getCurrentState();
   } catch (e) {
     console.error("Error connecting wallet:", e);
-    let customMessage = getCustomErrorMessage(e, "connectWallet");
+    let customMessage = common.getCustomErrorMessage(e, "connectWallet");
     if (!customMessage) customMessage = "Error connecting wallet.";
-    showStatus(customMessage, true);
+    common.showStatus(customMessage, true);
   }
 }
 
-/**
- * Desconecta la wallet del usuario.
- */
 function disconnectWallet() {
-  if (web3Modal) { web3Modal.clearCachedProvider(); }
-  provider = defaultProvider;
-  signer = null;
-  contract = new ethers.Contract(contractAddress, contractABI, provider);
+  if (common.web3Modal) { common.web3Modal.clearCachedProvider(); }
+  common.provider = common.defaultProvider;
+  common.signer = null;
+  common.contract = new ethers.Contract(common.contractAddress, common.contractABI, common.provider);
   document.getElementById("connectWalletBtn").style.display = "block";
   document.getElementById("disconnectWalletBtn").style.display = "none";
-  showStatus("Wallet disconnected.");
+  common.showStatus("Wallet disconnected.");
 }
 
-/**
- * Obtiene el estado actual del contrato y actualiza la interfaz.
- */
 async function getCurrentState() {
   try {
     console.log("Getting current state...");
-    if (!contract) {
+    if (!common.contract) {
       console.error("Contract not initialized");
-      showStatus("Error: Contract not initialized", true);
+      common.showStatus("Error: Contract not initialized", true);
       return;
     }
-    let message, bid, totalShares;
-    try {
-      message = await contract.currentMessage();
-      console.log("Current message:", message);
-    } catch (e) {
-      console.error("Error loading message:", e);
-      message = "Error loading message";
-    }
-    try {
-      bid = await contract.currentBid();
-      console.log("Current bid:", ethers.utils.formatEther(bid));
-    } catch (e) {
-      console.error("Error loading bid:", e);
-      bid = ethers.BigNumber.from("0");
-    }
-    try {
-      totalShares = await contract.totalShares();
-      console.log("Total shares:", totalShares.toString());
-    } catch (e) {
-      console.error("Error loading total shares:", e);
-      totalShares = ethers.BigNumber.from("0");
-    }
+    let message = await common.contract.currentMessage();
+    let bid = await common.contract.currentBid();
+    let totalShares = await common.contract.totalShares();
     if (message.trim() === "") { message = "This is your message"; }
     document.getElementById("bannerMessage").innerText = message;
     document.getElementById("currentBid").innerText = ethers.utils.formatEther(bid);
-    document.getElementById("totalShares").innerText = formatSharesFriendly(totalShares);
-    
+    document.getElementById("totalShares").innerText = common.formatSharesFriendly(totalShares);
+
     updateChart(0);
 
-    if (signer) {
-      try {
-        const userAddress = await signer.getAddress();
-        console.log("User address:", userAddress);
-        const userShares = await contract.sharesOf(userAddress);
-        console.log("User shares:", userShares.toString());
-        const pending = await contract.pendingReward(userAddress);
-        console.log("Pending reward:", ethers.utils.formatEther(pending));
-        let userSharesPercentage = "0";
-        if (!totalShares.eq(0)) {
-          const percentage = userShares.mul(10000).div(totalShares).toNumber() / 100;
-          userSharesPercentage = percentage.toFixed(2);
-        }
-        document.getElementById("pendingReward").innerText = ethers.utils.formatEther(pending);
-        document.getElementById("userSharesPercentage").innerText = userSharesPercentage;
-        updateChart(parseFloat(userSharesPercentage));
-      } catch (e) {
-        console.error("Error getting user data:", e);
-        showStatus("Error loading user data", true);
+    if (common.signer) {
+      const userAddress = await common.signer.getAddress();
+      const userShares = await common.contract.sharesOf(userAddress);
+      const pending = await common.contract.pendingReward(userAddress);
+      let userSharesPercentage = "0";
+      if (!totalShares.eq(0)) {
+        const percentage = userShares.mul(10000).div(totalShares).toNumber() / 100;
+        userSharesPercentage = percentage.toFixed(2);
       }
+      document.getElementById("pendingReward").innerText = ethers.utils.formatEther(pending);
+      document.getElementById("userSharesPercentage").innerText = userSharesPercentage;
+      updateChart(parseFloat(userSharesPercentage));
     }
     await loadBidHistory();
   } catch (err) {
     console.error("General error in getCurrentState:", err);
-    showStatus("Error loading contract state", true);
+    common.showStatus("Error loading contract state", true);
   }
 }
 
-/**
- * Actualiza el gráfico principal con el porcentaje de shares del usuario.
- * @param {number} userPercentage - El porcentaje de shares del usuario.
- */
 function updateChart(userPercentage) {
   const ctx = document.getElementById("sharesChart").getContext("2d");
   if (!sharesChart) {
@@ -177,24 +122,13 @@ function updateChart(userPercentage) {
       type: "doughnut",
       data: {
         labels: ["Your Shares", "Other Shares"],
-        datasets: [{
-          data: [userPercentage, 100 - userPercentage],
-          backgroundColor: ["#00E676", "#424242"]
-        }]
+        datasets: [{ data: [userPercentage, 100 - userPercentage], backgroundColor: ["#00E676", "#424242"] }]
       },
       options: {
         responsive: true,
         maintainAspectRatio: false,
         animation: { animateRotate: true },
-        plugins: {
-          tooltip: {
-            callbacks: {
-              label: function(context) {
-                return context.label + ": " + context.parsed + "%";
-              }
-            }
-          }
-        }
+        plugins: { tooltip: { callbacks: { label: context => context.label + ": " + context.parsed + "%" } } }
       }
     });
   } else {
@@ -203,10 +137,6 @@ function updateChart(userPercentage) {
   }
 }
 
-/**
- * Actualiza el gráfico de simulación con un porcentaje simulado de shares.
- * @param {number} simPercentage - El porcentaje simulado de shares.
- */
 function updateSimulationChart(simPercentage) {
   const ctxSim = document.getElementById("simulationChart").getContext("2d");
   if (!simulationChart) {
@@ -214,24 +144,13 @@ function updateSimulationChart(simPercentage) {
       type: "doughnut",
       data: {
         labels: ["Your Simulated Shares", "Other Shares"],
-        datasets: [{
-          data: [simPercentage, 100 - simPercentage],
-          backgroundColor: ["#00E676", "#424242"]
-        }]
+        datasets: [{ data: [simPercentage, 100 - simPercentage], backgroundColor: ["#00E676", "#424242"] }]
       },
       options: {
         responsive: true,
         maintainAspectRatio: false,
         animation: { animateRotate: true },
-        plugins: {
-          tooltip: {
-            callbacks: {
-              label: function(context) {
-                return context.label + ": " + context.parsed + "%";
-              }
-            }
-          }
-        }
+        plugins: { tooltip: { callbacks: { label: context => context.label + ": " + context.parsed + "%" } } }
       }
     });
   } else {
@@ -240,13 +159,11 @@ function updateSimulationChart(simPercentage) {
   }
 }
 
-// Eventos para actualizar la vista previa del mensaje
 document.getElementById("newMessage").addEventListener("input", () => {
   const text = document.getElementById("newMessage").value || "This is your message";
   document.getElementById("smallPreview").innerText = text;
 });
 
-// Muestra el modal de vista previa al hacer clic en la vista previa
 document.getElementById("smallPreview").addEventListener("click", () => {
   let text = document.getElementById("newMessage").value;
   if (text.trim() === "") { text = "This is your message"; }
@@ -254,9 +171,9 @@ document.getElementById("smallPreview").addEventListener("click", () => {
   document.getElementById("modal").style.display = "block";
 });
 
-// Evento para colocar una puja
-document.getElementById("placeBidBtn").addEventListener("click", async () => {
-  if (!signer) { 
+document.getElementById("placeBidBtn").addEventListener("click", async (e) => {
+  e.preventDefault();
+  if (!common.signer) {
     alert("Please connect your wallet.");
     return;
   }
@@ -267,91 +184,77 @@ document.getElementById("placeBidBtn").addEventListener("click", async () => {
     return;
   }
   try {
-    showStatus("Sending transaction...");
-    const tx = await contract.placeBid(newMessage, {
-      value: ethers.utils.parseEther(bidAmount)
-    });
+    common.showStatus("Sending transaction...");
+    const tx = await common.contract.placeBid(newMessage, { value: ethers.utils.parseEther(bidAmount) });
     await tx.wait();
-    showStatus("Bid placed successfully!");
+    common.showStatus("Bid placed successfully!");
     document.getElementById("newMessage").value = "";
     document.getElementById("bidAmount").value = "";
     await getCurrentState();
   } catch (err) {
     console.error(err);
-    let customMessage = getCustomErrorMessage(err, "placeBid");
+    let customMessage = common.getCustomErrorMessage(err, "placeBid");
     if (!customMessage) customMessage = "Error placing bid.";
-    showStatus(customMessage, true);
+    common.showStatus(customMessage, true);
   }
 });
 
-// Evento para el botón de retiro de fondos
 document.getElementById("withdrawBtn").addEventListener("click", async () => {
-  if (!signer) { 
+  if (!common.signer) {
     alert("Please connect your wallet.");
     return;
   }
   try {
-    showStatus("Processing withdrawal...");
-    const tx = await contract.withdraw();
+    common.showStatus("Processing withdrawal...");
+    const tx = await common.contract.withdraw();
     await tx.wait();
-    showStatus("Funds withdrawn successfully!");
+    common.showStatus("Funds withdrawn successfully!");
     await getCurrentState();
   } catch (err) {
     console.error(err);
-    let customMessage = getCustomErrorMessage(err, "withdraw");
+    let customMessage = common.getCustomErrorMessage(err, "withdraw");
     if (!customMessage) customMessage = "Error withdrawing funds.";
-    showStatus(customMessage, true);
+    common.showStatus(customMessage, true);
   }
 });
 
-// Eventos para conectar/desconectar la wallet
 document.getElementById("connectWalletBtn").addEventListener("click", connectWallet);
 document.getElementById("disconnectWalletBtn").addEventListener("click", disconnectWallet);
 
-// Cierra el modal de vista previa
 const modal = document.getElementById("modal");
 const closeModal = document.getElementById("closeModal");
-closeModal.addEventListener("click", () => {
-  modal.style.display = "none";
-});
-window.addEventListener("click", (event) => {
-  if (event.target === modal) {
-    modal.style.display = "none";
-  }
-});
+closeModal.addEventListener("click", () => modal.style.display = "none");
+window.addEventListener("click", (event) => { if (event.target === modal) modal.style.display = "none"; });
 
-// Funcionalidad para el popup de explicación de shares
-document.addEventListener("DOMContentLoaded", function() {
+document.addEventListener("DOMContentLoaded", () => {
   const sharesInfoIcon = document.getElementById("sharesInfo");
   const sharesPopup = document.getElementById("sharesPopup");
   const closeSharesPopup = document.getElementById("closeSharesPopup");
 
-  sharesInfoIcon.addEventListener("click", function(e) {
+  sharesInfoIcon.addEventListener("click", (e) => {
     e.stopPropagation();
     sharesPopup.style.display = "block";
   });
 
-  closeSharesPopup.addEventListener("click", function(e) {
-    e.stopPropagation();
-    sharesPopup.style.display = "none";
+  closeSharesPopup.addEventListener("click", () => sharesPopup.style.display = "none");
+
+  window.addEventListener("click", (e) => {
+    if (!sharesPopup.contains(e.target) && e.target !== sharesInfoIcon) sharesPopup.style.display = "none";
   });
 
-  window.addEventListener("click", function(e) {
-    if (!sharesPopup.contains(e.target) && e.target !== sharesInfoIcon) {
+  const goToSimulate = document.getElementById("goToSimulate");
+  if (goToSimulate) {
+    goToSimulate.addEventListener("click", (e) => {
+      e.preventDefault();
+      smoothScrollTo("simulateOwnershipSection", 800);
       sharesPopup.style.display = "none";
-    }
-  });
+    });
+  }
 });
 
-/**
- * Función para realizar scroll suave hasta el elemento destino.
- * @param {string} targetId - El ID del elemento destino.
- * @param {number} [duration=800] - Duración de la animación en milisegundos.
- */
 function smoothScrollTo(targetId, duration = 800) {
   const target = document.getElementById(targetId);
   if (!target) return;
-  
   const targetPosition = target.getBoundingClientRect().top + window.pageYOffset;
   const startPosition = window.pageYOffset;
   const distance = targetPosition - startPosition;
@@ -375,28 +278,11 @@ function smoothScrollTo(targetId, duration = 800) {
   requestAnimationFrame(animation);
 }
 
-// Evento para el enlace que lleva a la sección del simulador
-document.addEventListener("DOMContentLoaded", function() {
-  const goToSimulate = document.getElementById("goToSimulate");
-  if (goToSimulate) {
-    goToSimulate.addEventListener("click", function(e) {
-      e.preventDefault();
-      smoothScrollTo("simulateOwnershipSection", 800);
-      document.getElementById("sharesPopup").style.display = "none";
-    });
-  }
-});
-
-/**
- * Función para verificar si se está conectado a la red correcta.
- * @returns {boolean} - True si la red es la correcta (chainId 1), false en caso contrario.
- */
 async function checkNetwork() {
   try {
-    const network = await provider.getNetwork();
-    console.log("Current network:", network);
+    const network = await common.provider.getNetwork();
     if (network.chainId !== 1) {
-      showStatus("Please connect to the correct network", true);
+      common.showStatus("Please connect to the Ethereum Mainnet", true);
       return false;
     }
     return true;
@@ -406,13 +292,10 @@ async function checkNetwork() {
   }
 }
 
-/**
- * Carga el historial de pujas y lo muestra en la interfaz.
- */
 async function loadBidHistory() {
   try {
-    const filter = contract.filters.NewBid();
-    const events = await contract.queryFilter(filter, 0, "latest");
+    const filter = common.contract.filters.NewBid();
+    const events = await common.contract.queryFilter(filter, 0, "latest");
     const bidHistoryDiv = document.getElementById("bidHistory");
     bidHistoryDiv.innerHTML = "";
     events.reverse().slice(0, 10).forEach(event => {
@@ -427,3 +310,46 @@ async function loadBidHistory() {
     console.error("Error loading bid history", err);
   }
 }
+
+document.getElementById("simulateOwnershipBtn").addEventListener("click", async () => {
+  const bidAmount = document.getElementById("simulateBidAmount").value;
+  if (!bidAmount || parseFloat(bidAmount) <= 0) {
+    common.showStatus("Please enter a valid amount in ETH.", true);
+    return;
+  }
+  try {
+    const bidValue = ethers.utils.parseEther(bidAmount);
+    const SCALE = ethers.BigNumber.from("1000000000000"); // 1e12
+    let bonusFactor = SCALE; // Default 1.0x
+    let currentUserShares = ethers.BigNumber.from("0");
+    let currentTotalShares = await common.contract.totalShares();
+    if (common.signer) {
+      const userAddress = await common.signer.getAddress();
+      currentUserShares = await common.contract.sharesOf(userAddress);
+      const hasClaimedBonus = await common.contract.earlyBirdClaimed(userAddress);
+      const earlyBirdCount = await common.contract.earlyBirdCount();
+      if (!hasClaimedBonus && earlyBirdCount.lt(10)) {
+        bonusFactor = earlyBirdCount.lt(5) ? ethers.BigNumber.from("1500000000000") : ethers.BigNumber.from("1250000000000");
+      }
+    }
+    const newShares = bidValue.mul(bonusFactor).div(SCALE);
+    const finalUserShares = currentUserShares.add(newShares);
+    const newTotalShares = currentTotalShares.add(newShares);
+    let ownershipPercentage = 0;
+    if (!newTotalShares.isZero()) {
+      ownershipPercentage = finalUserShares.mul(10000).div(newTotalShares).toNumber() / 100;
+    }
+    document.getElementById("estimatedOwnership").innerText = ownershipPercentage.toFixed(2);
+    document.getElementById("newShares").innerText = common.formatSharesFriendly(newShares);
+    document.getElementById("bonusFactor").innerText = (bonusFactor.toNumber() / SCALE.toNumber()).toFixed(2);
+    updateSimulationChart(ownershipPercentage);
+    common.showStatus("Simulation completed successfully!");
+  } catch (err) {
+    console.error("Error in simulation:", err);
+    let customMessage = common.getCustomErrorMessage(err, "simulate");
+    if (!customMessage) customMessage = "Error performing simulation.";
+    common.showStatus(customMessage, true);
+  }
+});
+
+window.onload = init;
