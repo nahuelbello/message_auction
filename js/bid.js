@@ -2,6 +2,41 @@
 
 let sharesChart, simulationChart;
 
+// Verificar la red
+async function checkNetwork() {
+  try {
+    const network = await common.provider.getNetwork();
+    if (network.chainId !== 1) {
+      common.showStatus("Please connect to the Ethereum Mainnet", true);
+      return false;
+    }
+    return true;
+  } catch (e) {
+    console.error("Error checking network:", e);
+    return false;
+  }
+}
+
+// Cargar historial de pujas
+async function loadBidHistory() {
+  try {
+    const filter = common.contract.filters.NewBid();
+    const events = await common.contract.queryFilter(filter, 0, "latest");
+    const bidHistoryDiv = document.getElementById("bidHistory");
+    bidHistoryDiv.innerHTML = "";
+    events.reverse().slice(0, 10).forEach(event => {
+      const bidder = event.args.bidder;
+      const bid = ethers.utils.formatEther(event.args.bid);
+      const message = event.args.message;
+      const bidElement = document.createElement("p");
+      bidElement.innerHTML = `<strong>${bidder}</strong> bid <strong>${bid}</strong> ETH: ${message}`;
+      bidHistoryDiv.appendChild(bidElement);
+    });
+  } catch (err) {
+    console.error("Error loading bid history", err);
+  }
+}
+
 async function init() {
   try {
     console.log("Initializing bid page...");
@@ -276,39 +311,6 @@ function smoothScrollTo(targetId, duration = 800) {
   }
 
   requestAnimationFrame(animation);
-}
-
-async function checkNetwork() {
-  try {
-    const network = await common.provider.getNetwork();
-    if (network.chainId !== 1) {
-      common.showStatus("Please connect to the Ethereum Mainnet", true);
-      return false;
-    }
-    return true;
-  } catch (e) {
-    console.error("Error checking network:", e);
-    return false;
-  }
-}
-
-async function loadBidHistory() {
-  try {
-    const filter = common.contract.filters.NewBid();
-    const events = await common.contract.queryFilter(filter, 0, "latest");
-    const bidHistoryDiv = document.getElementById("bidHistory");
-    bidHistoryDiv.innerHTML = "";
-    events.reverse().slice(0, 10).forEach(event => {
-      const bidder = event.args.bidder;
-      const bid = ethers.utils.formatEther(event.args.bid);
-      const message = event.args.message;
-      const bidElement = document.createElement("p");
-      bidElement.innerHTML = `<strong>${bidder}</strong> bid <strong>${bid}</strong> ETH: ${message}`;
-      bidHistoryDiv.appendChild(bidElement);
-    });
-  } catch (err) {
-    console.error("Error loading bid history", err);
-  }
 }
 
 document.getElementById("simulateOwnershipBtn").addEventListener("click", async () => {
