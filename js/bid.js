@@ -369,3 +369,27 @@ document.addEventListener("DOMContentLoaded", function() {
     });
   }
 });
+
+/**
+ * Loads the bid history from the contract and displays it in the bidHistory element.
+ */
+async function loadBidHistory() {
+  try {
+    const filter = contract.filters.NewBid();
+    // You can adjust the range; here se busca desde el bloque 0 hasta el último.
+    const events = await contract.queryFilter(filter, 0, "latest");
+    const bidHistoryDiv = document.getElementById("bidHistory");
+    bidHistoryDiv.innerHTML = "";
+    // Mostrar los 10 eventos más recientes
+    events.reverse().slice(0, 10).forEach(event => {
+      const bidder = event.args.bidder;
+      const bid = ethers.utils.formatEther(event.args.bid);
+      const message = event.args.message;
+      const bidElement = document.createElement("p");
+      bidElement.innerHTML = `<strong>${bidder}</strong> bid <strong>${bid}</strong> ETH: ${message}`;
+      bidHistoryDiv.appendChild(bidElement);
+    });
+  } catch (err) {
+    console.error("Error loading bid history", err);
+  }
+}
