@@ -1,7 +1,6 @@
 # Message Auction
 
 Message Auction is a crazy, community-driven dApp where your message gets the spotlight on a live banner as long as you can outbid the current top bid! Every new bid not only displays your message, but it also earns you a share of the rewards that accumulate as more bids come in.
-https://messageauction.com/
 
 ## How it works
 
