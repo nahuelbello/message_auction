@@ -187,18 +187,18 @@ document.addEventListener("DOMContentLoaded", function () {
     async function initBid() {
       try {
         console.log("Initializing bid page...");
-        if (window.ethereum) {
-          provider = new ethers.providers.Web3Provider(window.ethereum);
-          console.log("Using Web3Provider with window.ethereum");
-        } else {
-          provider = defaultProvider;
-          console.log("Using default provider");
-        }
-        const network = await provider.getNetwork();
-        console.log("Connected network:", network);
+        // Siempre usar defaultProvider al inicio
+        provider = defaultProvider;
+        console.log("Using default provider initially");
+        
+        // Inicializar el contrato con el defaultProvider
         contract = new ethers.Contract(contractAddress, contractABI, provider);
-        console.log("Contract initialized");
+        console.log("Contract initialized with default provider");
+
+        // Cargar el estado inicial del contrato
         await getCurrentState();
+
+        // Escuchar eventos de nuevos bids
         contract.on("NewBid", (bidder, bid, message) => {
           console.log("New bid detected");
           getCurrentState();
@@ -217,17 +217,21 @@ document.addEventListener("DOMContentLoaded", function () {
           return;
         }
 
-        // Request account access via injected provider
+        // Solicitar acceso a las cuentas
         await window.ethereum.request({ method: "eth_requestAccounts" });
         provider = new ethers.providers.Web3Provider(window.ethereum);
         if (!await checkNetwork()) return;
         signer = provider.getSigner();
         const address = await signer.getAddress();
         console.log("Wallet connected:", address);
+        
+        // Actualizar el contrato para usar el Web3Provider con el signer
         contract = new ethers.Contract(contractAddress, contractABI, signer);
         document.getElementById("connectWalletBtn").style.display = "none";
         document.getElementById("disconnectWalletBtn").style.display = "block";
         showStatus("Wallet connected successfully!");
+        
+        // Recargar el estado después de conectar la billetera
         await getCurrentState();
       } catch (e) {
         console.error("Error connecting wallet:", e);
@@ -244,6 +248,8 @@ document.addEventListener("DOMContentLoaded", function () {
       document.getElementById("connectWalletBtn").style.display = "block";
       document.getElementById("disconnectWalletBtn").style.display = "none";
       showStatus("Wallet disconnected.");
+      // Recargar el estado después de desconectar
+      getCurrentState();
     }
 
     async function getCurrentState() {
@@ -254,16 +260,21 @@ document.addEventListener("DOMContentLoaded", function () {
           showStatus("Error: Contract not initialized", true);
           return;
         }
+
+        // Cargar datos básicos del contrato (no dependen de signer)
         let message = await contract.currentMessage();
         let bid = await contract.currentBid();
         let totalShares = await contract.totalShares();
+        
         if (message.trim() === "") message = "This is your message";
         document.getElementById("bannerMessage").innerText = message;
         document.getElementById("currentBid").innerText = ethers.utils.formatEther(bid);
         document.getElementById("totalShares").innerText = formatSharesFriendly(totalShares);
 
+        // Inicializar el gráfico con 0% si no hay signer
         updateChart(0);
 
+        // Si hay un signer (billetera conectada), cargar datos específicos del usuario
         if (signer) {
           const userAddress = await signer.getAddress();
           const userShares = await contract.sharesOf(userAddress);
@@ -276,7 +287,12 @@ document.addEventListener("DOMContentLoaded", function () {
           document.getElementById("pendingReward").innerText = ethers.utils.formatEther(pending);
           document.getElementById("userSharesPercentage").innerText = userSharesPercentage;
           updateChart(parseFloat(userSharesPercentage));
+        } else {
+          // Si no hay signer, mostrar 0 para los datos del usuario
+          document.getElementById("pendingReward").innerText = "0";
+          document.getElementById("userSharesPercentage").innerText = "0";
         }
+
         await loadBidHistory();
       } catch (err) {
         console.error("General error in getCurrentState:", err);
